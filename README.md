@@ -5,7 +5,7 @@
 
 A Web based application for school management and administration.
 
-The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
+The framework source code can be found here: [saviobosco/schoolsystem](https://github.com/cakephp/cakephp).
 
 ## Installation
 
