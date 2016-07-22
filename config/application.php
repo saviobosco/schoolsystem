@@ -4,7 +4,7 @@ return [
      * Web Application Configuration
      */
     'Application' => [
-        'name' => 'Mater Misericordiae School',
+        'name' => 'School System',
         'motto' => 'delivering the best technologies to you!!',
         'version' => '0.1',
         'author' => 'Saviobosco',
