@@ -1,11 +1,14 @@
-<?php $this->assign('title',$title);
+<?php
+use Cake\Core\Configure;
+
+$this->assign('title','Welcome to '.Configure::read('Application.name'));
 $this->layout = 'custom';
 ?>
 
 <div id="page-title" class="page-title has-bg">
     <div class="bg-cover"><?= $this->Html->image('systemfiles/banner.JPG')  ?></div>
     <div class="container">
-        <h1>Mater Misericordiae School of Nursing & Mid-Wifery </h1>
+        <h1>Welcome To <?= __(Configure::read('Application.name')) ?> </h1>
     </div>
 </div>
 <div id="work" class="content">

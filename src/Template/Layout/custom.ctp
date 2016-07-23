@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'Mater S.O.N';
+$cakeDescription = 'School System';
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,6 +24,13 @@ $cakeDescription = 'Mater S.O.N';
         <?= $cakeDescription ?>:
         <?= $this->fetch('title') ?>
     </title>
+
+    <?= $this->Html->meta(
+        'favicon.ico',
+        '/img/systemfiles/crack-reactor-logo.png',
+        ['type' => 'icon']
+    );
+    ?>
 
     <?php
     echo $this->AlaxosHtml->includeBootstrapCSS(['block' => false]);
