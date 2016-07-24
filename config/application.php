@@ -1,7 +1,7 @@
 <?php
 return [
     /**
-     * Web Application Configuration
+     * School System Application Configuration
      */
     'Application' => [
         'name' => 'School System',
