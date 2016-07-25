@@ -44,10 +44,10 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-        $this->loadComponent('CakeDC/Users.UsersAuth');
+        //$this->loadComponent('CakeDC/Users.UsersAuth');
         $this->loadComponent('Cewi/Excel.Import');
 
-        $this->Auth->allow(['homepage']);
+        //$this->Auth->allow(['homepage']);
     }
 
     /**
@@ -58,8 +58,8 @@ class AppController extends Controller
      */
     public function beforeRender(Event $event)
     {
-        $this->_findlayout();
-        //$this->viewBuilder()->layout('default');
+        //$this->_findlayout();
+        $this->viewBuilder()->layout('default');
         if (!array_key_exists('_serialize', $this->viewVars) &&
             in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {

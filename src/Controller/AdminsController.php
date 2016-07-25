@@ -146,9 +146,8 @@ class AdminsController extends AppController
                 $serial_number = $generator->generateInt(12345, 56743);
                 if($this->request->data['save_to_database']){
                 $this->ApplicantsPins->savePin($serial_number,$pin); }
-                array_push($pins,$pin);
             }
-            $this->Flash->success(__('{0} pins were sucessfully generated',count($pins)));
+            $this->Flash->success(__('{0} pins were sucessfully generated',$num));
         }
         $title = 'Generate New Pins';
         $this->set(compact('pins','title'));

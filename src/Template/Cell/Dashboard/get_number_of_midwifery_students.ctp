@@ -1,1 +1,0 @@
-<?= $this->Number->format($students) ?>
