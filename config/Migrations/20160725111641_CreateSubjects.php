@@ -27,14 +27,19 @@ class CreateSubjects extends AbstractMigration
             'limit' => 100,
             'null' => false,
         ]);
-        $table->addColumn('section_id', 'integer', [
+        $table->addColumn('block_id', 'integer', [
             'default' => null,
-            'limit' => 3,
+            'limit' => 4,
             'null' => false,
         ]);
         $table->addPrimaryKey([
-            'id',
+            'id'
         ]);
         $table->create();
+    }
+
+    public function down()
+    {
+        $this->table('subjects')->drop();
     }
 }

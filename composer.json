@@ -14,11 +14,16 @@
         "cakephp/cakephp-codesniffer": "^2.0",
         "symfony/event-dispatcher": "^3.1",
         "alaxos/cakephp3-bootstrap-theme": "^0.9.3",
-        "cakedc/users": "^3.2",
-        "josegonzalez/cakephp-upload": "^3.4",
         "ircmaxell/random-lib": "^1.1",
         "Cewi/Excel": "dev-master",
-        "davidyell/proffer": "~0.6"
+        "davidyell/proffer": "~0.6",
+        "cakemanager/cakephp-utils": "dev-master",
+        "cakemanager/cakephp-notifier": "dev-master",
+        "cakemanager/cakephp-settings": "dev-master",
+        "holt59/cakephp3-bootstrap-helpers": "dev-master",
+        "cakemanager/cakeadmin-lightstrap": "dev-master",
+        "cakemanager/cakephp-cakeadmin": "dev-master",
+        "dereuromark/cakephp-queue": "^3.3"
     },
     "require-dev": {
         "psy/psysh": "@stable",
@@ -32,14 +37,18 @@
     "autoload": {
         "psr-4": {
             "App\\": "src",
-            "SavioboscoSubscription\\": "./plugins/SavioboscoSubscription/src"
+            "SavioboscoSubscription\\": "./plugins/SavioboscoSubscription/src",
+            "SkillsGradingSystem\\": "./plugins/SkillsGradingSystem/src",
+            "ResultSystem\\": "./plugins/ResultSystem/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "App\\Test\\": "tests",
             "Cake\\Test\\": "./vendor/cakephp/cakephp/tests",
-            "SavioboscoSubscription\\Test\\": "./plugins/SavioboscoSubscription/tests"
+            "SavioboscoSubscription\\Test\\": "./plugins/SavioboscoSubscription/tests",
+            "SkillsGradingSystem\\Test\\": "./plugins/SkillsGradingSystem/tests",
+            "ResultSystem\\Test\\": "./plugins/ResultSystem/tests"
         }
     },
     "scripts": {

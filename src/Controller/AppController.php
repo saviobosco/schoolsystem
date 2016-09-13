@@ -44,10 +44,8 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-        //$this->loadComponent('CakeDC/Users.UsersAuth');
         $this->loadComponent('Cewi/Excel.Import');
 
-        //$this->Auth->allow(['homepage']);
     }
 
     /**

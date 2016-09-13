@@ -41,8 +41,6 @@ class AppView extends View
         $this->loadHelper('Alaxos.AlaxosForm');
         $this->loadHelper('Alaxos.AlaxosHtml');
         $this->loadHelper('Site');
-        $this->loadHelper('CakeDC/Users.User');
-        $this->loadHelper('Admission');
-        $this->loadHelper('SearchParameter');
+        $this->loadHelper('ResultSystem.Position');
     }
 }

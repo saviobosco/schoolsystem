@@ -228,18 +228,15 @@ try {
 
 Plugin::load('Alaxos', ['bootstrap' => true]);
 Plugin::load('Alaxos/BootstrapTheme');
-Plugin::load('SavioboscoSubscription', ['bootstrap' => false, 'routes' => true]);
 
-Configure::write('Users.config', ['users']);
-Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
-//Configure::write('Users.Social.login', true); //to enable social login
-
-Plugin::load('Josegonzalez/Upload');
 
 Plugin::load('Cewi/Excel', ['bootstrap' => true, 'routes'=>true]);
 
+Plugin::load('Settings', ['bootstrap' => true, 'routes' => true]);
 
-use App\Event\Listener;
 
-use Cake\Event\EventManager;
-EventManager::instance()->on(new Listener());
+Plugin::load('SkillsGradingSystem', ['bootstrap' => false, 'routes' => true]);
+
+Plugin::load('ResultSystem', ['bootstrap' => false, 'routes' => true]);
+
+Plugin::load('Queue');

@@ -40,4 +40,10 @@ class CreateSessions extends AbstractMigration
         ]);
         $table->create();
     }
+
+
+    public function down()
+    {
+        $this->table('sessions')->drop();
+    }
 }

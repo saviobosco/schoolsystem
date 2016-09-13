@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fb3636163cb0c871d2b0f07d46a9d498",
-    "content-hash": "fb6f1bcac36ec962597ee0449bba9108",
+    "hash": "dbbffd901a615cbb6001daff91852ff5",
+    "content-hash": "827456d2d57c3c97ad13e1c67d89b5d8",
     "packages": [
         {
             "name": "Cewi/Excel",
@@ -269,42 +269,173 @@
             "time": "2014-08-24 00:00:00"
         },
         {
-            "name": "cakedc/users",
-            "version": "3.2.0",
+            "name": "cakemanager/cakeadmin-lightstrap",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/CakeDC/users.git",
-                "reference": "5565ac3046ad94886271eeecf63898e711f45d9c"
+                "url": "https://github.com/cakemanager/cakeadmin-lightstrap.git",
+                "reference": "7c78260f103a27a0b1134afc96e3aa175e63efd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CakeDC/users/zipball/5565ac3046ad94886271eeecf63898e711f45d9c",
-                "reference": "5565ac3046ad94886271eeecf63898e711f45d9c",
+                "url": "https://api.github.com/repos/cakemanager/cakeadmin-lightstrap/zipball/7c78260f103a27a0b1134afc96e3aa175e63efd5",
+                "reference": "7c78260f103a27a0b1134afc96e3aa175e63efd5",
                 "shasum": ""
             },
             "require": {
-                "cakephp/cakephp": "~3.2"
+                "cakephp/cakephp": "~3.1",
+                "holt59/cakephp3-bootstrap-helpers": "dev-master",
+                "php": ">=5.4.16"
             },
             "require-dev": {
-                "cakephp/cakephp-codesniffer": "^2.0",
-                "league/oauth2-facebook": "@stable",
-                "league/oauth2-google": "@stable",
-                "league/oauth2-instagram": "@stable",
-                "league/oauth2-linkedin": "@stable",
                 "phpunit/phpunit": "*"
-            },
-            "suggest": {
-                "google/recaptcha": "Provides reCAPTCHA validation for registration form",
-                "league/oauth1-client": "Provides Social Authentication with Twitter",
-                "league/oauth2-facebook": "Provides Social Authentication with Facebook",
-                "league/oauth2-google": "Provides Social Authentication with Google+",
-                "league/oauth2-instagram": "Provides Social Authentication with Instagram",
-                "league/oauth2-linkedin": "Provides Social Authentication with LinkedIn"
             },
             "type": "cakephp-plugin",
             "autoload": {
                 "psr-4": {
-                    "CakeDC\\Users\\": "src"
+                    "LightStrap\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "LightStrap theme for the CakeAdmin Plugin",
+            "time": "2016-05-18 18:05:08"
+        },
+        {
+            "name": "cakemanager/cakephp-cakeadmin",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cakemanager/cakephp-cakeadmin.git",
+                "reference": "14da536e9cb986066957026f7a587ddefb539cae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cakemanager/cakephp-cakeadmin/zipball/14da536e9cb986066957026f7a587ddefb539cae",
+                "reference": "14da536e9cb986066957026f7a587ddefb539cae",
+                "shasum": ""
+            },
+            "require": {
+                "cakemanager/cakeadmin-lightstrap": "dev-master",
+                "cakemanager/cakephp-notifier": "dev-master",
+                "cakemanager/cakephp-settings": "dev-master",
+                "cakemanager/cakephp-utils": "dev-master",
+                "cakephp/cakephp": "~3.1",
+                "php": ">=5.4.16"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "2.*",
+                "phpunit/phpunit": " 4.1.*@dev"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "CakeAdmin\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "CakeAdmin plugin for CakePHP",
+            "time": "2016-05-18 19:06:50"
+        },
+        {
+            "name": "cakemanager/cakephp-notifier",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bakkerij/notifier.git",
+                "reference": "ff439ec2e2879636639b5a56adec5ac300bcbe09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bakkerij/notifier/zipball/ff439ec2e2879636639b5a56adec5ac300bcbe09",
+                "reference": "ff439ec2e2879636639b5a56adec5ac300bcbe09",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "3.2.*",
+                "php": ">=5.4.16"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "2.*",
+                "phpunit/phpunit": "*"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Bakkerij\\Notifier\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Notifier plugin for CakePHP",
+            "time": "2016-07-15 14:33:46"
+        },
+        {
+            "name": "cakemanager/cakephp-settings",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cakemanager/cakephp-settings.git",
+                "reference": "4be834cdf4ee3502f43b85cad98e1b1eb4b24ced"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cakemanager/cakephp-settings/zipball/4be834cdf4ee3502f43b85cad98e1b1eb4b24ced",
+                "reference": "4be834cdf4ee3502f43b85cad98e1b1eb4b24ced",
+                "shasum": ""
+            },
+            "require": {
+                "cakemanager/cakephp-utils": "dev-master",
+                "cakephp/orm": "3.*",
+                "cakephp/plugin-installer": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "cakephp/orm": "~3.0",
+                "phpunit/phpunit": " 4.6.*@dev"
+            },
+            "type": "cakephp-plugin",
+            "extra": {
+                "installer-name": "Settings"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Settings\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Settings plugin for CakePHP",
+            "keywords": [
+                "Settings",
+                "cakephp",
+                "configure",
+                "orm"
+            ],
+            "time": "2016-01-28 11:34:08"
+        },
+        {
+            "name": "cakemanager/cakephp-utils",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cakemanager/cakephp-utils.git",
+                "reference": "e9ca228ccfe3bb1fe756a99d408838500e1c8002"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cakemanager/cakephp-utils/zipball/e9ca228ccfe3bb1fe756a99d408838500e1c8002",
+                "reference": "e9ca228ccfe3bb1fe756a99d408838500e1c8002",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "~3.0",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Utils\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -313,25 +444,12 @@
             ],
             "authors": [
                 {
-                    "name": "CakeDC",
-                    "homepage": "http://www.cakedc.com",
-                    "role": "Author"
-                },
-                {
-                    "name": "Others",
-                    "homepage": "https://github.com/CakeDC/users/graphs/contributors"
+                    "name": "Bob Mulder",
+                    "email": "bobmulder@outlook.com"
                 }
             ],
-            "description": "Users Plugin for CakePHP 3",
-            "homepage": "https://github.com/CakeDC/users",
-            "keywords": [
-                "Authentication",
-                "auth",
-                "cakedc",
-                "cakephp",
-                "oauth2"
-            ],
-            "time": "2016-04-18 14:55:46"
+            "description": "Plugin for CakePHP 3.x with useful components and behaviors",
+            "time": "2016-01-07 12:58:27"
         },
         {
             "name": "cakephp/cakephp",
@@ -645,6 +763,65 @@
             "time": "2016-06-28 14:14:08"
         },
         {
+            "name": "dereuromark/cakephp-queue",
+            "version": "3.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dereuromark/cakephp-queue.git",
+                "reference": "340c5e90a0599e67792511ba660cbca4c0215248"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-queue/zipball/340c5e90a0599e67792511ba660cbca4c0215248",
+                "reference": "340c5e90a0599e67792511ba660cbca4c0215248",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "~3.1",
+                "php": ">=5.4.16"
+            },
+            "require-dev": {
+                "cakephp/migrations": "~1.0",
+                "dereuromark/cakephp-tools": "dev-master",
+                "fig-r/psr2r-sniffer": "dev-master"
+            },
+            "suggest": {
+                "dereuromark/cakephp-tools": "For the Email lib and QueueEmailTask. Or write your own task here. Also for admin backend."
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Queue\\": "src",
+                    "Queue\\Test\\Fixture\\": "tests\\Fixture"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Yell",
+                    "homepage": "https://github.com/davidyell",
+                    "role": "Contributor"
+                },
+                {
+                    "name": "Mark Scherer",
+                    "homepage": "http://www.dereuromark.de",
+                    "role": "Contributor"
+                }
+            ],
+            "description": "The Queue plugin for CakePHP provides deferred task execution.",
+            "homepage": "http://github.com/dereuromark/cakephp-queue",
+            "keywords": [
+                "background",
+                "cakephp",
+                "deferred tasks",
+                "queue"
+            ],
+            "time": "2016-08-23 14:02:51"
+        },
+        {
             "name": "doctrine/instantiator",
             "version": "1.0.5",
             "source": {
@@ -755,6 +932,47 @@
                 "uri"
             ],
             "time": "2016-06-24 23:00:38"
+        },
+        {
+            "name": "holt59/cakephp3-bootstrap-helpers",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Holt59/cakephp3-bootstrap-helpers.git",
+                "reference": "e34e0d6db6336556669a20dc96a6744e4f1f20c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Holt59/cakephp3-bootstrap-helpers/zipball/e34e0d6db6336556669a20dc96a6744e4f1f20c2",
+                "reference": "e34e0d6db6336556669a20dc96a6744e4f1f20c2",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": ">=3.2.3"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "dev-master",
+                "phpunit/phpunit": "*"
+            },
+            "type": "cakephp-plugin",
+            "extra": {
+                "installer-name": "Bootstrap"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bootstrap\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache"
+            ],
+            "description": "Bootstrap Helpers for CakePHP 3.0",
+            "keywords": [
+                "bootstrap",
+                "cakephp"
+            ],
+            "time": "2016-08-20 17:06:26"
         },
         {
             "name": "intervention/image",
@@ -912,143 +1130,6 @@
             "description": "A Base Security Library",
             "homepage": "https://github.com/ircmaxell/PHP-SecurityLib",
             "time": "2013-04-30 18:00:34"
-        },
-        {
-            "name": "josegonzalez/cakephp-upload",
-            "version": "3.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/josegonzalez/cakephp-upload.git",
-                "reference": "c2985689318a1b01bc117c2f55fd67ff9dafa2a2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/josegonzalez/cakephp-upload/zipball/c2985689318a1b01bc117c2f55fd67ff9dafa2a2",
-                "reference": "c2985689318a1b01bc117c2f55fd67ff9dafa2a2",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/orm": "3.*",
-                "league/flysystem": "*",
-                "php": ">=5.5"
-            },
-            "require-dev": {
-                "cakephp/cakephp": "~3.0",
-                "cakephp/cakephp-codesniffer": "dev-master",
-                "league/flysystem-vfs": "*",
-                "phpunit/phpunit": "4.1.*",
-                "satooshi/php-coveralls": "dev-master"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "Josegonzalez\\Upload\\": "src",
-                    "Josegonzalez\\Upload\\Test\\Fixture\\": "tests\\Fixture"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jose Diaz-Gonzalez",
-                    "email": "cakephp+upload@josediazgonzalez.com"
-                }
-            ],
-            "description": "CakePHP plugin to handle file uploading sans ridiculous automagic",
-            "homepage": "https://github.com/josegonzalez/cakephp-upload",
-            "keywords": [
-                "Behavior",
-                "cakephp",
-                "files",
-                "orm",
-                "upload"
-            ],
-            "time": "2016-03-26 21:42:22"
-        },
-        {
-            "name": "league/flysystem",
-            "version": "1.0.25",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "a76afa4035931be0c78ca8efc6abf3902362f437"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a76afa4035931be0c78ca8efc6abf3902362f437",
-                "reference": "a76afa4035931be0c78ca8efc6abf3902362f437",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "conflict": {
-                "league/flysystem-sftp": "<1.0.6"
-            },
-            "require-dev": {
-                "ext-fileinfo": "*",
-                "mockery/mockery": "~0.9",
-                "phpspec/phpspec": "^2.2",
-                "phpunit/phpunit": "~4.8"
-            },
-            "suggest": {
-                "ext-fileinfo": "Required for MimeType",
-                "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
-                "league/flysystem-aws-s3-v3": "Allows you to use S3 storage with AWS SDK v3",
-                "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
-                "league/flysystem-cached-adapter": "Flysystem adapter decorator for metadata caching",
-                "league/flysystem-copy": "Allows you to use Copy.com storage",
-                "league/flysystem-dropbox": "Allows you to use Dropbox storage",
-                "league/flysystem-eventable-filesystem": "Allows you to use EventableFilesystem",
-                "league/flysystem-rackspace": "Allows you to use Rackspace Cloud Files",
-                "league/flysystem-sftp": "Allows you to use SFTP server storage via phpseclib",
-                "league/flysystem-webdav": "Allows you to use WebDAV storage",
-                "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "League\\Flysystem\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Frank de Jonge",
-                    "email": "info@frenky.net"
-                }
-            ],
-            "description": "Filesystem abstraction: Many filesystems, one API.",
-            "keywords": [
-                "Cloud Files",
-                "WebDAV",
-                "abstraction",
-                "aws",
-                "cloud",
-                "copy.com",
-                "dropbox",
-                "file systems",
-                "files",
-                "filesystem",
-                "filesystems",
-                "ftp",
-                "rackspace",
-                "remote",
-                "s3",
-                "sftp",
-                "storage"
-            ],
-            "time": "2016-07-18 12:22:57"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -3185,6 +3266,89 @@
             "time": "2014-01-12 16:20:24"
         },
         {
+            "name": "league/flysystem",
+            "version": "1.0.25",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem.git",
+                "reference": "a76afa4035931be0c78ca8efc6abf3902362f437"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a76afa4035931be0c78ca8efc6abf3902362f437",
+                "reference": "a76afa4035931be0c78ca8efc6abf3902362f437",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "conflict": {
+                "league/flysystem-sftp": "<1.0.6"
+            },
+            "require-dev": {
+                "ext-fileinfo": "*",
+                "mockery/mockery": "~0.9",
+                "phpspec/phpspec": "^2.2",
+                "phpunit/phpunit": "~4.8"
+            },
+            "suggest": {
+                "ext-fileinfo": "Required for MimeType",
+                "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
+                "league/flysystem-aws-s3-v3": "Allows you to use S3 storage with AWS SDK v3",
+                "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
+                "league/flysystem-cached-adapter": "Flysystem adapter decorator for metadata caching",
+                "league/flysystem-copy": "Allows you to use Copy.com storage",
+                "league/flysystem-dropbox": "Allows you to use Dropbox storage",
+                "league/flysystem-eventable-filesystem": "Allows you to use EventableFilesystem",
+                "league/flysystem-rackspace": "Allows you to use Rackspace Cloud Files",
+                "league/flysystem-sftp": "Allows you to use SFTP server storage via phpseclib",
+                "league/flysystem-webdav": "Allows you to use WebDAV storage",
+                "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frenky.net"
+                }
+            ],
+            "description": "Filesystem abstraction: Many filesystems, one API.",
+            "keywords": [
+                "Cloud Files",
+                "WebDAV",
+                "abstraction",
+                "aws",
+                "cloud",
+                "copy.com",
+                "dropbox",
+                "file systems",
+                "files",
+                "filesystem",
+                "filesystems",
+                "ftp",
+                "rackspace",
+                "remote",
+                "s3",
+                "sftp",
+                "storage"
+            ],
+            "time": "2016-07-18 12:22:57"
+        },
+        {
             "name": "nikic/php-parser",
             "version": "v2.1.0",
             "source": {
@@ -3375,6 +3539,12 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "cewi/excel": 20,
+        "cakemanager/cakephp-utils": 20,
+        "cakemanager/cakephp-notifier": 20,
+        "cakemanager/cakephp-settings": 20,
+        "holt59/cakephp3-bootstrap-helpers": 20,
+        "cakemanager/cakeadmin-lightstrap": 20,
+        "cakemanager/cakephp-cakeadmin": 20,
         "psy/psysh": 0
     },
     "prefer-stable": true,

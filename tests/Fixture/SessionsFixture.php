@@ -18,7 +18,7 @@ class SessionsFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'session' => ['type' => 'string', 'length' => 40, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
+        'session' => ['type' => 'string', 'length' => 30, 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
@@ -39,9 +39,9 @@ class SessionsFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'session' => '2016/2017',
-            'created' => '2016-07-17 21:12:46',
-            'modified' => '2016-07-17 21:12:46'
+            'session' => 'Lorem ipsum dolor sit amet',
+            'created' => '2016-09-01 20:48:25',
+            'modified' => '2016-09-01 20:48:25'
         ],
     ];
 }

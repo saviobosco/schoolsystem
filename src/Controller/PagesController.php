@@ -66,7 +66,7 @@ class PagesController extends AppController
 
     public function homepage()
     {
-        $title = 'Welcome to Mater Misericordiae';
+        $title = 'Welcome to '.Configure::read('Application.name');
         $this->set(compact('title'));
     }
 

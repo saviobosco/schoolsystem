@@ -1,4 +1,5 @@
 <?php
+
 use Cake\Core\Configure;
 
 $this->assign('title','Welcome to '.Configure::read('Application.name'));
@@ -22,7 +23,6 @@ $this->layout = 'custom';
                 <!-- begin work -->
                 <div class="work">
                     <div class="image">
-                        <?= $this->Html->link($this->Html->image('systemfiles/DSC_6131.JPG'),['plugin'=>null,'controller'=>'Students','action'=>'add'],['escape' => false]) ?>
                     </div>
                     <div class="desc">
                         <span class="desc-title">Old and returning students Registration</span>
@@ -36,7 +36,6 @@ $this->layout = 'custom';
                 <!-- begin work -->
                 <div class="work">
                     <div class="image">
-                        <?= $this->Html->link($this->Html->image('systemfiles/DSC_6134.JPG'),['plugin'=>null,'controller'=>'ApplicationsSubmitted','action'=>'check_new_student_registration'],['escape' => false]) ?>
                     </div>
                     <div class="desc">
                         <span class="desc-title">New Student Registration</span>
@@ -50,7 +49,6 @@ $this->layout = 'custom';
                 <!-- begin work -->
                 <div class="work">
                     <div class="image">
-                        <?= $this->Html->link($this->Html->image('systemfiles/DSC_6123.JPG') ,['plugin'=>null,'controller'=>'Applicants','action'=>'applicant_login'],['escape'=>false]) ?>
                     </div>
                     <div class="desc">
                         <span class="desc-title">Apply to study</span>

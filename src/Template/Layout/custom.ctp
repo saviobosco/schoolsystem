@@ -53,12 +53,18 @@ $cakeDescription = 'School System';
     <?= $this->fetch('script') ?>
 </head>
 <body>
-<?= $this->Element('Applicant_Header'); ?>
+<?php if(empty($this->request->session()->read('Auth.User.id'))): ?>
+    <?= $this->element('notLoggedInHeader'); ?>
+<?php endif; ?>
+<?php if(!empty($this->request->session()->read('Auth.User.id'))): ?>
+    <?= $this->element('loggedInHeader'); ?>
+<?php endif; ?>
 <div>
     <?= $this->Flash->render() ?>
     <?= $this->fetch('content') ?>
 </div>
 
+<?= $this->Element('footerLinks'); ?>
 <?= $this->Element('footer'); ?>
 
 <?= $this->Site->script('bootstrap-wizard/js/bwizard.js') ?>

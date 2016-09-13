@@ -25,7 +25,12 @@ class SessionsTableTest extends TestCase
      */
     public $fixtures = [
         'app.sessions',
-        'app.users'
+        'app.student_subject_annual_results',
+        'app.students',
+        'app.classes',
+        'app.class_demacations',
+        'app.students_affective_dispositions',
+        'app.students_psychomotor_skills'
     ];
 
     /**

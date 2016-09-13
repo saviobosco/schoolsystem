@@ -48,7 +48,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display','home']);
+    $routes->connect('/', ['controller' => 'Pages', 'action' => 'homepage']);
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
@@ -78,29 +78,7 @@ Router::scope('/', function (RouteBuilder $routes) {
  * how to customize the loading of plugin routes.
  */
 Plugin::routes();
-Router::connect('/login',['controller'=>'Admins','action'=>'login']);
-Router::connect('/apply',['controller'=>'Applicants','action'=>'applicant_login']);
-Router::connect('/new_application',['controller'=>'ApplicationsSubmitted','action'=>'add']);
-Router::connect('/success/**',['controller'=>'ApplicationsSubmitted','action'=>'success']);
-Router::connect('/viewapplicant/**',['controller'=>'ApplicationsSubmitted','action'=>'view']);
-Router::connect('/deleteapplicant/**',['controller'=>'ApplicationsSubmitted','action'=>'delete']);
-Router::connect('/check_entrance_result',['controller'=>'ApplicationsSubmitted','action'=>'check-entrance-result']);
-Router::connect('/check_interview_result',['controller'=>'ApplicationsSubmitted','action'=>'check-interview-result']);
-Router::connect('/view_applicant_entrance_result/**',['controller'=>'ApplicantsEntranceResults','action'=>'view']);
-Router::connect('/edit_applicant_entrance_result/**',['controller'=>'ApplicantsEntranceResults','action'=>'edit']);
-Router::connect('/delete_applicant_entrance_result/**',['controller'=>'ApplicantsEntranceResults','action'=>'delete']);
-Router::connect('/view_applicant_interview_result/**',['controller'=>'ApplicantsInterviewResults','action'=>'view']);
-Router::connect('/edit_applicant_interview_result/**',['controller'=>'ApplicantsInterviewResults','action'=>'edit']);
-Router::connect('/delete_applicant_interview_result/**',['controller'=>'ApplicantsInterviewResults','action'=>'delete']);
-Router::connect('/viewstudent/**',['controller'=>'Students','action'=>'view']);
-Router::connect('/editstudent/**',['controller'=>'Students','action'=>'edit']);
-Router::connect('/deletestudent/**',['controller'=>'Students','action'=>'delete']);
-Router::connect('/enterstudentremark/**',['controller'=>'Students','action'=>'enter_remark']);
-Router::connect('/new_student_registration',['controller'=>'Students','action'=>'new_student']);
-Router::connect('/old_student_registration',['controller'=>'Students','action'=>'add']);
-Router::connect('/student_data_profile/**',['controller'=>'Students','action'=>'student_data']);
-
 Router::extensions(['xlsx']);
-Router::connect('/generate_excel',['controller'=>'EntranceResultPins','action'=>'excel_format']);
-Router::connect('/students_course_excel/**',['controller'=>'Courses','action'=>'course_students_excel']);
+Router::connect('/login',['controller'=>'Admins','action'=>'login']);
+
 

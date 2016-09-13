@@ -25,21 +25,9 @@ class StudentsTableTest extends TestCase
      */
     public $fixtures = [
         'app.students',
-        'app.schools',
-        'app.applications_submitted',
-        'app.entrance_results',
-        'app.result_files',
-        'app.interview_results',
-        'app.applicants',
-        'app.entrance_pins',
-        'app.interview_pins',
-        'app.levels',
-        'app.courses',
-        'app.semesters',
-        'app.students_courses',
         'app.sessions',
-        'app.remarks',
-        'app.student_result_pins'
+        'app.classes',
+        'app.class_demacations'
     ];
 
     /**
@@ -92,46 +80,6 @@ class StudentsTableTest extends TestCase
      * @return void
      */
     public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test beforeSave method
-     *
-     * @return void
-     */
-    public function testBeforeSave()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test beforeMarshal method
-     *
-     * @return void
-     */
-    public function testBeforeMarshal()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test getStudentOtherCourses method
-     *
-     * @return void
-     */
-    public function testGetStudentOtherCourses()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test generateRegNumber method
-     *
-     * @return void
-     */
-    public function testGenerateRegNumber()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

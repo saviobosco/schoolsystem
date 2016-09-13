@@ -18,7 +18,7 @@ class CreateStudents extends AbstractMigration
         $table = $this->table('students');
         $table->addColumn('id', 'string', [
             'default' => null,
-            'limit' => 20,
+            'limit' => 30,
             'null' => false,
         ]);
         $table->addColumn('first_name', 'string', [
@@ -90,6 +90,11 @@ class CreateStudents extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
+        $table->addColumn('photo_dir', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => false,
+        ]);
         $table->addColumn('created', 'datetime', [
             'default' => null,
             'null' => false,
@@ -102,5 +107,11 @@ class CreateStudents extends AbstractMigration
             'id',
         ]);
         $table->create();
+    }
+
+
+    public function down()
+    {
+        $this->table('students')->drop();
     }
 }

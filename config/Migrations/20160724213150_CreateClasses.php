@@ -27,6 +27,11 @@ class CreateClasses extends AbstractMigration
             'limit' => 30,
             'null' => false,
         ]);
+        $table->addColumn('block_id', 'integer', [
+            'default' => null,
+            'limit' => 4,
+            'null' => false,
+        ]);
         $table->addColumn('created', 'datetime', [
             'default' => null,
             'null' => false,
@@ -39,5 +44,11 @@ class CreateClasses extends AbstractMigration
             'id',
         ]);
         $table->create();
+    }
+
+
+    public function down()
+    {
+        $this->table('classes')->drop();
     }
 }

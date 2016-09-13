@@ -13,10 +13,10 @@ use Cake\View\Helper;
 
 class SearchParameterHelper extends Helper
 {
-    public function getDefaultValue($value = null)
+    public function getDefaultValue($value = null,$default_value)
     {
         if(empty($value)){
-            return '';
+            return $default_value;
         }
         return $value;
     }
