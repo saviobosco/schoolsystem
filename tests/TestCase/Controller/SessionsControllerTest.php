@@ -17,13 +17,27 @@ class SessionsControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'app.sessions',
-        'app.student_subject_annual_results',
         'app.students',
         'app.classes',
-        'app.class_demacations',
-        'app.students_affective_dispositions',
-        'app.students_psychomotor_skills'
+        'app.class_demarcations',
     ];
+
+    public function setUp()
+    {
+        parent::setUp();
+        // Set session data
+        $this->session([
+            'Auth' => [
+                'User' => [
+                    'id' => 1,
+                    'username' => 'testing',
+                    'role' => 'admin',
+                    'super_user' => 1
+                    // other keys.
+                ]
+            ]
+        ]);
+    }
 
     /**
      * Test index method
@@ -32,7 +46,9 @@ class SessionsControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/sessions');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Sessions');
     }
 
     /**
@@ -42,7 +58,9 @@ class SessionsControllerTest extends IntegrationTestCase
      */
     public function testView()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('sessions/view/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('session');
     }
 
     /**
@@ -52,7 +70,14 @@ class SessionsControllerTest extends IntegrationTestCase
      */
     public function testAdd()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $data = [
+            'id' => 4,
+            'session' => '2019/2020',
+            'created' => '2016-09-01 20:48:25',
+            'modified' => '2016-09-01 20:48:25'
+        ];
+        $this->post('sessions/add',$data);
+        $this->assertResponseSuccess();
     }
 
     /**
@@ -62,7 +87,19 @@ class SessionsControllerTest extends IntegrationTestCase
      */
     public function testEdit()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('sessions/edit/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('2016/2017');
+
+        $data = [
+            'id' => 1,
+            'session' => '2019/2020',
+            'created' => '2016-09-01 20:48:25',
+            'modified' => '2016-09-01 20:48:25'
+        ];
+
+        $this->post('sessions/edit/1',$data);
+        $this->assertResponseSuccess();
     }
 
     /**
@@ -72,6 +109,8 @@ class SessionsControllerTest extends IntegrationTestCase
      */
     public function testDelete()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->delete('sessions/delete/1');
+        $this->assertResponseSuccess();
+        $this->assertRedirect();
     }
 }

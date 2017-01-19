@@ -1,44 +1,79 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $student->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $student->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Students'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Sessions'), ['controller' => 'Sessions', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Session'), ['controller' => 'Sessions', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Classes'), ['controller' => 'Classes', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Class'), ['controller' => 'Classes', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Class Demacations'), ['controller' => 'ClassDemacations', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Class Demacation'), ['controller' => 'ClassDemacations', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="students form large-9 medium-8 columns content">
-    <?= $this->Form->create($student) ?>
-    <fieldset>
-        <legend><?= __('Edit Student') ?></legend>
-        <?php
-            echo $this->Form->input('first_name');
-            echo $this->Form->input('last_name');
-            echo $this->Form->input('date_of_birth');
-            echo $this->Form->input('gender');
+<?= $this->Site->css('switchery/switchery.min.css',['block' => true]) ?>
+
+<?= $this->element('Student/header_links') ?>
+<div class="row">
+    <div class="col-sm-12">
+        <?= $this->Form->create($student,[
+            'enctype' => 'multipart/form-data','novalidate'
+        ]) ?>
+        <fieldset>
+            <legend><?= __('Edit Student Profile') ?></legend>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <div class="fileinput fileinput-new" data-provides="fileinput"><input type="hidden" value="" name="...">
+                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; line-height: 150px;"> <?= $this->Html->image('student-pictures/students/photo/'.$student->photo_dir.'/'.$student->photo,[
+                                    'alt' => $student->full_name
+                                ]) ?> </div>
+                            <div>
+                                <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><?= $this->Form->file('photo',['type' => 'file']) ?></span>
+                                <a href="file:///D:/html%20templates/html%20templates/dashboard_templates/themeforest-5961888-avant-clean-and-responsive-bootstrap-31-admin/HTML/form-components.htm#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <?= $this->Form->input('id',['type' => 'text','data-toggle' =>'tooltip','trigger' =>'focus','title' =>'Please if you edit this column this student will lost all his previous results', 'label'=>['text'=>'Reg Number'],'disabled'=>true]);  ?>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <?= $this->Form->input('first_name');  ?>
+                        </div>
+                        <div class="col-sm-6">
+                            <?= $this->Form->input('last_name'); ?>
+                        </div>
+                    </div>
+                    <?php
+                    echo $this->Form->radio('gender',[
+                        ['value' => 'male', 'text' => 'Male',],
+                        ['value' => 'female', 'text' => 'Female',]
+                    ],['hiddenField'=>false,'label'=>true,'templates'=>['input' => '<input type="{{type}}" name="{{name}}"{{attrs}}/>',]]);
+                    echo $this->Form->input('date_of_birth',[
+                        'minYear' => 1990,
+                        'maxYear' => date('Y'),
+                        'templates'=>[
+                            'inputContainer' => '<div class="form-group date ">{{content}}</div>'
+                            ,'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'
+                        ]
+                    ]);
+                    ?>
+                </div>
+            </div>
+            <?php
             echo $this->Form->input('state_of_origin');
             echo $this->Form->input('religion');
             echo $this->Form->input('home_residence');
-            echo $this->Form->input('gaurdian');
-            echo $this->Form->input('relationship_to_gaurdian');
-            echo $this->Form->input('occupation_of_gaurdian');
-            echo $this->Form->input('gaurdian_phone_number');
             echo $this->Form->input('session_id', ['options' => $sessions]);
             echo $this->Form->input('class_id', ['options' => $classes]);
-            echo $this->Form->input('class_demacation_id', ['options' => $classDemacations]);
-            echo $this->Form->input('photo');
-            echo $this->Form->input('photo_dir');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+            echo $this->Form->input('class_demarcation_id', ['options' => $classDemarcations]);
+
+            echo '<h2>Guardian Information </h2>';
+
+            echo $this->Form->input('guardian');
+            echo $this->Form->input('relationship_to_guardian');
+            echo $this->Form->input('occupation_of_guardian');
+            echo $this->Form->input('guardian_phone_number');
+            ?>
+
+            <?php
+            echo '<label> Student Status </label>';
+            echo $this->Form->input('status',['type' => 'checkbox','data-render'=>'switchery','data-theme' => 'default']);
+            ?>
+
+        </fieldset>
+        <?= $this->Form->button(__('Submit'),['class' => 'btn btn-primary']) ?>
+        <?= $this->Form->end() ?>
+    </div>
 </div>
+<?= $this->Site->script('custom/js/fileinput.min.js',['block' => true]) ?>
+<?= $this->Site->script('switchery/switchery.min.js',['block' => true]) ?>
+<?= $this->Html->script('form-slider-switcher.demo.min.js',['block' => true]) ?>

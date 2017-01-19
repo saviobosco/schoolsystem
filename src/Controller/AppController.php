@@ -15,6 +15,7 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Core\Configure;
 use Cake\Event\Event;
 
 /**
@@ -22,7 +23,7 @@ use Cake\Event\Event;
  *
  * Add your application-wide methods in the class below, your controllers
  * will inherit them.
- *
+ * @property \App\Controller\Component\SavioboscoFlashComponent $SavioboscoFlash
  * @link http://book.cakephp.org/3.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller
@@ -38,6 +39,8 @@ class AppController extends Controller
      *
      * @return void
      */
+
+
     public function initialize()
     {
         parent::initialize();
@@ -45,9 +48,17 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Cewi/Excel.Import');
+        $this->loadComponent('CakeDC/Users.UsersAuth');
+        $this->loadComponent('SavioboscoFlash');
+
 
     }
 
+    public function beforeFilter(Event $event) {
+        /*
+         * logic to be applied before Controller Action Comes in here.
+         */
+    }
     /**
      * Before render callback.
      *
@@ -56,8 +67,7 @@ class AppController extends Controller
      */
     public function beforeRender(Event $event)
     {
-        //$this->_findlayout();
-        $this->viewBuilder()->layout('default');
+        $this->_findlayout();
         if (!array_key_exists('_serialize', $this->viewVars) &&
             in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {
@@ -68,8 +78,8 @@ class AppController extends Controller
     protected function _findlayout()
     {
         if(!empty($this->request->session()->read('Auth.User.id'))) {
-            return $this->viewBuilder()->layout('admin');
+            return $this->viewBuilder()->theme('SeanTheme')->layout('admin');
         }
-        return $this->viewBuilder()->layout('custom');
+        return $this->viewBuilder()->theme('SeanTheme')->layout('custom');
     }
 }

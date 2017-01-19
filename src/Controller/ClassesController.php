@@ -37,7 +37,7 @@ class ClassesController extends AppController
     public function view($id = null)
     {
         $class = $this->Classes->get($id, [
-            'contain' => ['Blocks', 'ClassDemacations', 'StudentAnnualResults', 'StudentTermlyResults', 'Students']
+            'contain' => ['Blocks', 'ClassDemarcations']
         ]);
 
         $this->set('class', $class);

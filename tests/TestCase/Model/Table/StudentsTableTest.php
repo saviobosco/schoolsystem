@@ -27,7 +27,8 @@ class StudentsTableTest extends TestCase
         'app.students',
         'app.sessions',
         'app.classes',
-        'app.class_demacations'
+        'app.blocks',
+        'app.class_demarcations',
     ];
 
     /**

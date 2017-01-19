@@ -12,5 +12,12 @@ return [
             'role' => 'admin',
             'controller' => '*',
             'action' => '*',
+            'plugin' => '*'
         ],
+        [
+            'role' => 'teacher',
+            'controller' => '*',
+            'action' => '*',
+            'plugin' => 'teacher'
+        ]
     ]];

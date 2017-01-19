@@ -21,10 +21,14 @@ class Listener extends AppController
     public function implementedEvents()
     {
         return [
-            UsersAuthComponent::EVENT_BEFORE_LOGOUT => 'beforeLogout',
-            UsersAuthComponent::EVENT_AFTER_LOGOUT => 'logoutRedirect',
             //UsersAuthComponent::EVENT_AFTER_LOGIN => 'afterLoginRedirect'
+            UsersAuthComponent::EVENT_AFTER_REGISTER => 'createTeacherProfile',
         ];
+    }
+
+    public function createTeacherProfile(Event $event)
+    {
+        debug($event);
     }
 
 }

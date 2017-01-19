@@ -49,7 +49,7 @@ class ClassesTable extends Table
             'foreignKey' => 'block_id',
             'joinType' => 'INNER'
         ]);
-        $this->hasMany('ClassDemacations', [
+        $this->hasMany('ClassDemarcations', [
             'foreignKey' => 'class_id'
         ]);
         $this->hasMany('StudentAnnualResults', [
@@ -78,6 +78,10 @@ class ClassesTable extends Table
         $validator
             ->requirePresence('class', 'create')
             ->notEmpty('class');
+
+        $validator
+            ->requirePresence('no_of_subjects', 'create')
+            ->notEmpty('no_of_subjects');
 
         return $validator;
     }

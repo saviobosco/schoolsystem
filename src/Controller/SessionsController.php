@@ -34,7 +34,6 @@ class SessionsController extends AppController
     public function view($id = null)
     {
         $session = $this->Sessions->get($id, [
-            'contain' => ['StudentSubjectAnnualResults', 'Students', 'StudentsAffectiveDispositions', 'StudentsPsychomotorSkills']
         ]);
 
         $this->set('session', $session);

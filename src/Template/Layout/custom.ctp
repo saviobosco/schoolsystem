@@ -53,13 +53,12 @@ $cakeDescription = 'School System';
     <?= $this->fetch('script') ?>
 </head>
 <body>
-<?php if(empty($this->request->session()->read('Auth.User.id'))): ?>
-    <?= $this->element('notLoggedInHeader'); ?>
-<?php endif; ?>
-<?php if(!empty($this->request->session()->read('Auth.User.id'))): ?>
-    <?= $this->element('loggedInHeader'); ?>
-<?php endif; ?>
 <div>
+
+
+</div>
+
+<div class="">
     <?= $this->Flash->render() ?>
     <?= $this->fetch('content') ?>
 </div>

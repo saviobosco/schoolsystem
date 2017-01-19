@@ -1,6 +1,8 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Event\Event;
+use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -11,7 +13,7 @@ use Cake\Validation\Validator;
  *
  * @property \Cake\ORM\Association\BelongsTo $Sessions
  * @property \Cake\ORM\Association\BelongsTo $Classes
- * @property \Cake\ORM\Association\BelongsTo $ClassDemacations
+ * @property \Cake\ORM\Association\BelongsTo $ClassDemarcations
  *
  * @method \App\Model\Entity\Student get($primaryKey, $options = [])
  * @method \App\Model\Entity\Student newEntity($data = null, array $options = [])
@@ -42,16 +44,35 @@ class StudentsTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        // loads the Proffer behaviour for picture upload .
+        $this->addBehavior('Proffer.Proffer', [
+            'photo' => [    // The name of your upload field
+                'root' => WWW_ROOT .'img/student-pictures', // Customise the root upload folder here, or omit to use the default
+                'dir' => 'photo_dir',   // The name of the field to store the folder
+            ]
+        ]);
+
         $this->belongsTo('Sessions', [
             'foreignKey' => 'session_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('SessionAdmitted', [
+            'className' => 'App.Sessions',
+            'foreignKey' => 'session_admitted_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('Classes', [
             'foreignKey' => 'class_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('ClassDemacations', [
-            'foreignKey' => 'class_demacation_id',
+        $this->belongsTo('ClassDemarcations', [
+            'foreignKey' => 'class_demarcation_id',
+            'joinType' => 'INNER'
+        ]);
+
+        $this->belongsTo('SessionGraduated',[
+            'className' => 'App.Sessions',
+            'foreignKey' => 'graduated_session_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -65,8 +86,8 @@ class StudentsTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->notEmpty('id', 'create')
+            ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->requirePresence('first_name', 'create')
@@ -78,40 +99,36 @@ class StudentsTable extends Table
 
         $validator
             ->date('date_of_birth')
-            ->requirePresence('date_of_birth', 'create')
-            ->notEmpty('date_of_birth');
+            ->allowEmpty('date_of_birth');
 
         $validator
             ->requirePresence('gender', 'create')
             ->notEmpty('gender');
 
         $validator
-            ->requirePresence('state_of_origin', 'create')
-            ->notEmpty('state_of_origin');
+            ->allowEmpty('state_of_origin');
 
         $validator
-            ->requirePresence('religion', 'create')
-            ->notEmpty('religion');
+            ->allowEmpty('religion');
 
         $validator
-            ->requirePresence('home_residence', 'create')
-            ->notEmpty('home_residence');
+            ->allowEmpty('home_residence');
 
         $validator
-            ->requirePresence('gaurdian', 'create')
-            ->notEmpty('gaurdian');
+            ->allowEmpty('guardian');
 
         $validator
-            ->requirePresence('relationship_to_gaurdian', 'create')
-            ->notEmpty('relationship_to_gaurdian');
+            ->allowEmpty('relationship_to_guardian');
 
         $validator
-            ->requirePresence('occupation_of_gaurdian', 'create')
-            ->notEmpty('occupation_of_gaurdian');
+            ->allowEmpty('occupation_of_guardian');
 
         $validator
-            ->requirePresence('gaurdian_phone_number', 'create')
-            ->notEmpty('gaurdian_phone_number');
+            ->allowEmpty('guardian_phone_number');
+
+        $validator
+            ->allowEmpty('photo');
+
 
 
         return $validator;
@@ -128,8 +145,31 @@ class StudentsTable extends Table
     {
         $rules->add($rules->existsIn(['session_id'], 'Sessions'));
         $rules->add($rules->existsIn(['class_id'], 'Classes'));
-        $rules->add($rules->existsIn(['class_demacation_id'], 'ClassDemacations'));
+        $rules->add($rules->existsIn(['class_demarcation_id'], 'ClassDemarcations'));
 
         return $rules;
+    }
+
+    public function beforeSave(Event $event, Entity $entity ) {
+        if ($entity->isNew()) {
+            $entity->session_admitted_id = $entity->session_id ;
+        }
+        return true;
+    }
+
+    public function findGraduatedStudents()
+    {
+        return $this->find('all')
+            ->where(['graduated' => 1])
+            ->contain(['Sessions','SessionGraduated'])
+            ->orderDesc('graduated_session_id');
+    }
+
+    public function findUnActiveStudents()
+    {
+        return $this->find('all')
+            ->where(['status' => 0])
+            ->contain(['Sessions','ClassDemarcations']);
+            //->orderAsc('class_id');
     }
 }

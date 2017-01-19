@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Datasource\Exception\RecordNotFoundException;
 
 /**
  * Subjects Controller
@@ -19,8 +20,10 @@ class SubjectsController extends AppController
     public function index()
     {
         $this->paginate = [
+            'limit' => 50,
             'contain' => ['Blocks']
         ];
+
         $subjects = $this->paginate($this->Subjects);
 
         $this->set(compact('subjects'));
@@ -36,12 +39,19 @@ class SubjectsController extends AppController
      */
     public function view($id = null)
     {
-        $subject = $this->Subjects->get($id, [
-            'contain' => ['Blocks', 'StudentAnnualResults', 'StudentTermlyResults']
-        ]);
+        try {
+            if (empty($id)) {
+                return $this->redirect(['action'=>'index']);
+            }
+            $subject = $this->Subjects->get($id, [
+                'contain' => ['Blocks']
+            ]);
 
-        $this->set('subject', $subject);
-        $this->set('_serialize', ['subject']);
+            $this->set('subject', $subject);
+            $this->set('_serialize', ['subject']);
+        } catch ( RecordNotFoundException $e ) {
+            $this->render('/Element/Error/recordnotfound');
+        }
     }
 
     /**
@@ -76,22 +86,29 @@ class SubjectsController extends AppController
      */
     public function edit($id = null)
     {
-        $subject = $this->Subjects->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $subject = $this->Subjects->patchEntity($subject, $this->request->data);
-            if ($this->Subjects->save($subject)) {
-                $this->Flash->success(__('The subject has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The subject could not be saved. Please, try again.'));
+        try {
+            if (empty($id)) {
+                return $this->redirect(['action'=>'index']);
             }
+            $subject = $this->Subjects->get($id, [
+                'contain' => []
+            ]);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $subject = $this->Subjects->patchEntity($subject, $this->request->data);
+                if ($this->Subjects->save($subject)) {
+                    $this->Flash->success(__('The subject has been saved.'));
+
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error(__('The subject could not be saved. Please, try again.'));
+                }
+            }
+            $blocks = $this->Subjects->Blocks->find('list', ['limit' => 200]);
+            $this->set(compact('subject', 'blocks'));
+            $this->set('_serialize', ['subject']);
+        } catch ( RecordNotFoundException $e ) {
+            $this->render('/Element/Error/recordnotfound');
         }
-        $blocks = $this->Subjects->Blocks->find('list', ['limit' => 200]);
-        $this->set(compact('subject', 'blocks'));
-        $this->set('_serialize', ['subject']);
     }
 
     /**

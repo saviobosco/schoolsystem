@@ -19,8 +19,26 @@ class StudentsControllerTest extends IntegrationTestCase
         'app.students',
         'app.sessions',
         'app.classes',
-        'app.class_demacations'
+        'app.class_demarcations'
     ];
+
+    public function setUp()
+    {
+        parent::setUp();
+        // Set session data
+        $this->session([
+            'Auth' => [
+                'User' => [
+                    'id' => 1,
+                    'username' => 'testing',
+                    'role' => 'admin',
+                    'super_user' => 1
+                    // other keys.
+                ]
+            ]
+        ]);
+    }
+
 
     /**
      * Test index method
@@ -29,7 +47,9 @@ class StudentsControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/students');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Students');
     }
 
     /**
@@ -37,10 +57,12 @@ class StudentsControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testView()
+    /*public function testView()
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        $this->get('viewstudent/SAS/2016/001');
+        $this->assertResponseOk();
+        $this->assertResponseContains('student');
+    }*/
 
     /**
      * Test add method
@@ -49,7 +71,28 @@ class StudentsControllerTest extends IntegrationTestCase
      */
     public function testAdd()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $data = [
+            'id' => 'SAS/2016/010',
+            'first_name' => 'Lorem ipsum dolor sit amet',
+            'last_name' => 'Lorem ipsum dolor sit amet',
+            'date_of_birth' => '2016-10-28',
+            'gender' => 'Lorem ip',
+            'state_of_origin' => 'Lorem ipsum dolor sit amet',
+            'religion' => 'Lorem ipsum dolor sit amet',
+            'home_residence' => 'Lorem ipsum dolor sit amet',
+            'guardian' => 'Lorem ipsum dolor sit amet',
+            'relationship_to_guardian' => 'Lorem ipsum dolor sit amet',
+            'occupation_of_guardian' => 'Lorem ipsum dolor sit amet',
+            'guardian_phone_number' => 'Lorem ipsum d',
+            'session_id' => 'Lorem ips',
+            'class_id' => 1,
+            'class_demarcation_id' => 1,
+            'created' => '2016-10-28 22:38:50',
+            'modified' => '2016-10-28 22:38:50',
+            'status' => 1
+        ];
+        $this->post('students/add',$data);
+        $this->assertResponseSuccess();
     }
 
     /**
@@ -59,7 +102,33 @@ class StudentsControllerTest extends IntegrationTestCase
      */
     public function testEdit()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('editstudent/SAS/2016/001');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Omebe Johnbosco Chukwuebuka');
+
+        $data = [
+            'id' => 'SAS/2016/001',
+            'first_name' => 'Omebe Johnbosco Ebuka',
+            'last_name' => 'Lorem ipsum dolor sit amet',
+            'date_of_birth' => '2016-10-28',
+            'gender' => 'Lorem ip',
+            'state_of_origin' => 'Lorem ipsum dolor sit amet',
+            'religion' => 'Lorem ipsum dolor sit amet',
+            'home_residence' => 'Lorem ipsum dolor sit amet',
+            'guardian' => 'Lorem ipsum dolor sit amet',
+            'relationship_to_guardian' => 'Lorem ipsum dolor sit amet',
+            'occupation_of_guardian' => 'Lorem ipsum dolor sit amet',
+            'guardian_phone_number' => 'Lorem ipsum d',
+            'session_id' => 'Lorem ips',
+            'class_id' => 1,
+            'class_demarcation_id' => 1,
+            'created' => '2016-10-28 22:38:50',
+            'modified' => '2016-10-28 22:38:50',
+            'status' => 1
+        ];
+
+        $this->post('editstudent/SAS/2016/001',$data);
+        $this->assertResponseSuccess();
     }
 
     /**
@@ -69,6 +138,8 @@ class StudentsControllerTest extends IntegrationTestCase
      */
     public function testDelete()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->delete('deletestudent/SAS/2016/001');
+        $this->assertResponseSuccess();
+        $this->assertRedirect();
     }
 }

@@ -23,7 +23,8 @@
         "holt59/cakephp3-bootstrap-helpers": "dev-master",
         "cakemanager/cakeadmin-lightstrap": "dev-master",
         "cakemanager/cakephp-cakeadmin": "dev-master",
-        "dereuromark/cakephp-queue": "^3.3"
+        "dereuromark/cakephp-queue": "^3.3",
+        "CakeDC/Users": "^3.2"
     },
     "require-dev": {
         "psy/psysh": "@stable",
@@ -39,7 +40,11 @@
             "App\\": "src",
             "SavioboscoSubscription\\": "./plugins/SavioboscoSubscription/src",
             "SkillsGradingSystem\\": "./plugins/SkillsGradingSystem/src",
-            "ResultSystem\\": "./plugins/ResultSystem/src"
+            "ResultSystem\\": "./plugins/ResultSystem/src",
+            "Teacher\\": "./plugins/Teacher/src",
+            "FeesManager\\": "./plugins/FeesManager/src",
+            "SeanTheme\\": "./plugins/SeanTheme/src",
+            "FrontEnd\\": "./plugins/FrontEnd/src"
         }
     },
     "autoload-dev": {
@@ -48,7 +53,11 @@
             "Cake\\Test\\": "./vendor/cakephp/cakephp/tests",
             "SavioboscoSubscription\\Test\\": "./plugins/SavioboscoSubscription/tests",
             "SkillsGradingSystem\\Test\\": "./plugins/SkillsGradingSystem/tests",
-            "ResultSystem\\Test\\": "./plugins/ResultSystem/tests"
+            "ResultSystem\\Test\\": "./plugins/ResultSystem/tests",
+            "Teacher\\Test\\": "./plugins/Teacher/tests",
+            "FeesManager\\Test\\": "./plugins/FeesManager/tests",
+            "SeanTheme\\Test\\": "./plugins/SeanTheme/tests",
+            "FrontEnd\\Test\\": "./plugins/FrontEnd/tests"
         }
     },
     "scripts": {

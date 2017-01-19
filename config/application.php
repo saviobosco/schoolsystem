@@ -4,10 +4,10 @@ return [
      * School System Application Configuration
      */
     'Application' => [
-        'name' => 'School System',
-        'motto' => 'delivering the best technologies to you!!',
-        'version' => '0.1',
-        'author' => 'Saviobosco',
-        'company' => 'CrackReactor'
+        'Name' => 'School Management System',
+        'Motto' => 'delivering the best technologies to you!!',
+        'Version' => '0.1',
+        'Author' => 'Saviobosco',
+        'Company' => 'Focus'
     ]
 ];

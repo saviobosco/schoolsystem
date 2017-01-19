@@ -9,24 +9,34 @@
 namespace App\View\Helper;
 
 
-use Cake\View\Helper;
+use Cake\View\Helper\HtmlHelper;
 
-class SiteHelper extends Helper
+class SiteHelper extends HtmlHelper
 {
-    public $helpers = ['Html'];
-    public function css($link)
+    var $helpers = ['Url', 'Text'];
+
+    /**
+     * @param array|string $path
+     * @param array $options
+     * @return null|string
+     */
+    public function css($path, array $options = [])
     {
-        return '<link href="/assets/plugins/'.$link.'" rel="stylesheet" >';
+        $options += ['pathPrefix' => 'assets/plugins/' ];
+        return parent::css($path , $options);
     }
 
-    public function script($link)
+    /**
+     * @param array|string $path
+     * @param array $options
+     * @return null|string
+     */
+    public function script($path , array $options = [])
     {
-        return '<script src="/assets/plugins/'.$link.'" > </script>';
+        $options += ['pathPrefix' => 'assets/plugins/' ];
+        return parent::script($path , $options);
     }
 
-    public function loadScripts()
-    {
-        $scripts = [];
-    }
+
 
 }

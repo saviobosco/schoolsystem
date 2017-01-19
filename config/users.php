@@ -50,7 +50,7 @@ return [
             'CakeDC/Users.Superuser',
             'CakeDC/Users.SimpleRbac',
         ],
-        'loginAction' => [
+        /*'loginAction' => [
             'plugin' => null,
             'controller' => 'Admins',
             'action' => 'login',
@@ -58,10 +58,10 @@ return [
         ],
         'loginRedirect' => [
             'plugin' => null,
-            'controller' => 'Admins',
-            'action' => 'dashboard',
+            'controller' => 'Students',
+            'action' => 'index',
             'prefix' => false
-        ],
+        ],*/
     ],
 ];
 

@@ -48,7 +48,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'homepage']);
+    $routes->connect('/', ['plugin' => 'FrontEnd','controller' => 'Pages', 'action' => 'homepage']);
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
@@ -80,5 +80,12 @@ Router::scope('/', function (RouteBuilder $routes) {
 Plugin::routes();
 Router::extensions(['xlsx']);
 Router::connect('/login',['controller'=>'Admins','action'=>'login']);
+
+Router::extensions(['xlsx']);
+Router::connect('/students_result_pins',['controller'=>'StudentResultPins','action'=>'excel_format']);
+Router::connect('/login',['controller'=>'Admins','action'=>'login']);
+Router::connect('/viewstudent/**',['controller'=>'Students','action'=>'view']);
+Router::connect('/editstudent/**',['controller'=>'Students','action'=>'edit']);
+Router::connect('/deletestudent/**',['controller'=>'Students','action'=>'delete']);
 
 
