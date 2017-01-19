@@ -14,7 +14,7 @@ echo $this->assign('title','Add New User'); ?>
                 echo $this->Form->input('first_name',['class'=>'form-control']);
                 echo $this->Form->input('last_name',['class'=>'form-control']);
                 echo $this->Form->input('role', [
-                    'options' => ['admin' => 'Admin','teacher'=>'Teacher'],
+                    'options' => ['student'=>'Student','teacher'=>'Teacher','admin' => 'Admin'],
                         'class'=>'form-control','escape'=>false,
                 ]);
                 echo $this->Form->input('is_superuser',['data-render'=>'switchery']);
@@ -28,10 +28,8 @@ echo $this->assign('title','Add New User'); ?>
                 <div class="well">
                     <h5 class="text-danger"> Note </h5>
                     <ul>
-                        <li> Every Admin has an admin role right by default</li>
-                        <li> Users with superuser role have access to all </li>
-                        <li> A User is not active by default. You will need to activate the
-                              user's account after registering.</li>
+                        <li> Every User is not active by default. You will need to activate the user's account after registering.</li>
+                        <li> Users with super user role have unrestricted access .</li>
                     </ul>
                 </div>
             </aside>

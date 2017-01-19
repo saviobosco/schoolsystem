@@ -95,14 +95,14 @@
                     <li><?= $this->Html->link(__("Students Score" ),['plugin'=>'SkillsGradingSystem','controller'=>'Students','action'=>'index'],['escape'=>false]) ?></li>
                 </ul>
             </li>
-            <li class="has-sub">
+            <!-- <li class="has-sub">
                 <?= $this->Html->link('<b class="caret pull-right"></b>'.__('Users'),'javascript:;',['escape'=>false]) ?>
                 <ul class="sub-menu">
                     <li><?= $this->Html->link(__('Teachers'),['plugin'=>null,'controller'=>'MyUsers','action'=>'teachers'],['escape'=>false]) ?></li>
                     <li><?= $this->Html->link(__('Students'),['plugin'=>null,'controller'=>'MyUsers','action'=>'index'],['escape'=>false]) ?></li>
                     <li><?= $this->Html->link(__('Parents'),['plugin'=>null,'controller'=>'MyUsers','action'=>'index'],['escape'=>false]) ?></li>
                 </ul>
-            </li>
+            </li> -->
             <li class="has-sub">
                 <?= $this->Html->link('<b class="caret pull-right"></b>'.__('Admins'),'javascript:;',['escape'=>false]) ?>
                 <ul class="sub-menu">
@@ -124,7 +124,7 @@
                     </ul>
                 </li>
             <?php endif; ?>
-            <li class="has-sub">
+            <!-- <li class="has-sub">
                 <a href="javascript:;">
                     <span class="badge pull-right">10</span>
                     <i class="fa fa-inbox"></i>
@@ -136,7 +136,7 @@
                     <li><a href="email_compose.html">Compose</a></li>
                     <li><a href="email_detail.html">Detail</a></li>
                 </ul>
-            </li>
+            </li> -->
             <!-- <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret pull-right"></b>

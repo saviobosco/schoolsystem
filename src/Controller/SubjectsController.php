@@ -21,7 +21,10 @@ class SubjectsController extends AppController
     {
         $this->paginate = [
             'limit' => 50,
-            'contain' => ['Blocks']
+            'contain' => ['Blocks'],
+            'order' => [
+                'block_id' => 'asc'
+            ]
         ];
 
         $subjects = $this->paginate($this->Subjects);
@@ -40,7 +43,7 @@ class SubjectsController extends AppController
     public function view($id = null)
     {
         try {
-            if (empty($id)) {
+            if ( empty($id) ) {
                 return $this->redirect(['action'=>'index']);
             }
             $subject = $this->Subjects->get($id, [

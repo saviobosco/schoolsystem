@@ -10,7 +10,7 @@ $user = ${$tableAlias};
             echo $this->Form->input('first_name',['class'=>'form-control']);
             echo $this->Form->input('last_name',['class'=>'form-control']);
             echo $this->Form->input('role', [
-                'options' => ['admin' => 'Admin','teacher'=>'Teacher'],
+                'options' => ['student'=>'Student','teacher'=>'Teacher','admin' => 'Admin'],
                 'class'=>'form-control','escape'=>false,
             ]);
             echo $this->Form->input('is_superuser',['type'=>'checkbox','data-render'=>'switchery']);
