@@ -48,11 +48,11 @@ class StudentsController extends AppController
                 'limit' => 1000,
                 'maxLimit' => 1000,
                 'contain' => ['Sessions', 'Classes'],
-                /*'conditions' => [
+                'conditions' => [
                     'Students.status'   => 1,
                     'Students.graduated'   => 0,
                     'Students.class_id' => $this->_getDefaultValue($this->request->query['class_id'],1)
-                ]*/
+                ]
             ];
         }
         $students = $this->paginate($this->Students);
