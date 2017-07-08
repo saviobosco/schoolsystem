@@ -19,6 +19,7 @@ class StudentsControllerTest extends IntegrationTestCase
         'app.students',
         'app.sessions',
         'app.classes',
+        'app.states',
         'app.class_demarcations'
     ];
 
