@@ -2,6 +2,7 @@
 namespace App\Model\Table;
 
 use Cake\Event\Event;
+use Cake\I18n\Date;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -171,5 +172,16 @@ class StudentsTable extends Table
             ->where(['status' => 0])
             ->contain(['Sessions','ClassDemarcations']);
             //->orderAsc('class_id');
+    }
+
+    /***
+     * @param Event $event
+     * @param $data
+     * The function is fired by the cakephp system automatically before a
+     * request data is converted to entities
+     */
+    public function beforeMarshal(Event $event, $data )
+    {
+        $data['date_of_birth'] = new Date($data['date_of_birth']);
     }
 }

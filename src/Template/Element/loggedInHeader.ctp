@@ -29,7 +29,7 @@ use Settings\Core\Setting;
                     </div>
                 </form>
             </li>
-            <li class="dropdown">
+            <!--<li class="dropdown">
                 <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
                     <i class="fa fa-bell-o"></i>
                     <span class="label">5</span>
@@ -87,10 +87,10 @@ use Settings\Core\Setting;
                         <a href="javascript:;">View more</a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             <li class="dropdown navbar-user">
                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="assets/img/user-13.jpg" alt="" />
+                    <!--<img src="assets/img/user-13.jpg" alt="" /> -->
                     <span class="hidden-xs"><?= $this->request->session()->read('Auth.User.username') ?></span> <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu animated fadeInLeft">
