@@ -33,10 +33,10 @@ class StudentsController extends AppController
                 'limit' => 1000,
                 'maxLimit' => 1000,
                 'contain' => ['Sessions', 'Classes'],
-                /*'conditions' => [
+                'conditions' => [
                     'Students.status'   => 1,
                     'Students.graduated'   => 0
-                ],*/
+                ],
                 // Place the result in ascending order according to the class.
                 'order' => [
                     'class_id' => 'asc'
