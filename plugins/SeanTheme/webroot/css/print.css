@@ -1,0 +1,21 @@
+@media print {
+    header,nav,footer,.footer,.footer-copyright,.sidebar,form{
+        display: none;
+    }
+    @page {
+        margin: 0.5cm;
+    }
+    .col-xs-11 {
+        width: 80%;
+        padding-right: 0;
+        padding-left: 0;
+    }
+    .col-xs-1 {
+        width: 20%;
+    }
+
+    .profile-picture img {
+        width: 100px;
+        height: 100px;
+    }
+}

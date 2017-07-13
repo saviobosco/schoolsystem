@@ -1,0 +1,478 @@
+<?php
+namespace ResultSystem\Controller;
+
+use Cake\Collection\Collection;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\ORM\TableRegistry;
+use ResultSystem\Controller\Traits\SearchParameterTrait;
+use ResultSystem\Controller\AppController;
+
+/**
+ * Students Controller
+ *
+ * @property \ResultSystem\Model\Table\StudentsTable $Students
+ */
+class StudentsController extends AppController
+{
+    use SearchParameterTrait ;
+    /**
+     * Index method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function index()
+    {
+        if ( empty($this->request->query['class_id'])) {
+            $this->paginate = [
+                'limit' => 50,
+                'contain' => ['Sessions', 'Classes',],
+                'conditions' => [
+                    'Students.status'   => 1,
+                    'Students.graduated'   => 0
+                ],
+                // Place the result in ascending order according to the class.
+                'order' => [
+                    'class_id' => 'asc'
+                ]
+            ];
+        }
+        else {
+            $this->paginate = [
+                'limit' => 50,
+                'contain' => ['Sessions', 'Classes'],
+                'conditions' => [
+                    'Students.status'   => 1,
+                    'Students.graduated'   => 0,
+                    'Students.class_id' => $this->_getDefaultValue($this->request->query['class_id'],1)
+                ]
+            ];
+        }
+        $students = $this->paginate($this->Students);
+
+        $sessions = $this->Students->Sessions->find('list',['limit' => 200]);
+        $classes = $this->Students->Classes->find('list',['limit' => 200]);
+        $this->set(compact('students','classes','sessions'));
+        $this->set('_serialize', ['students']);
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Student id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        try {
+            if (  isset($this->request->query['term_id']) && $this->request->query['term_id'] == 4 ) {
+
+                $student = $this->Students->get($id, [
+                    'contain' => ['Sessions',
+                        'Classes',
+                        /*'StudentAnnualPositionOnClassDemarcations',
+                        'StudentAnnualPositions',*/
+                        'StudentAnnualResults' => [
+                            'conditions' => [
+                                'StudentAnnualResults.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                                'StudentAnnualResults.class_id' => @$this->_getDefaultValue($this->request->query['class_id'],1)
+                            ]
+                        ],
+                        /*'StudentAnnualSubjectPositionOnClassDemarcations',
+                        'StudentAnnualSubjectPositions',*/
+                    ]
+                ]);
+
+                // get student annual position
+                $studentPosition = $this->Students->StudentAnnualPositions->find('all')
+                    ->where(['student_id' => $student->id,
+                        'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                        'class_id'   => @$this->_getDefaultValue($this->request->query['class_id'],1),
+                    ])->first();
+
+                // get student annual subject positions
+                $studentAnnualSubjectPositions = $this->Students->StudentAnnualSubjectPositions->find('all')
+                    ->where(['student_id' => $student->id,
+                        'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                        'class_id'   => @$this->_getDefaultValue($this->request->query['class_id'],1),
+                    ])->combine('subject_id','position')->toArray();
+
+                $sessions = $this->Students->Sessions->find('list',['limit' => 200])->toArray();
+                $classes = $this->Students->Classes->find('list',['limit' => 200])->toArray();
+
+                // loads additional table classes ..
+                $this->loadModel('App.Subjects');
+                $this->loadModel('Terms');
+
+                $subjects = $this->Subjects->find('list',['limit'=> 200])->toArray();
+                $terms = $this->Terms->find('list',['limit'=> 200])->toArray();
+                $this->set(compact('student','sessions','classes','subjects','terms','studentAnnualSubjectPositions','studentPosition'));
+                $this->set('_serialize', ['student']);
+
+                $this->render('view_annual_result');
+
+            } else {
+
+                $student = $this->Students->get($id, [
+                    'contain' => [
+                        'Sessions',
+                        'Classes',
+                        /*'StudentTermlyPositionOnClassDemarcations',*/
+                        'StudentTermlyResults' => [
+                            'conditions' => [
+                                'StudentTermlyResults.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                                'StudentTermlyResults.class_id' => @$this->_getDefaultValue($this->request->query['class_id'],1),
+                                'StudentTermlyResults.term_id' => @$this->_getDefaultValue($this->request->query['term_id'],1)
+                            ]
+                        ],
+                    ]
+                ]);
+                // get the student position
+                $studentPosition = $this->Students->StudentTermlyPositions->find('all')
+                    ->where(['student_id' => $student->id,
+                        'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                        'class_id'   => @$this->_getDefaultValue($this->request->query['class_id'],1),
+                        'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],1)
+                    ])->first();
+
+                // gets the student subject positions
+                $studentSubjectPositions = $this->Students->StudentTermlySubjectPositions->find('all')
+                    ->where(['student_id' => $student->id,
+                        'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                        'class_id'   => @$this->_getDefaultValue($this->request->query['class_id'],1),
+                        'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],1)
+                    ])->combine('subject_id','position')->toArray();
+
+                // get the student subjects positions on class demarcation
+                $studentSubjectPositionsOnClassDemarcation =  $this->Students->StudentTermlySubjectPositionOnClassDemarcations->find('all')
+                    ->where(['student_id' => $student->id,
+                        'class_demarcation_id' => $student->class_demarcation_id,
+                        'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                        'class_id'   => @$this->_getDefaultValue($this->request->query['class_id'],1),
+                        'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],1)
+                    ])->combine('subject_id','position')->toArray();
+
+                $sessions = $this->Students->Sessions->find('list',['limit' => 200])->toArray();
+                $classes = $this->Students->Classes->find('list',['limit' => 200])->toArray();
+
+                // loads additional table classes ..
+                $this->loadModel('App.Subjects');
+                $this->loadModel('Terms');
+
+                $subjects = $this->Subjects->find('list',['limit'=> 200])->toArray();
+                $terms = $this->Terms->find('list',['limit'=> 200])->toArray();
+                $this->set(compact('student','sessions','classes','subjects','terms','studentSubjectPositions','studentSubjectPositionsOnClassDemarcation','studentPosition'));
+                $this->set('_serialize', ['student']);
+
+                $this->render('view_termly_result');
+
+            }
+
+        } catch (RecordNotFoundException $e ) {
+            $this->render('/Element/Error/recordnotfound');
+        }
+    }
+
+    /**
+     * Add method
+     *
+     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
+     */
+    public function add()
+    {
+        $student = $this->Students->newEntity();
+        if ($this->request->is('post')) {
+            $student = $this->Students->patchEntity($student, $this->request->data);
+            if ($this->Students->save($student)) {
+                $this->Flash->success(__('The student has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('The student could not be saved. Please, try again.'));
+            }
+        }
+        $sessions = $this->Students->Sessions->find('list', ['limit' => 200]);
+        $classes = $this->Students->Classes->find('list', ['limit' => 200]);
+        $classDemacations = $this->Students->ClassDemacations->find('list', ['limit' => 200]);
+        $this->set(compact('student', 'sessions', 'classes', 'classDemacations'));
+        $this->set('_serialize', ['student']);
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Student id.
+     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $student = $this->Students->get($id, [
+            'contain' => [
+                'Classes',
+                'StudentTermlyResults' => [
+                    'conditions' => [
+                    'StudentTermlyResults.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                    'StudentTermlyResults.class_id' => @$this->_getDefaultValue($this->request->query['class_id'],1),
+                    'StudentTermlyResults.term_id' => @$this->_getDefaultValue($this->request->query['term_id'],1)
+                    ],
+                ],
+                'StudentGeneralRemarks' => [
+                    'conditions' => [
+                        'StudentGeneralRemarks.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                        'StudentGeneralRemarks.class_id' => @$this->_getDefaultValue($this->request->query['class_id'],1),
+                        'StudentGeneralRemarks.term_id' => @$this->_getDefaultValue($this->request->query['term_id'],1)
+                    ]
+                ]
+            ]
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $student = $this->Students->patchEntity($student, $this->request->data);
+            if ($this->Students->save($student)) {
+                $this->Flash->success(__('The student has been saved.'));
+
+            } else {
+                $this->Flash->error(__('The student could not be saved. Please, try again.'));
+            }
+        }
+        $sessions = $this->Students->Sessions->find('list', ['limit' => 200])->toArray();
+        $classes = $this->Students->Classes->find('list', ['limit' => 200])->toArray();
+        $this->loadModel('App.Subjects');
+        $subjects = $this->Subjects->find('list',['limit'=> 200])->toArray();
+        $this->loadModel('Terms');
+        $terms = $this->Terms->find('list',['limit'=> 3])->toArray();
+        $this->set(compact('student', 'sessions', 'classes', 'classDemacations','subjects','terms'));
+        $this->set('_serialize', ['student']);
+        $this->render('edit_termly_result');
+
+    }
+
+    /**
+     * Delete method
+     *
+     * @param string|null $id Student id.
+     * @return \Cake\Network\Response|null Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $student = $this->Students->get($id);
+        if ($this->Students->delete($student)) {
+            $this->Flash->success(__('The student has been deleted.'));
+        } else {
+            $this->Flash->error(__('The student could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
+
+
+
+    public function viewStudentResult($id = null )
+    {
+        if (!$this->request->session()->check('Student')){
+            return $this->redirect(['action'=>'checkResult']);
+        }
+
+        // writes the session instance to a variable named session
+        $session = $this->request->session();
+
+        if (  isset($this->request->query['term_id']) && $this->request->query['term_id'] == 4 ) {
+
+            $student = $this->Students->get($session->read('Student.id'), [
+                'contain' => ['Sessions',
+                    'Classes',
+                    'ClassDemacations',
+                    /*'StudentAnnualPositionOnClassDemacations',
+                    'StudentAnnualPositions',*/
+                    'StudentAnnualResults' => [
+                        'conditions' => [
+                            'StudentAnnualResults.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id') ),
+                        ]
+                    ],
+                    /*'StudentAnnualSubjectPositionOnClassDemacations',
+                    'StudentAnnualSubjectPositions',*/
+                ]
+            ]);
+            // get student annual position
+            $studentPosition = $this->Students->StudentAnnualPositions->find('all')
+                ->where(['student_id' => $student->id,
+                    'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                ])->first();
+
+            // get student annual subject positions
+            $studentAnnualSubjectPositions = $this->Students->StudentAnnualSubjectPositions->find('all')
+                ->where(['student_id' => $student->id,
+                    'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                ])->combine('subject_id','position')->toArray();
+
+            $affectiveDispositionTable = TableRegistry::get('SkillsGradingSystem.StudentsAffectiveDispositionScores');
+            $psychomotorSkillsTable = TableRegistry::get('SkillsGradingSystem.StudentsPsychomotorSkillScores');
+
+            $studentAffectiveDispositions = $affectiveDispositionTable->find('all')
+                ->where(['student_id' => $student->id,
+                    'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],4),
+                    'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],4)
+                ])->contain(['Affectives']);
+
+            $studentPsychomotorSkills = $psychomotorSkillsTable->find('all')
+                ->where(['student_id' => $student->id,
+                    'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],4),
+                    'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],4)
+                ])->contain(['Psychomotors']);
+
+            // loads additional table classes ..
+            $this->loadModel('App.Subjects');
+            $this->loadModel('Terms');
+
+            $sessions = $this->Students->Sessions->find('list',['limit' => 200])->toArray();
+            $classes = $this->Students->Classes->find('list',['limit' => 200])->toArray();
+            $subjects = $this->Subjects->find('list',['limit'=> 200])->toArray();
+            $terms = $this->Terms->find('list',['limit'=> 200])->toArray();
+            $searchTerms = $this->Terms->find('list',['limit'=> 2])->where(['id >= '=> 3 ])->toArray();
+            $this->set(compact('student','sessions','classes','subjects','terms','searchTerms','studentAnnualSubjectPositions','studentPosition','studentAffectiveDispositions','studentPsychomotorSkills'));
+            $this->set('_serialize', ['student']);
+
+            $this->render('view_student_annual_result');
+
+        } else {
+
+            $student = $this->Students->get($session->read('Student.id'), [
+                'contain' => [
+                    'Sessions',
+                    'Classes',
+                    'ClassDemacations',
+                    /*'StudentTermlyPositionOnClassDemacations',*/
+                    'StudentTermlyResults' => [
+                        'conditions' => [
+                            'StudentTermlyResults.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
+                            'StudentTermlyResults.term_id' => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id'))
+                        ]
+                    ],
+                ]
+            ]);
+            // get the student position
+            $studentPosition = $this->Students->StudentTermlyPositions->find('all')
+                ->where(['student_id' => $student->id,
+                    'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
+                    'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id'))
+                ])->first();
+
+            // gets the student subject positions
+            $studentSubjectPositions = $this->Students->StudentTermlySubjectPositions->find('all')
+                ->where(['student_id' => $student->id,
+                    'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
+                    'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id'))
+                ])->combine('subject_id','position')->toArray();
+
+            // get the student subjects positions on class demacation
+            $studentSubjectPositionsOnClassDemacation =  $this->Students->StudentTermlySubjectPositionOnClassDemacations->find('all')
+                ->where(['student_id' => $student->id,
+                    'class_demacation_id' => $student->class_demacation_id,
+                    'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
+                    'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id') )
+                ])->combine('subject_id','position')->toArray();
+
+
+
+            $affectiveDispositionTable = TableRegistry::get('SkillsGradingSystem.StudentsAffectiveDispositionScores');
+            $psychomotorSkillsTable = TableRegistry::get('SkillsGradingSystem.StudentsPsychomotorSkillScores');
+
+            $studentAffectiveDispositions = $affectiveDispositionTable->find('all')
+                ->where(['student_id' => $student->id,
+                    'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
+                    'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id'))
+                ])->contain(['Affectives']);
+
+            $studentPsychomotorSkills = $psychomotorSkillsTable->find('all')
+                    ->where(['student_id' => $student->id,
+                        'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
+                        'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id'))
+                    ])->contain(['Psychomotors']);
+
+
+
+            // loads additional table classes ..
+            $this->loadModel('App.Subjects');
+            $this->loadModel('Terms');
+
+            $sessions = $this->Students->Sessions->find('list',['limit' => 1 ])->where(['id' => $session->read('Student.session_id')])->toArray();
+            $subjects = $this->Subjects->find('list',['limit'=> 200])->toArray();
+            $terms = $this->Terms->find('list',['limit'=> 4])->toArray();
+            $searchTerms = $this->Terms->find('list',['limit'=> 2])->where(['id >= '=> 3 ])->toArray();
+            $this->set(compact('student','sessions','classes','subjects','terms','searchTerms','studentSubjectPositions','studentSubjectPositionsOnClassDemacation','studentPosition','studentAffectiveDispositions','studentPsychomotorSkills'));
+            $this->set('_serialize', ['student']);
+
+            $this->render('view_student_termly_result');
+        }
+    }
+
+    public function checkResult()
+    {
+        if ($this->request->is(['patch', 'post', 'put']) ) {
+            $pin = $this->Students->StudentResultPins->checkPin($this->request->data('pin'));
+            /* checks if the variable contains a value */
+            if($pin != null){
+                if($this->_checkStudentResultAuthenticationKeys($pin->student_id,$pin->session_id,$pin->term_id,$pin->pin)){
+                    // if everything is ok redirect to result page
+                    return $this->redirect(['action' => 'viewStudentResult']);
+                    //$this->Flash->success(__('Good'));
+                }
+            } else {
+                $this->Flash->error(__('Incorrect registration number or Invalid pin'));
+            }
+        }
+        $sessions = $this->Students->Sessions->find('list',['limit' => 200 ]);
+        $this->loadModel('Terms');
+        $terms = $this->Terms->find('list',['limit'=> 4 ]);
+        $this->set(compact('sessions','terms'));
+    }
+
+    protected function _checkStudentResultAuthenticationKeys($student_id,$session_id,$term_id,$pin)
+    {
+        $session = $this->request->session();
+        if(!empty($student_id)){
+            // the submitted number against the stored number
+            if ($student_id === $this->request->data('reg_number')) {
+                // check the session id
+                if ($session_id ===  (int) $this->request->data('session_id')) {
+
+                    if ($term_id == (int) $this->request->data('term_id')) {
+                        $session->write([
+                            'Student.id' => $student_id,
+                            'Student.session_id' => $session_id,
+                            'Student.term_id' => $term_id,
+                        ]); // write to session and return true
+                        return true;
+                    } else {
+                        $this->Flash->error(__('This pin belongs to you but the term is incorrect. Check and try again'));
+                        return false;
+                    }
+                } else {
+                    $this->Flash->error(__('This pin belongs to you but the session is incorrect. Check and try again'));
+                    return false;
+                }
+            }else{
+                $this->Flash->error(__('Incorrect registration number or Invalid pin'));
+                return false;
+            }
+        }else{
+            $student = $this->Students->find()->where(['id'=>$this->request->data('reg_number')])->first();
+            if (!empty($student)){
+                //update student in resultPins table
+                if ($this->Students->StudentResultPins->updateStudentPin($pin,$student->id,$this->request->data('session_id'),$this->request->data('term_id'))) {
+                    $session->write(['Student.id'=> $student->id,
+                        'Student.session_id' => $this->request->data('session_id'),
+                        'Student.term_id' => $this->request->data('term_id'),
+                    ]);
+                    return true;
+                }
+            }
+            else {
+                $this->Flash->error(__('Incorrect registration number or Invalid pin'));
+            }
+            return false;
+        }
+    }
+}
