@@ -52,6 +52,7 @@ class StudentsControllerTest extends IntegrationTestCase
         $this->get('/students');
         $this->assertResponseOk();
         $this->assertResponseContains('Students');
+        $this->assertResponseContains('SMS/2017/003');
     }
 
     public function testIndexQuery()
@@ -121,7 +122,7 @@ class StudentsControllerTest extends IntegrationTestCase
         $this->assertResponseContains('Omebe Johnbosco');
 
         $data = [
-            'id' => 'SAS/2016/001',
+            'id' => 'SMS/2017/001',
             'first_name' => 'Omebe',
             'last_name' => 'Johnbosco Ebuka',
             'date_of_birth' => '2016-10-28',
@@ -141,7 +142,7 @@ class StudentsControllerTest extends IntegrationTestCase
             'status' => 1
         ];
 
-        $this->post('editstudent/SAS/2016/001',$data);
+        $this->post('editstudent/SMS/2017/001',$data);
         $this->assertResponseSuccess();
     }
 
