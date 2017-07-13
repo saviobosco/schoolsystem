@@ -248,6 +248,9 @@ Plugin::load('Settings', ['bootstrap' => true, 'routes' => true]);
 Configure::write('Users.config', ['users']);
 Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
 
+Plugin::load('FrontEnd', ['bootstrap' => false, 'routes' => true]);
+
+Plugin::load('SeanTheme', ['bootstrap' => false, 'routes' => true]);
 
 //Plugin::load('Teacher', ['bootstrap' => false, 'routes' => true]);
 
@@ -258,6 +261,5 @@ use App\Event\Listener;
 
 use Cake\Event\EventManager;
 EventManager::instance()->on(new Listener());
-//Plugin::load('SeanTheme', ['bootstrap' => false, 'routes' => true]);
 
-//Plugin::load('FrontEnd', ['bootstrap' => false, 'routes' => true]);
+

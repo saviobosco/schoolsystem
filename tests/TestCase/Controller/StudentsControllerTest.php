@@ -2,6 +2,7 @@
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\StudentsController;
+use Cake\ORM\TableRegistry;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
@@ -53,17 +54,26 @@ class StudentsControllerTest extends IntegrationTestCase
         $this->assertResponseContains('Students');
     }
 
+    public function testIndexQuery()
+    {
+        $this->get('/students?class_id=3');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Students');
+        $this->assertResponseContains('SMS/2017/003');
+    }
+
     /**
      * Test view method
      *
      * @return void
      */
-    /*public function testView()
+    public function testView()
     {
-        $this->get('viewstudent/SAS/2016/001');
+        $this->get('viewstudent/SMS/2017/001');
         $this->assertResponseOk();
         $this->assertResponseContains('student');
-    }*/
+        $this->assertEquals('Omebe', $this->viewVariable('student.first_name'));
+    }
 
     /**
      * Test add method
@@ -73,7 +83,7 @@ class StudentsControllerTest extends IntegrationTestCase
     public function testAdd()
     {
         $data = [
-            'id' => 'SAS/2016/010',
+            'id' => 'SMS/2016/010',
             'first_name' => 'Lorem ipsum dolor sit amet',
             'last_name' => 'Lorem ipsum dolor sit amet',
             'date_of_birth' => '2016-10-28',
@@ -94,6 +104,9 @@ class StudentsControllerTest extends IntegrationTestCase
         ];
         $this->post('students/add',$data);
         $this->assertResponseSuccess();
+        $articles = TableRegistry::get('Students');
+        $query = $articles->find()->where(['id' => $data['id']]);
+        $this->assertEquals(1, $query->count());
     }
 
     /**
@@ -103,14 +116,14 @@ class StudentsControllerTest extends IntegrationTestCase
      */
     public function testEdit()
     {
-        $this->get('editstudent/SAS/2016/001');
+        $this->get('editstudent/SMS/2017/001');
         $this->assertResponseOk();
-        $this->assertResponseContains('Omebe Johnbosco Chukwuebuka');
+        $this->assertResponseContains('Omebe Johnbosco');
 
         $data = [
             'id' => 'SAS/2016/001',
-            'first_name' => 'Omebe Johnbosco Ebuka',
-            'last_name' => 'Lorem ipsum dolor sit amet',
+            'first_name' => 'Omebe',
+            'last_name' => 'Johnbosco Ebuka',
             'date_of_birth' => '2016-10-28',
             'gender' => 'Lorem ip',
             'state_of_origin' => 'Lorem ipsum dolor sit amet',
