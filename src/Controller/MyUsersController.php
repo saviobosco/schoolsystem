@@ -85,31 +85,6 @@ class MyUsersController extends AppController
     }
 
     /**
-     * Edit method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    /*public function edit($id = null)
-    {
-        $user = $this->MyUsers->get($id);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->MyUsers->patchEntity($user, $this->request->data);
-
-            if ($this->MyUsers->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
-            }
-        }
-        $title = 'Editing Admin '.$user->username;
-        $this->set(compact('user','title'));
-        $this->set('_serialize', ['user']);
-    } */
-
-    /**
      * Delete method
      *
      * @param string|null $id User id.

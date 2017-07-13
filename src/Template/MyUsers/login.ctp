@@ -8,7 +8,7 @@
  * @copyright Copyright 2010 - 2015, Cake Development Corporation (http://cakedc.com)
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-$this->layout = "login";
+$this->layout = "SeanTheme.login";
 use Cake\Core\Configure;
 
 $edittemplates = [
@@ -21,8 +21,8 @@ $this->Form->templates($edittemplates);
 <div class="login login-v2">
     <!-- begin brand -->
     <div class="login-header">
-        <div class="brand">
-            <?= Configure::read('Application.name') ?>
+        <div class="brand img-responsive text-center">
+            <?= $this->html->image(Configure::read('Application.logo')) ?>
         </div>
     </div>
     <!-- end brand -->

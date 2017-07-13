@@ -77,9 +77,8 @@ Router::scope('/', function (RouteBuilder $routes) {
  * Load all plugin routes.  See the Plugin documentation on
  * how to customize the loading of plugin routes.
  */
-Plugin::routes();
 Router::extensions(['xlsx']);
-Router::connect('/login',['controller'=>'Admins','action'=>'login']);
+Router::connect('/login',['controller'=>'MyUsers','action'=>'login']);
 
 Router::extensions(['xlsx']);
 Router::connect('/students_result_pins',['controller'=>'StudentResultPins','action'=>'excel_format']);
@@ -87,5 +86,9 @@ Router::connect('/login',['controller'=>'Admins','action'=>'login']);
 Router::connect('/viewstudent/**',['controller'=>'Students','action'=>'view']);
 Router::connect('/editstudent/**',['controller'=>'Students','action'=>'edit']);
 Router::connect('/deletestudent/**',['controller'=>'Students','action'=>'delete']);
+
+
+Plugin::routes();
+
 
 

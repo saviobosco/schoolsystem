@@ -9,11 +9,18 @@ use Cake\Datasource\Exception\RecordNotFoundException;
  * Students Controller
  *
  * @property \App\Model\Table\StudentsTable $Students
+ * @property \App\Model\Table\StatesTable $States
  */
 class StudentsController extends AppController
 {
 
     use SearchParameterTrait;
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadModel('States');
+    }
     /**
      * Index method
      *
@@ -23,12 +30,13 @@ class StudentsController extends AppController
     {
         if ( empty($this->request->query['class_id'])) {
             $this->paginate = [
-                'limit' => 50,
+                'limit' => 1000,
+                'maxLimit' => 1000,
                 'contain' => ['Sessions', 'Classes'],
-                'conditions' => [
+                /*'conditions' => [
                     'Students.status'   => 1,
                     'Students.graduated'   => 0
-                ],
+                ],*/
                 // Place the result in ascending order according to the class.
                 'order' => [
                     'class_id' => 'asc'
@@ -37,11 +45,12 @@ class StudentsController extends AppController
         }
         else {
             $this->paginate = [
-                'limit' => 50,
+                'limit' => 1000,
+                'maxLimit' => 1000,
                 'contain' => ['Sessions', 'Classes'],
                 'conditions' => [
-                    'Students.status'   => 1,
-                    'Students.graduated'   => 0,
+                   // 'Students.status'   => 1,
+                   // 'Students.graduated'   => 0,
                     'Students.class_id' => $this->_getDefaultValue($this->request->query['class_id'],1)
                 ]
             ];
@@ -64,7 +73,7 @@ class StudentsController extends AppController
     {
         try {
             /**
-             * if no @var $id was specified redirect to the index action
+             * if no argument is specified redirect to the index action
              */
             if (empty($id)) {
                 $this->redirect(['action' => 'index']);
@@ -91,6 +100,7 @@ class StudentsController extends AppController
         $student = $this->Students->newEntity();
         if ($this->request->is('post')) {
             $student = $this->Students->patchEntity($student, $this->request->data);
+
             if ($this->Students->save($student)) {
                 $this->Flash->success(__('The student has been saved.'));
 
@@ -102,7 +112,8 @@ class StudentsController extends AppController
         $sessions = $this->Students->Sessions->find('list', ['limit' => 200]);
         $classes = $this->Students->Classes->find('list', ['limit' => 200]);
         $classDemarcations = $this->Students->ClassDemarcations->find('list', ['limit' => 200]);
-        $this->set(compact('student', 'sessions', 'classes', 'classDemarcations'));
+        $states = $this->States->find('list');
+        $this->set(compact('student', 'sessions', 'classes', 'classDemarcations','states'));
         $this->set('_serialize', ['student']);
     }
 
@@ -117,7 +128,7 @@ class StudentsController extends AppController
     {
         try {
             /**
-             * if no @var $id was specified redirect to the index action
+             * if no argument is specified redirect to the index action
              */
             if (empty($id)) {
                 $this->redirect(['action' => 'index']);
@@ -125,25 +136,27 @@ class StudentsController extends AppController
             $student = $this->Students->get($id, [
                 'contain' => []
             ]);
+
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $student = $this->Students->patchEntity($student, $this->request->data);
+                if ( $this->Students->save($student) ) {
+                    $this->Flash->success(__('The student has been saved.'));
+
+                    //return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error(__('The student could not be saved. Please, try again.'));
+                }
+            }
+            $states = $this->States->find('list');
+            $sessions = $this->Students->Sessions->find('list', ['limit' => 200]);
+            $classes = $this->Students->Classes->find('list', ['limit' => 200]);
+            $classDemarcations = $this->Students->ClassDemarcations->find('list', ['limit' => 200]);
+            $this->set(compact('student', 'sessions', 'classes', 'classDemarcations','states'));
+            $this->set('_serialize', ['student']);
+
         } catch ( RecordNotFoundException $e ) {
             $this->Flash->error('Record Not found');
         }
-
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $student = $this->Students->patchEntity($student, $this->request->data);
-            if ( $this->Students->save($student) ) {
-                $this->Flash->success(__('The student has been saved.'));
-
-                //return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The student could not be saved. Please, try again.'));
-            }
-        }
-        $sessions = $this->Students->Sessions->find('list', ['limit' => 200]);
-        $classes = $this->Students->Classes->find('list', ['limit' => 200]);
-        $classDemarcations = $this->Students->ClassDemarcations->find('list', ['limit' => 200]);
-        $this->set(compact('student', 'sessions', 'classes', 'classDemarcations'));
-        $this->set('_serialize', ['student']);
     }
 
     /**

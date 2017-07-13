@@ -1,3 +1,6 @@
+<?= $this->Plugins->css('bootstrap-datepicker/css/bootstrap-datepicker.css') ?>
+<?= $this->Plugins->css('bootstrap-datepicker/css/bootstrap-datepicker3.css') ?>
+
 <div class="row">
     <div class="col-sm-12">
         <?= $this->Form->create($student,[
@@ -32,11 +35,15 @@
                         ['value' => 'male', 'text' => 'Male',],
                         ['value' => 'female', 'text' => 'Female',]
                     ],['hiddenField'=>false,'label'=>true,'templates'=>['input' => '<input type="{{type}}" name="{{name}}"{{attrs}}/>',]]);
+
+
                     echo $this->Form->input('date_of_birth',[
-                        'minYear' => 1990,
-                        'maxYear' => date('Y'),
+                        /*'minYear' => 1990,
+                        'maxYear' => date('Y'),*/
+                        'id' => 'datepicker-autoClose',
+                        'type' => 'text',
                         'templates'=>[
-                            'inputContainer' => '<div class="form-group date ">{{content}}</div>'
+                            'inputContainer' => '<div class="form-group">{{content}}</div>'
                             ,'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'
                         ]
                     ]);
@@ -44,12 +51,13 @@
                 </div>
             </div>
             <?php
-            echo $this->Form->input('state_of_origin');
+            //echo $this->Form->input('state_of_origin');
+            echo $this->Form->input('state_id',['options'=>$states,'label'=>['text'=>'State of Origin']]);
             echo $this->Form->input('religion');
             echo $this->Form->input('home_residence');
-            echo $this->Form->input('session_id', ['options' => $sessions]);
-            echo $this->Form->input('class_id', ['options' => $classes]);
-            echo $this->Form->input('class_demarcation_id', ['options' => $classDemarcations]);
+            echo $this->Form->input('session_id', ['options' => $sessions,'empty'=>true]);
+            echo $this->Form->input('class_id', ['options' => $classes,'empty'=>true]);
+            echo $this->Form->input('class_demarcation_id', ['options' => $classDemarcations,'empty'=>true]);
 
             echo '<h2>Guardian Information </h2>';
 
@@ -65,4 +73,5 @@
 
     </div>
 </div>
+<?= $this->Plugins->script('bootstrap-datepicker/js/bootstrap-datepicker.js',['block' => true]) ?>
 <?= $this->Site->script('custom/js/fileinput.min.js',['block' => true]) ?>

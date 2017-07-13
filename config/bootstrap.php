@@ -82,7 +82,7 @@ try {
 // Load an environment local configuration file.
 // You can use a file like app_local.php to provide local overrides to your
 // shared configuration.
-//Configure::load('app_local', 'default');
+Configure::load('app_local', 'default');
 
 // When debug = false the metadata cache should last
 // for a very very long time, as we don't want
@@ -96,7 +96,7 @@ if (!Configure::read('debug')) {
  * Set server timezone to UTC. You can change it to another timezone of your
  * choice but using UTC makes time calculations / conversions easier.
  */
-date_default_timezone_set('UTC');
+date_default_timezone_set('Africa/Lagos');
 
 /**
  * Configure the mbstring extension to use the correct encoding.
@@ -248,6 +248,9 @@ Plugin::load('Settings', ['bootstrap' => true, 'routes' => true]);
 Configure::write('Users.config', ['users']);
 Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
 
+Plugin::load('FrontEnd', ['bootstrap' => false, 'routes' => true]);
+
+Plugin::load('SeanTheme', ['bootstrap' => false, 'routes' => true]);
 
 Plugin::load('Teacher', ['bootstrap' => false, 'routes' => true]);
 
@@ -258,6 +261,5 @@ use App\Event\Listener;
 
 use Cake\Event\EventManager;
 EventManager::instance()->on(new Listener());
-Plugin::load('SeanTheme', ['bootstrap' => false, 'routes' => true]);
 
-Plugin::load('FrontEnd', ['bootstrap' => false, 'routes' => true]);
+
