@@ -252,9 +252,9 @@ Plugin::load('FrontEnd', ['bootstrap' => false, 'routes' => true]);
 
 Plugin::load('SeanTheme', ['bootstrap' => false, 'routes' => true]);
 
-//Plugin::load('Teacher', ['bootstrap' => false, 'routes' => true]);
+Plugin::load('Teacher', ['bootstrap' => false, 'routes' => true]);
 
-//Plugin::load('FeesManager', ['bootstrap' => false, 'routes' => true]);
+Plugin::load('FeesManager', ['bootstrap' => false, 'routes' => true]);
 
 // Initializing all binded events
 use App\Event\Listener;
