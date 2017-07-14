@@ -19,8 +19,8 @@
         </testsuite>
         <testsuite name="Result System Plugin">
             <directory>./plugins/ResultSystem/tests/TestCase</directory>
-            <file>./plugins/ResultSystem/tests/TestCase/Controller/StudentTermlyResultsControllerTest.php</file>
-            <file>./plugins/ResultSystem/tests/TestCase/Controller/StudentsControllerTest.php</file>
+            <!--<file>./plugins/ResultSystem/tests/TestCase/Controller/StudentTermlyResultsControllerTest.php</file>
+            <file>./plugins/ResultSystem/tests/TestCase/Controller/StudentsControllerTest.php</file> -->
         </testsuite>
         <testsuite name="Grading System Plugin">
             <directory>./plugins/GradingSystem/tests/TestCase</directory>

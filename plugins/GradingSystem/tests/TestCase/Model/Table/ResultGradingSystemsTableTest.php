@@ -3,7 +3,6 @@ namespace GradingSystem\Test\TestCase\Model\Table;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use GradingSystem\Model\Entity\GradeableTrait;
 use GradingSystem\Model\Table\ResultGradingSystemsTable;
 
 /**
@@ -13,7 +12,6 @@ class ResultGradingSystemsTableTest extends TestCase
 {
 
     // including the gradable trait for testing
-    use GradeableTrait
 
     /**
      * Test subject
@@ -75,6 +73,7 @@ class ResultGradingSystemsTableTest extends TestCase
         $this->markTestIncomplete('Not implemented yet.');
     }
 
+
     public function testGetGrades()
     {
         $grade = $this->ResultGradingSystems->getGrades();
@@ -97,11 +96,11 @@ class ResultGradingSystemsTableTest extends TestCase
             ['score' => '45 - 54', 'grade' => 'P'],
             ['score' => '45 - below', 'grade' => 'F']
         ];
-        $this->assertEquals($this->calculateGrade($totals[0],$grade),'A');
-        $this->assertEquals($this->calculateGrade($totals[1],$grade),'A');
-        $this->assertEquals($this->calculateGrade($totals[2],$grade),'B');
-        $this->assertEquals($this->calculateGrade($totals[3],$grade),'B');
-        $this->assertEquals($this->calculateGrade($totals[4],$grade),'P');
-        $this->assertEquals($this->calculateGrade($totals[5],$grade),'F');
+        $this->assertEquals($this->ResultGradingSystems->calculateGrade($totals[0],$grade),'A');
+        $this->assertEquals($this->ResultGradingSystems->calculateGrade($totals[1],$grade),'A');
+        $this->assertEquals($this->ResultGradingSystems->calculateGrade($totals[2],$grade),'B');
+        $this->assertEquals($this->ResultGradingSystems->calculateGrade($totals[3],$grade),'B');
+        $this->assertEquals($this->ResultGradingSystems->calculateGrade($totals[4],$grade),'P');
+        $this->assertEquals($this->ResultGradingSystems->calculateGrade($totals[5],$grade),'F');
     }
 }

@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use GradingSystem\Model\Entity\GradeableTrait;
 
 /**
  * ResultGradingSystems Model
@@ -21,6 +22,7 @@ use Cake\Validation\Validator;
  */
 class ResultGradingSystemsTable extends Table
 {
+    use GradeableTrait;
 
     /**
      * Initialize method
