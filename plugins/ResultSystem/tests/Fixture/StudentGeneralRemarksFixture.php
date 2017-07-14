@@ -41,8 +41,8 @@ class StudentGeneralRemarksFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'student_id' => 'Lorem ipsum dolor sit amet',
-            'remark' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+            'student_id' => 'SMS/2017/001',
+            'remark' => 'Lorem ulum nunc mattis convallis.',
             'class_id' => 1,
             'term_id' => 1,
             'session_id' => 1
