@@ -4153,7 +4153,7 @@ ul.tagit.inverse li.tagit-choice .tagit-close:focus .ui-icon-close:before {
 
 .error {
     margin: 0 auto;
-    text-align: center;
+    /*text-align: center; */
 }
 .error-code,
 .error-content {

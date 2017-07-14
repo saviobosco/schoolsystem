@@ -10,10 +10,15 @@ namespace ResultSystem\ResultProcessing;
 
 use Cake\ORM\TableRegistry;
 //use Queue\Shell\Task\QueueTask;
+use GradingSystem\Model\Table\ResultGradingSystemsTable;
 use ResultSystem\Model\Entity\GradeableTrait;
 use Cake\I18n\Number;
 
-
+/**
+ * Class TermlyResultProcessing
+ * @package ResultSystem\ResultProcessing
+ *
+ */
 class TermlyResultProcessing
 {
     use GradeableTrait;
@@ -67,10 +72,10 @@ class TermlyResultProcessing
         $termlyPositionTable = TableRegistry::get('StudentTermlyPositions');
 
         // loads the grade and remark table
-        $resultGradingTable = TableRegistry::get('ResultGradingSystems');
+        $resultGradingTable = TableRegistry::get('GradingSystem.ResultGradingSystems');
 
         // gets the grade from the Grade table
-        $grades = $resultGradingTable->find('all')->combine('score','grade')->toArray();
+        $grades = $resultGradingTable->getGrades();
 
 
         // gets the remark from the table .

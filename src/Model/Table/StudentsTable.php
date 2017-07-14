@@ -88,7 +88,11 @@ class StudentsTable extends Table
     {
         $validator
             ->notEmpty('id', 'create')
-            ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->add('id', 'unique', [
+                'rule' => 'validateUnique',
+                'last'=>true,
+                'message' => __( 'Registration Number already exists'),
+                'provider' => 'table']);
 
         $validator
             ->requirePresence('first_name', 'create')
@@ -97,6 +101,14 @@ class StudentsTable extends Table
         $validator
             ->requirePresence('last_name', 'create')
             ->notEmpty('last_name');
+
+        $validator
+            ->requirePresence('session_id', 'create')
+            ->notEmpty('session_id');
+
+        $validator
+            ->requirePresence('class_id', 'create')
+            ->notEmpty('class_id');
 
         $validator
             ->date('date_of_birth')
@@ -153,6 +165,7 @@ class StudentsTable extends Table
 
     public function beforeSave(Event $event, Entity $entity ) {
         if ($entity->isNew()) {
+            if ( empty($entity->session_admitted_id ))
             $entity->session_admitted_id = $entity->session_id ;
         }
         return true;
@@ -182,6 +195,6 @@ class StudentsTable extends Table
      */
     public function beforeMarshal(Event $event, $data )
     {
-        $data['date_of_birth'] = new Date($data['date_of_birth']);
+        $data['date_of_birth'] = new Date($data['date_of_birth']); // Converts the birth date Date properly
     }
 }

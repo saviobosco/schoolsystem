@@ -55,7 +55,8 @@
             echo $this->Form->input('state_id',['options'=>$states,'label'=>['text'=>'State of Origin']]);
             echo $this->Form->input('religion');
             echo $this->Form->input('home_residence');
-            echo $this->Form->input('session_id', ['options' => $sessions,'empty'=>true]);
+            echo $this->Form->input('session_admitted_id', ['options' => $sessions,'empty'=>true,'label'=>'Session Admitted']);
+            echo $this->Form->input('session_id', ['options' => $sessions,'empty'=>true,'label'=>'Current Session']);
             echo $this->Form->input('class_id', ['options' => $classes,'empty'=>true]);
             echo $this->Form->input('class_demarcation_id', ['options' => $classDemarcations,'empty'=>true]);
 

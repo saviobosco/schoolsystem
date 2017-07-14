@@ -13,19 +13,9 @@
 
     <!-- Add any additional test suites you want to run here -->
     <testsuites>
-        <testsuite name="App Test Suite">
+        <testsuite name="GradingSystem Test Suite">
             <directory>./tests/TestCase</directory>
-            <exclude>./tests/TestCase/Model</exclude>
         </testsuite>
-        <testsuite name="Result System Plugin">
-            <directory>./plugins/ResultSystem/tests/TestCase</directory>
-            <file>./plugins/ResultSystem/tests/TestCase/Controller/StudentTermlyResultsControllerTest.php</file>
-            <file>./plugins/ResultSystem/tests/TestCase/Controller/StudentsControllerTest.php</file>
-        </testsuite>
-        <testsuite name="Grading System Plugin">
-            <directory>./plugins/GradingSystem/tests/TestCase</directory>
-        </testsuite>
-        <!-- Add plugin test suites here. -->
     </testsuites>
 
     <!-- Setup a listener for fixtures -->
@@ -39,11 +29,15 @@
         </listener>
     </listeners>
 
-    <!-- Ignore vendor tests in code coverage reports -->
+    <!-- Prevent coverage reports from looking in tests and vendors -->
     <filter>
-        <whitelist>
-            <directory suffix=".php">./src/</directory>
-            <directory suffix=".php">./plugins/*/src/</directory>
-        </whitelist>
+        <blacklist>
+            <directory suffix=".php">./vendor/</directory>
+            <directory suffix=".ctp">./vendor/</directory>
+
+            <directory suffix=".php">./tests/</directory>
+            <directory suffix=".ctp">./tests/</directory>
+        </blacklist>
     </filter>
+
 </phpunit>

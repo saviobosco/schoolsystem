@@ -3,20 +3,20 @@ namespace ResultSystem\Test\TestCase\Model\Table;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use ResultSystem\Model\Table\StudentTermlyPositionOnClassDemacationsTable;
+use ResultSystem\Model\Table\StudentTermlyPositionOnClassDemarcationsTable;
 
 /**
- * ResultSystem\Model\Table\StudentTermlyPositionOnClassDemacationsTable Test Case
+ * ResultSystem\Model\Table\StudentTermlyPositionOnClassDemarcationsTable Test Case
  */
-class StudentTermlyPositionOnClassDemacationsTableTest extends TestCase
+class StudentTermlyPositionOnClassDemarcationsTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \ResultSystem\Model\Table\StudentTermlyPositionOnClassDemacationsTable
+     * @var \ResultSystem\Model\Table\StudentTermlyPositionOnClassDemarcationsTable
      */
-    public $StudentTermlyPositionOnClassDemacations;
+    public $StudentTermlyPositionOnClassDemarcations;
 
     /**
      * Fixtures
@@ -24,16 +24,17 @@ class StudentTermlyPositionOnClassDemacationsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.result_system.student_termly_position_on_class_demacations',
+        'plugin.result_system.student_termly_position_on_class_demarcations',
         'plugin.result_system.students',
+        'plugin.result_system.sessions',
+        'plugin.result_system.session_admitted',
         'plugin.result_system.classes',
-        'plugin.result_system.class_demacations',
-        'plugin.result_system.terms',
-        'plugin.result_system.student_termly_results',
-        'plugin.result_system.subjects',
         'plugin.result_system.blocks',
+        'plugin.result_system.class_demarcations',
         'plugin.result_system.student_annual_results',
-        'plugin.result_system.sessions'
+        'plugin.result_system.student_termly_results',
+        'plugin.result_system.session_graduated',
+        'plugin.result_system.terms'
     ];
 
     /**
@@ -44,8 +45,8 @@ class StudentTermlyPositionOnClassDemacationsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('StudentTermlyPositionOnClassDemacations') ? [] : ['className' => 'ResultSystem\Model\Table\StudentTermlyPositionOnClassDemacationsTable'];
-        $this->StudentTermlyPositionOnClassDemacations = TableRegistry::get('StudentTermlyPositionOnClassDemacations', $config);
+        $config = TableRegistry::exists('StudentTermlyPositionOnClassDemarcations') ? [] : ['className' => 'ResultSystem\Model\Table\StudentTermlyPositionOnClassDemarcationsTable'];
+        $this->StudentTermlyPositionOnClassDemarcations = TableRegistry::get('StudentTermlyPositionOnClassDemarcations', $config);
     }
 
     /**
@@ -55,7 +56,7 @@ class StudentTermlyPositionOnClassDemacationsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->StudentTermlyPositionOnClassDemacations);
+        unset($this->StudentTermlyPositionOnClassDemarcations);
 
         parent::tearDown();
     }

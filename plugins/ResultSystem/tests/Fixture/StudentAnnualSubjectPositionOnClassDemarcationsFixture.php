@@ -4,10 +4,10 @@ namespace ResultSystem\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * StudentAnnualSubjectPositionOnClassDemacationsFixture
+ * StudentAnnualSubjectPositionOnClassDemarcationsFixture
  *
  */
-class StudentAnnualSubjectPositionOnClassDemacationsFixture extends TestFixture
+class StudentAnnualSubjectPositionOnClassDemarcationsFixture extends TestFixture
 {
 
     /**
@@ -20,10 +20,10 @@ class StudentAnnualSubjectPositionOnClassDemacationsFixture extends TestFixture
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'subject_id' => ['type' => 'integer', 'length' => 3, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'student_id' => ['type' => 'string', 'length' => 30, 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'total' => ['type' => 'integer', 'length' => 4, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'position' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'total' => ['type' => 'float', 'length' => null, 'precision' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => ''],
+        'position' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'class_id' => ['type' => 'integer', 'length' => 3, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'class_demacation_id' => ['type' => 'integer', 'length' => 3, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'class_demarcation_id' => ['type' => 'integer', 'length' => 3, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'session_id' => ['type' => 'integer', 'length' => 3, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
@@ -48,7 +48,7 @@ class StudentAnnualSubjectPositionOnClassDemacationsFixture extends TestFixture
             'total' => 1,
             'position' => 1,
             'class_id' => 1,
-            'class_demacation_id' => 1,
+            'class_demarcation_id' => 1,
             'session_id' => 1
         ],
     ];

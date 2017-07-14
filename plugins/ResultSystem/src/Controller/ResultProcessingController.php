@@ -14,6 +14,13 @@ use ResultSystem\ResultProcessing\TermlyResultProcessing;
 use ResultSystem\ResultProcessing\ClassCount;
 use ResultSystem\Model\Entity\GradeableTrait;
 
+/**
+ * Students Controller
+ *
+ * @property \App\Model\Table\SessionsTable $Sessions
+ * @property \App\Model\Table\ClassesTable $Classes
+ * @property \ResultSystem\Model\Table\TermsTable $Terms
+ */
 class ResultProcessingController extends AppController
 {
     public function initialize()
@@ -30,22 +37,15 @@ class ResultProcessingController extends AppController
             //debug($this->request->data); exit;
 
             $this->processResult($this->request->data['class_id'],$this->request->data['term_id'],$this->request->data['session_id'],$this->request->data['no_of_subjects']);
-            /*if ($this->QueuedTasks->createJob('ResultProcessing',$this->request->data)) {
-
-                $this->Flash->greatSuccess(__('The task was successfully added'));
-            } else {
-                $this->Flash->error(__('The student could not be saved. Please, try again.'));
-            }*/
-
         }
 
         $this->loadModel('App.Sessions');
         $this->loadModel('App.Classes');
         $this->loadModel('Terms');
 
-        $sessions = $this->Sessions->find('list',['limit' => 200]);
-        $classes = $this->Classes->find('list',['limit' => 10 ]);
-        $terms = $this->Terms->find('list',['limit' => 3 ]);
+        $sessions = $this->Sessions->find('list');
+        $classes = $this->Classes->find('list');
+        $terms = $this->Terms->find('list');
         $this->set(compact('sessions','classes','terms'));
     }
 

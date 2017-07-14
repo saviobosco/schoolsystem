@@ -66,13 +66,19 @@
                 </ul>
             </li>
             <li class="has-sub">
+                <?= $this->Html->link('<b class="caret pull-right"></b>'.__('Grading System'),'javascript:;',['escape'=>false]) ?>
+                <ul class="sub-menu">
+                    <li><?= $this->Html->link(__('List All'),['plugin'=>'GradingSystem','controller'=>'ResultGradingSystems','action'=>'index'],['escape'=>false]) ?></li>
+                    <li><?= $this->Html->link(__('Add row'),['plugin'=>'GradingSystem','controller'=>'ResultGradingSystems','action'=>'add'],['escape'=>false]) ?></li>
+                </ul>
+            </li>
+            <li class="has-sub">
                 <?= $this->Html->link('<b class="caret pull-right"></b>'.__('Result System'),'javascript:;',['escape'=>false]) ?>
                 <ul class="sub-menu">
                     <li><?= $this->Html->link(__('Settings'),['plugin'=>'ResultSystem','controller'=>'Dashboard','action'=>'settings'],['escape'=>false]) ?></li>
                     <li><?= $this->Html->link(__('Students'),['plugin'=>'ResultSystem','controller'=>'Students','action'=>'index'],['escape'=>false]) ?></li>
                     <li><?= $this->Html->link(__('Subjects'),['plugin'=>'ResultSystem','controller'=>'Subjects','action'=>'index'],['escape'=>false]) ?></li>
                     <li><?= $this->Html->link(__('Upload Result'),['plugin'=>'ResultSystem','controller'=>'StudentTermlyResults','action'=>'uploadResult']) ?></li>
-                    <li><?= $this->Html->link(__('Grading System'),['plugin'=>'ResultSystem','controller'=>'ResultGradingSystems','action'=>'index']) ?></li>
                     <li><?= $this->Html->link(__('Result Processing'),['plugin'=>'ResultSystem','controller'=>'ResultProcessing','action'=>'index']) ?></li>
                 </ul>
             </li>

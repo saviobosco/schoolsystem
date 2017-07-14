@@ -15,6 +15,7 @@ use Cake\Utility\Inflector ;
                 </div>
 
                 <div class="pull-right">
+                    <?= $this->Html->link('Add Student',['plugin' => null,'controller'=>'Students','action'=>'add'],['escape'=>false,'class'=>'p-r-10']) ?>
                     <?= $this->Html->link('View Graduated Students',['plugin' => null,'controller'=>'Students','action'=>'graduatedStudents'],['escape'=>false,'class'=>'p-r-10']) ?>
                     <?= $this->Html->link('View Unactive Students',['plugin' => null,'controller'=>'Students','action'=>'unActiveStudents'],['escape'=>false,'class'=>'']) ?>
 

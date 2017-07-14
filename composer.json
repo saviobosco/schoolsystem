@@ -44,7 +44,8 @@
             "Teacher\\": "./plugins/Teacher/src",
             "FeesManager\\": "./plugins/FeesManager/src",
             "SeanTheme\\": "./plugins/SeanTheme/src",
-            "FrontEnd\\": "./plugins/FrontEnd/src"
+            "FrontEnd\\": "./plugins/FrontEnd/src",
+            "GradingSystem\\": "./plugins/GradingSystem/src"
         }
     },
     "autoload-dev": {
@@ -57,7 +58,8 @@
             "Teacher\\Test\\": "./plugins/Teacher/tests",
             "FeesManager\\Test\\": "./plugins/FeesManager/tests",
             "SeanTheme\\Test\\": "./plugins/SeanTheme/tests",
-            "FrontEnd\\Test\\": "./plugins/FrontEnd/tests"
+            "FrontEnd\\Test\\": "./plugins/FrontEnd/tests",
+            "GradingSystem\\Test\\": "./plugins/GradingSystem/tests"
         }
     },
     "scripts": {
