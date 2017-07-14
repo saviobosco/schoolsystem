@@ -17,13 +17,13 @@ class SubjectsControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'plugin.result_system.subjects',
-        'plugin.result_system.blocks',
-        'plugin.result_system.classes',
-        'plugin.result_system.class_demacations',
+        'app.result_system.blocks',
+        'app.result_system.classes',
+        'plugin.result_system.class_demarcations',
         'plugin.result_system.student_annual_results',
         'plugin.result_system.student_termly_results',
-        'plugin.result_system.students',
-        'plugin.result_system.sessions'
+        'app.result_system.students',
+        'app.result_system.sessions'
     ];
 
     /**
