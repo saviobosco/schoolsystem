@@ -55,33 +55,71 @@ class StudentsTableTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * Test initialize method
-     *
-     * @return void
-     */
-    public function testInitialize()
+    public function testFindUnActiveStudents()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $query = $this->Students->find('UnActiveStudents');
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
+        $result = $query->hydrate(false)->toArray();
+        $expected = [
+            'id' => 'SMS/2017/004',
+            'first_name' => 'Lorem ipsum dolor sit amet',
+            'last_name' => 'Lorem ipsum dolor sit amet',
+            'date_of_birth' => '2017-07-13',
+            'gender' => 'Lorem ip',
+            'state_of_origin' => 'Lorem ipsum dolor sit amet',
+            'religion' => 'Lorem ipsum dolor sit amet',
+            'home_residence' => 'Lorem ipsum dolor sit amet',
+            'guardian' => 'Lorem ipsum dolor sit amet',
+            'relationship_to_guardian' => 'Lorem ipsum dolor sit amet',
+            'occupation_of_guardian' => 'Lorem ipsum dolor sit amet',
+            'guardian_phone_number' => 'Lorem ipsum d',
+            'session_id' => 'Lorem ips',
+            'class_id' => 3,
+            'class_demarcation_id' => 1,
+            'photo' => 'Lorem ipsum dolor sit amet',
+            'photo_dir' => 'Lorem ipsum dolor sit amet',
+            'created' => '2017-07-13 04:17:58',
+            'modified' => '2017-07-13 04:17:58',
+            'status' => 0,
+            'session_admitted_id' => 1,
+            'graduated' => 0,
+            'graduated_session_id' => null,
+            'state_id' => 1
+        ];
+        $this->assertEquals($expected, $result);
     }
 
-    /**
-     * Test validationDefault method
-     *
-     * @return void
-     */
-    public function testValidationDefault()
+    public function testFindGraduatedStudents()
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $query = $this->Students->find('GraduatedStudents');
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
+        $result = $query->hydrate(false)->toArray();
+        $expected = [
+            'id' => 'SMS/2017/005',
+            'first_name' => 'Lorem ipsum dolor sit amet',
+            'last_name' => 'Lorem ipsum dolor sit amet',
+            'date_of_birth' => '2017-07-13',
+            'gender' => 'Lorem ip',
+            'state_of_origin' => 'Lorem ipsum dolor sit amet',
+            'religion' => 'Lorem ipsum dolor sit amet',
+            'home_residence' => 'Lorem ipsum dolor sit amet',
+            'guardian' => 'Lorem ipsum dolor sit amet',
+            'relationship_to_guardian' => 'Lorem ipsum dolor sit amet',
+            'occupation_of_guardian' => 'Lorem ipsum dolor sit amet',
+            'guardian_phone_number' => 'Lorem ipsum d',
+            'session_id' => 'Lorem ips',
+            'class_id' => 3,
+            'class_demarcation_id' => 1,
+            'photo' => 'Lorem ipsum dolor sit amet',
+            'photo_dir' => 'Lorem ipsum dolor sit amet',
+            'created' => '2017-07-13 04:17:58',
+            'modified' => '2017-07-13 04:17:58',
+            'status' => 1,
+            'session_admitted_id' => 1,
+            'graduated' => 1,
+            'graduated_session_id' => 1,
+            'state_id' => 1
+        ];
+        $this->assertEquals($expected, $result);
     }
 }
