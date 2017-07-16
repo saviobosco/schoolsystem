@@ -37,6 +37,7 @@ class ResultProcessingControllerTest extends IntegrationTestCase
         'plugin.result_system.student_termly_subject_positions',
         'plugin.result_system.student_termly_subject_position_on_class_demarcations',
         'plugin.result_system.student_class_counts',
+        'plugin.result_system.subject_class_averages',
     ];
 
     public function setUp()
