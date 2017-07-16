@@ -26,7 +26,17 @@ class ResultProcessingControllerTest extends IntegrationTestCase
         'app.sessions',
         'app.classes',
         'app.states',
-        'app.class_demarcations'
+        'app.class_demarcations',
+        'app.subjects',
+        'plugin.grading_system.result_grading_systems',
+        'plugin.result_system.student_annual_results',
+        'plugin.result_system.terms',
+        'plugin.result_system.student_termly_results',
+        'plugin.result_system.student_termly_positions',
+        'plugin.result_system.student_termly_position_on_class_demarcations',
+        'plugin.result_system.student_termly_subject_positions',
+        'plugin.result_system.student_termly_subject_position_on_class_demarcations',
+        'plugin.result_system.student_class_counts',
     ];
 
     public function setUp()

@@ -61,15 +61,15 @@ class ResultProcessingController extends AppController
 
             $termlyResultProcessing->calculateTermlyTotalAndAverage($class_id,$term_id,$session_id,$no_of_subjects);
         // check is the cal_student_position is checked and calculate student positions
-        if ($this->request->data['cal_student_position']) {
+        if (isset($this->request->data['cal_student_position'])) {
             $termlyResultProcessing->calculateTermlyPosition($class_id,$term_id,$session_id);
         }
 
-        if ($this->request->data['cal_subject_position']) {
+        if (isset($this->request->data['cal_subject_position'])) {
             $termlyResultProcessing->calculateStudentTermlySubjectPosition($class_id,$term_id,$session_id);
         }
 
-        if ($this->request->data['cal_class_average']) {
+        if (isset($this->request->data['cal_class_average'])) {
             $termlyResultProcessing->calculateSubjectClassAverage($class_id,$term_id,$session_id);
         }
 

@@ -15,16 +15,16 @@ class SubjectsControllerTest extends IntegrationTestCase
      *
      * @var array
      */
-    public $fixtures = [
-        'plugin.result_system.subjects',
-        'app.result_system.blocks',
-        'app.result_system.classes',
-        'plugin.result_system.class_demarcations',
+    /*public $fixtures = [
+        'app.subjects',
+        'app.blocks',
+        'app.classes',
+        'app.class_demarcations',
         'plugin.result_system.student_annual_results',
         'plugin.result_system.student_termly_results',
-        'app.result_system.students',
-        'app.result_system.sessions'
-    ];
+        'app.students',
+        'app.sessions'
+    ]; */
 
     /**
      * Test index method

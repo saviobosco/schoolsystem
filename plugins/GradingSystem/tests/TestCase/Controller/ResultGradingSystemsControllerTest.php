@@ -87,7 +87,7 @@ class ResultGradingSystemsControllerTest extends IntegrationTestCase
      */
     public function testEdit()
     {
-        $this->get('/grading-system/result-grading-systems/view/1');
+        $this->get('/grading-system/result-grading-systems/edit/1');
         $this->assertResponseOk();
         $this->assertResponseContains('Distinction');
 
@@ -101,7 +101,7 @@ class ResultGradingSystemsControllerTest extends IntegrationTestCase
             'modified' => '2017-07-13 14:09:37'
         ];
 
-        $this->post('/grading-system/result-grading-systems/view/1',$data);
+        $this->post('/grading-system/result-grading-systems/edit/1',$data);
         $this->assertResponseSuccess();
     }
 
@@ -112,7 +112,7 @@ class ResultGradingSystemsControllerTest extends IntegrationTestCase
      */
     public function testDelete()
     {
-        $this->delete('/grading-system/result-grading-systems/view/1');
+        $this->delete('/grading-system/result-grading-systems/delete/1');
         $this->assertResponseSuccess();
         $this->assertRedirect();
     }
