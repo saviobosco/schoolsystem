@@ -195,6 +195,8 @@ class StudentsTable extends Table
      */
     public function beforeMarshal(Event $event, $data )
     {
-        $data['date_of_birth'] = new Date($data['date_of_birth']); // Converts the birth date Date properly
+        if ( !empty($data['date_of_birth'] )) {
+            $data['date_of_birth'] = new Date($data['date_of_birth']); // Converts the birth date Date properly
+        }
     }
 }
