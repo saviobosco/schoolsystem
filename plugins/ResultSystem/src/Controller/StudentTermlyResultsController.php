@@ -111,7 +111,7 @@ class StudentTermlyResultsController extends AppController
                             'session_id' => $this->request->data['session_id']
                         ]);
 
-                    $datas = $this->Import->prepareEntityData($this->request->data['result']['tmp_name'],['worksheet'=>'Sheet1']);
+                    $datas = $this->ImportExcel->prepareEntityData($this->request->data['result']['tmp_name'],['worksheet'=>'Sheet1']);
 
 
                     $formattedResult = $this->ResultSystem->formatArrayData($datas[0],$this->request->data['type'],

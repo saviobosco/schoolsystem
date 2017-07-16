@@ -45,7 +45,8 @@
             "FeesManager\\": "./plugins/FeesManager/src",
             "SeanTheme\\": "./plugins/SeanTheme/src",
             "FrontEnd\\": "./plugins/FrontEnd/src",
-            "GradingSystem\\": "./plugins/GradingSystem/src"
+            "GradingSystem\\": "./plugins/GradingSystem/src",
+            "Saviobosco\\Excel\\": "./plugins/Saviobosco/Excel/src"
         }
     },
     "autoload-dev": {
@@ -59,7 +60,8 @@
             "FeesManager\\Test\\": "./plugins/FeesManager/tests",
             "SeanTheme\\Test\\": "./plugins/SeanTheme/tests",
             "FrontEnd\\Test\\": "./plugins/FrontEnd/tests",
-            "GradingSystem\\Test\\": "./plugins/GradingSystem/tests"
+            "GradingSystem\\Test\\": "./plugins/GradingSystem/tests",
+            "Saviobosco\\Excel\\Test\\": "./plugins/Saviobosco/Excel/tests"
         }
     },
     "scripts": {

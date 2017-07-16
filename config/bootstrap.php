@@ -263,3 +263,5 @@ use Cake\Event\EventManager;
 EventManager::instance()->on(new Listener());
 
 Plugin::load('GradingSystem', ['bootstrap' => false, 'routes' => true]);
+
+Plugin::load('Saviobosco/Excel', ['bootstrap' => false, 'routes' => true]);
