@@ -96,6 +96,7 @@ class StudentsTableTest extends TestCase
         $query = $this->Students->find('GraduatedStudents');
         $this->assertInstanceOf('Cake\ORM\Query', $query);
         $result = $query->hydrate(false)->toArray();
+        debug($result);
         $expected = [
             0 => [
                 'id' => 'SMS/2017/005',
