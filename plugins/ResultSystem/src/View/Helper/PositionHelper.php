@@ -19,7 +19,7 @@ class PositionHelper extends Helper
             return '';
         }
         // implementing in the case of 11,12,13
-        if ( count($position) > 10 ) {
+        if ( $position > 10 ) {
             $lastTwoPositionDigit = substr((int)$position, -1);
 
             if ( $lastTwoPositionDigit === 11 || $lastTwoPositionDigit === 12 || $lastTwoPositionDigit === 13) {
