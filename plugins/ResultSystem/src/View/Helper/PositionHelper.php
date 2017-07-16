@@ -18,20 +18,26 @@ class PositionHelper extends Helper
         if (empty($position)) {
             return '';
         }
-        switch ($position) {
-            case 1 :
-                return $position .'st';
-                break;
-            case 2 :
-                return $position.'nd';
-                break;
-            case 3 :
-                return $position.'rd';
-                break;
-            default :
+        // implementing in the case of 11,12,13
+        if ( count($position) > 10 ) {
+            $lastTwoPositionDigit = substr((int)$position, -1);
+
+            if ( $lastTwoPositionDigit === 11 || $lastTwoPositionDigit === 12 || $lastTwoPositionDigit === 13) {
                 return $position.'th';
+            }
         }
 
+        $lastPositionDigit = substr((int)$position, -1);
+
+        if ( $lastPositionDigit === 1) {
+            return $position .'st';
+        } elseif ( $lastPositionDigit === 2 ) {
+            return $position.'nd';
+        } elseif ( $lastPositionDigit === 3 ) {
+            return $position.'rd';
+        } else {
+            return $position.'th';
+        }
     }
 
 }

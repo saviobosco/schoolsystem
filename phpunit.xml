@@ -15,7 +15,8 @@
     <testsuites>
         <testsuite name="App Test Suite">
             <directory>./tests/TestCase</directory>
-            <!-- <exclude>./tests/TestCase/Model</exclude> -->
+            <file>./tests/TestCase/Model/StudentsTableTest.php</file>
+            <exclude>./tests/TestCase/Model</exclude>
         </testsuite>
         <testsuite name="Result System Plugin">
             <directory>./plugins/ResultSystem/tests/TestCase</directory>
