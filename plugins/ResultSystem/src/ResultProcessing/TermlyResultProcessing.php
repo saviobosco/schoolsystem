@@ -212,6 +212,11 @@ class TermlyResultProcessing
 
             $position = 1;
 
+            // If there are no students under the subject .. jump to the next subject
+            if (empty($studentStudyingTheSubject ) ) {
+                continue;
+            }
+
             foreach ($studentsUnderTheSubject as $key => $value ) {
 
                 foreach ( $value as $studentStudyingTheSubject ) {
