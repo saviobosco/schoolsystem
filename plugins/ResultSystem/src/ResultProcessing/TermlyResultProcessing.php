@@ -213,7 +213,7 @@ class TermlyResultProcessing
             $position = 1;
 
             // If there are no students under the subject .. jump to the next subject
-            if (empty($studentStudyingTheSubject ) ) {
+            if (empty($studentsUnderTheSubject ) ) {
                 continue;
             }
 
