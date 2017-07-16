@@ -212,7 +212,8 @@ class TermlyResultProcessing
 
             $position = 1;
 
-            debug($studentsUnderTheSubject); exit;
+            debug($subject);
+            debug($studentsUnderTheSubject);
 
             // If there are no students under the subject .. jump to the next subject
             if ( count($studentsUnderTheSubject) === 0 ) {
