@@ -13,10 +13,10 @@
 
     <!-- Add any additional test suites you want to run here -->
     <testsuites>
-        <!--<testsuite name="App Test Suite">
+        <testsuite name="App Test Suite">
             <directory>./tests/TestCase</directory>
-            <exclude>./tests/TestCase/Model</exclude>
-        </testsuite> -->
+            <!-- <exclude>./tests/TestCase/Model</exclude> -->
+        </testsuite>
         <testsuite name="Result System Plugin">
             <directory>./plugins/ResultSystem/tests/TestCase</directory>
             <exclude>./plugins/ResultSystem/tests/TestCase/Model</exclude>
