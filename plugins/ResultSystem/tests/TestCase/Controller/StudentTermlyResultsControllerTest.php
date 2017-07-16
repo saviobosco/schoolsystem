@@ -59,20 +59,20 @@ class StudentTermlyResultsControllerTest extends IntegrationTestCase
         ];
         $this->post('result-system/student-termly-results/upload-result',$data);
         $this->assertResponseOk();
-        //$this->assertResponseContains('3 records were successfully read and uploaded');
+        $this->assertResponseContains('3 records were successfully read and uploaded');
     }
 
-    /*public function testUploadResultFailedBadSubjectNaming()
+    public function testUploadResultFailedBadColumnOrder()
     {
         $data = [
-            'type' => 'in_House_Assessment',
+            'type' => 'second_test',
             'class_id' => '1',
             'term_id' => '1',
             'session_id' => '1',
             'result' => [
-                'name' => 'first_test.xlsx',
+                'name' => 'second_test.xlsx',
                 'type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                'tmp_name' => '/home/saviobosco/SCHOOL-SYSTEM-JSS1-DATA (copy)/schoolsystem_first_test.xlsx',
+                'tmp_name' => '/home/saviobosco/SCHOOL-SYSTEM-JSS1-DATA (copy)/schoolsystem_second_test.xlsx',
                 'error' => '0',
                 'size' => '6973'
             ]
@@ -80,6 +80,6 @@ class StudentTermlyResultsControllerTest extends IntegrationTestCase
         ];
         $this->post('result-system/student-termly-results/upload-result',$data);
         $this->assertResponseOk();
-        $this->assertResponseContains('The result could not be uploaded because the following subjects does not exist in the database ');
-    }*/
+        $this->assertResponseContains('The Excel file is not arranged in the proper format. The first column head is student_id and not ');
+    }
 }
