@@ -26,10 +26,7 @@ class PositionHelper extends Helper
                 return $position.'th';
             }
         }
-
         $lastPositionDigit = (int) substr($position, -1);
-
-        var_dump($lastPositionDigit);
 
         if ( $lastPositionDigit === 1) {
             return $position .'st';

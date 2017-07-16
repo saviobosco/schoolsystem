@@ -35,7 +35,7 @@ class PositionHelperTest extends TestCase
         $this->assertEquals('2nd',$this->helper->formatPositionOutput(2));
         $this->assertEquals('3rd',$this->helper->formatPositionOutput(3));
         $this->assertEquals('21st',$this->helper->formatPositionOutput(21));
-        $this->assertEquals('4th',$this->helper->formatPositionOutput(24));
+        $this->assertEquals('24th',$this->helper->formatPositionOutput(24));
         $this->assertEquals('4th',$this->helper->formatPositionOutput(4));
         $this->assertEquals('11th',$this->helper->formatPositionOutput(11));
         $this->assertEquals('112th',$this->helper->formatPositionOutput(112));
