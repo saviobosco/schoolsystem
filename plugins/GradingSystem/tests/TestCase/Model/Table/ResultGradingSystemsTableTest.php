@@ -77,7 +77,7 @@ class ResultGradingSystemsTableTest extends TestCase
     public function testGetGrades()
     {
         $grade = $this->ResultGradingSystems->getGrades();
-        $this->assertCount(count($grade),4);
+        $this->assertCount($grade,4);
         $expected = [
             ['score' => '75 - above', 'grade' => 'A'],
             ['score' => '55 - 74', 'grade' => 'B'],
