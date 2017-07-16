@@ -90,17 +90,17 @@ class ResultGradingSystemsTableTest extends TestCase
     public function testCalculateGrade()
     {
         $totals = [100,75,74.55,55,54.5,43];
-        $grade = $expected = [
+        $grades = [
             ['score' => '75 - above', 'grade' => 'A'],
             ['score' => '55 - 74', 'grade' => 'B'],
             ['score' => '45 - 54', 'grade' => 'P'],
             ['score' => '45 - below', 'grade' => 'F']
         ];
-        $this->assertEquals($this->ResultGradingSystems->calculateGrade($totals[0],$grade),'A');
-        $this->assertEquals($this->ResultGradingSystems->calculateGrade($totals[1],$grade),'A');
-        $this->assertEquals($this->ResultGradingSystems->calculateGrade($totals[2],$grade),'B');
-        $this->assertEquals($this->ResultGradingSystems->calculateGrade($totals[3],$grade),'B');
-        $this->assertEquals($this->ResultGradingSystems->calculateGrade($totals[4],$grade),'P');
-        $this->assertEquals($this->ResultGradingSystems->calculateGrade($totals[5],$grade),'F');
+        $this->assertEquals('A',$this->ResultGradingSystems->calculateGrade($totals[0],$grades));
+        $this->assertEquals('A',$this->ResultGradingSystems->calculateGrade($totals[1],$grades));
+        $this->assertEquals('B',$this->ResultGradingSystems->calculateGrade($totals[2],$grades));
+        $this->assertEquals('B',$this->ResultGradingSystems->calculateGrade($totals[3],$grades));
+        $this->assertEquals('P',$this->ResultGradingSystems->calculateGrade($totals[4],$grades));
+        $this->assertEquals('F',$this->ResultGradingSystems->calculateGrade($totals[5],$grades));
     }
 }
