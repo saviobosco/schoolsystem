@@ -25,45 +25,48 @@ class ResultSystemComponent extends Component
      * @return array
      */
     public function formatArrayData($arrayData,$type,$class_id,$term_id,$session_id,$result=[]){
-        // find the subject list .
-        // checks to make sure the array is in the correct format.
-        $arrayDataKeys = array_keys($arrayData[0]); // gets the array row data keys eg. ['0'=>'student_id','1'=>'MATHEMATICS','2'=>'ENGLISH']
 
-        // checks if the first array key is student_id .
-        // else return the $result['format_error']
-        if (!array_key_exists('student_id',$arrayData[0])) {
-            //debug(array_keys($arrayData[0])); exit;
-            $result['format_error'] = 'The Excel file is not arranged in the proper format. The first column head is student_id and not '.$arrayDataKeys[0] .'. Please correct it.';
-            return $result;
-        }
+        if (!empty($arrayData) && is_array($arrayData)) {
+            // find the subject list .
+            // checks to make sure the array is in the correct format.
+            $arrayDataKeys = array_keys($arrayData[0]); // gets the array row data keys eg. ['0'=>'student_id','1'=>'MATHEMATICS','2'=>'ENGLISH']
 
-        $subjectList = $this->_findSubjectIdUsingClassBlockId($class_id);
+            // checks if the first array key is student_id .
+            // else return the $result['format_error']
+            if (!array_key_exists('student_id',$arrayData[0])) {
+                //debug(array_keys($arrayData[0])); exit;
+                $result['format_error'] = 'The Excel file is not arranged in the proper format. The first column head is student_id and not '.$arrayDataKeys[0] .'. Please correct it.';
+                return $result;
+            }
 
-        for ($num = 1; $num < count($arrayDataKeys); $num++ ) {
-            $this->_findSubjectIdUsingSubmittedKey($arrayDataKeys[$num],$subjectList,$result);
-        }
-        if (isset($result['error'])) {
-            return $result;
-        }
+            $subjectList = $this->_findSubjectIdUsingClassBlockId($class_id);
 
-        array_walk($arrayData, function($data) use(&$result,$type,$class_id,$term_id,$session_id,$subjectList){
-            if(is_array($data)){
-                foreach($data as $key=>$item){
-                    if(preg_match("#(^[A-Z])#", $key)){
-                        if ( $data[$key] !== '' and $data[$key] !== null ) {
-                            $result['students_data'][] = [
-                                'student_id'    =>$data['student_id'],
-                                'subject_id'     => $subjectList[$key] /*$this->_findSubjectIdUsingSubmittedKey($key,$subjectList,$result) */,
-                                $type        => $data[$key],
-                                'class_id'  => $class_id,
-                                'term_id'   => $term_id,
-                                'session_id' => $session_id
-                            ];
+            for ($num = 1; $num < count($arrayDataKeys); $num++ ) {
+                $this->_findSubjectIdUsingSubmittedKey($arrayDataKeys[$num],$subjectList,$result);
+            }
+            if (isset($result['error'])) {
+                return $result;
+            }
+
+            array_walk($arrayData, function($data) use(&$result,$type,$class_id,$term_id,$session_id,$subjectList){
+                if(is_array($data)){
+                    foreach($data as $key=>$item){
+                        if(preg_match("#(^[A-Z])#", $key)){
+                            if ( $data[$key] !== '' and $data[$key] !== null ) {
+                                $result['students_data'][] = [
+                                    'student_id'    =>$data['student_id'],
+                                    'subject_id'     => $subjectList[$key] /*$this->_findSubjectIdUsingSubmittedKey($key,$subjectList,$result) */,
+                                    $type        => $data[$key],
+                                    'class_id'  => $class_id,
+                                    'term_id'   => $term_id,
+                                    'session_id' => $session_id
+                                ];
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
         return $result;
     }
 
