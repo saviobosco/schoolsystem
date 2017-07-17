@@ -8,6 +8,9 @@ use SkillsGradingSystem\Controller\AppController;
  * Students Controller
  *
  * @property \SkillsGradingSystem\Model\Table\StudentsTable $Students
+ * @property \SkillsGradingSystem\Model\Table\AffectiveDispositionsTable $AffectiveDispositions
+ * @property \SkillsGradingSystem\Model\Table\PsychomotorSkillsTable $PsychomotorSkills
+ * @property \ResultSystem\Model\Table\TermsTable $Terms
  */
 class StudentsController extends AppController
 {
@@ -103,27 +106,41 @@ class StudentsController extends AppController
     public function add($id = null)
     {
         $student = $this->Students->get($id, [
-            'contain' => ['StudentsAffectiveDispositionScores','StudentsPsychomotorSkillScores']
+            'contain' => [
+                'StudentsAffectiveDispositionScores' => [
+                    'conditions' => [
+                        'StudentsAffectiveDispositionScores.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                        'StudentsAffectiveDispositionScores.class_id' => @$this->_getDefaultValue($this->request->query['class_id'],1),
+                        'StudentsAffectiveDispositionScores.term_id' => @$this->_getDefaultValue($this->request->query['term_id'],1)
+                    ]
+                ],
+                'StudentsPsychomotorSkillScores' => [
+                    'conditions' => [
+                        'StudentsPsychomotorSkillScores.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                        'StudentsPsychomotorSkillScores.class_id' => @$this->_getDefaultValue($this->request->query['class_id'],1),
+                        'StudentsPsychomotorSkillScores.term_id' => @$this->_getDefaultValue($this->request->query['term_id'],1)
+                    ]
+                ]]
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->data);
 
             if ($this->Students->save($student)) {
-                $this->Flash->success(__('The student has been saved.'));
+                $this->Flash->success(__('The student effective skills has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The student could not be saved. Please, try again.'));
+                $this->Flash->error(__('The student effective skills could not be saved. Please, try again.'));
             }
         }
         $this->loadModel('AffectiveDispositions');
         $this->loadModel('PsychomotorSkills');
+        $this->loadModel('Terms');
         $affectiveSkills = $this->AffectiveDispositions->find('all')->toArray();
         $psychomotorSkills = $this->PsychomotorSkills->find('all')->toArray();
-        $sessions = $this->Students->Sessions->find('list', ['limit' => 200]);
-        $classes = $this->Students->Classes->find('list', ['limit' => 200]);
-        $classDemarcations = $this->Students->ClassDemacations->find('list', ['limit' => 200]);
-        $this->set(compact('student', 'sessions', 'classes', 'classDemarcations','affectiveSkills','psychomotorSkills'));
+        $sessions = $this->Students->Sessions->find('list')->toArray();
+        $classes = $this->Students->Classes->find('list')->toArray();
+        $terms = $this->Terms->find('list')->toArray();
+        $this->set(compact('student', 'sessions', 'classes','affectiveSkills','psychomotorSkills','terms'));
         $this->set('_serialize', ['student']);
     }
 
