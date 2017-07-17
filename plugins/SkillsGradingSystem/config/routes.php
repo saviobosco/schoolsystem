@@ -19,14 +19,7 @@ Router::plugin(
                 'controller'=>'Students',
                 'action'=>'edit'
             ]);
-
-        /** add student skills */
-        $routes->connect('/add-student-skill/**',
-            [
-                'controller'=>'Students',
-                'action'=>'add'
-            ]);
-
+        
         /** delete student skills */
         $routes->connect('/delete-student-skill/**',
             [

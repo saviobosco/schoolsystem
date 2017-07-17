@@ -22,6 +22,8 @@ class StudentsControllerTest extends IntegrationTestCase
         'app.classes',
         'plugin.skills_grading_system.psychomotor_skills',
         'plugin.skills_grading_system.affective_dispositions',
+        'plugin.skills_grading_system.students_affective_disposition_scores',
+        'plugin.skills_grading_system.students_psychomotor_skill_scores',
     ];
 
     public function setUp()
@@ -90,7 +92,7 @@ class StudentsControllerTest extends IntegrationTestCase
                 'session_id' => '1'
             ],
         ];
-        $this->post('/skills-grading-system/add-student-skill',$data);
+        $this->post('/skills-grading-system/students/add',$data);
         $this->assertResponseSuccess();
     }
 
