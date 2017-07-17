@@ -197,8 +197,9 @@ class StudentsController extends AppController
         }
         $sessions = $this->Students->Sessions->find('list', ['limit' => 200])->toArray();
         $classes = $this->Students->Classes->find('list', ['limit' => 200])->toArray();
+        $studentBlock = $this->Students->Classes->find()->where(['id'=>$student->class_id])->first();
         $this->loadModel('App.Subjects');
-        $subjects = $this->Subjects->find('list',['limit'=> 200])->toArray();
+        $subjects = $this->Subjects->find('list')->where(['block_id'=>$studentBlock->id])->toArray();
         $this->loadModel('Terms');
         $terms = $this->Terms->find('list',['limit'=> 3])->toArray();
         $this->set(compact('student', 'sessions', 'classes','subjects','terms'));

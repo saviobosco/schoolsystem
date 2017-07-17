@@ -50,8 +50,8 @@ class StudentTermlyResultsTable extends Table
             'className' => 'ResultSystem.Students',
             'foreignKey' => 'student_id',
             'joinType' => 'INNER',
-            'condition' => ['Students.status' => 1 , 'Students.graduated' => 0]
         ]);
+
         $this->belongsTo('Subjects', [
             'foreignKey' => 'subject_id',
             'joinType' => 'INNER',
@@ -152,6 +152,7 @@ class StudentTermlyResultsTable extends Table
 
             // create the remark property
             $entity->remark = $remarks[$entity->grade];
+
     }
 
     /**
@@ -160,7 +161,6 @@ class StudentTermlyResultsTable extends Table
      */
     public function afterSave(Event $event , Entity $entity)
     {
-        if ($event->data['entity']['exam']) {
             // upload the result to the annual result table
             $studentAnnualResultTable = TableRegistry::get('StudentAnnualResults');
 
@@ -217,7 +217,6 @@ class StudentTermlyResultsTable extends Table
 
             $studentAnnualResultTable->save($studentAnnualResult);
             //Log::debug($studentAnnualResult);
-        }
     }
 
     /**
@@ -242,5 +241,10 @@ class StudentTermlyResultsTable extends Table
             }
             return $data;
         }
+    }
+
+    public function beforeMarshal(Event $event, $data)
+    {
+
     }
 }
