@@ -24,6 +24,23 @@ class StudentsControllerTest extends IntegrationTestCase
         'plugin.skills_grading_system.affective_dispositions',
     ];
 
+    public function setUp()
+    {
+        parent::setUp();
+        // Set session data
+        $this->session([
+            'Auth' => [
+                'User' => [
+                    'id' => 1,
+                    'username' => 'testing',
+                    'role' => 'admin',
+                    'super_user' => 1
+                    // other keys.
+                ]
+            ]
+        ]);
+    }
+
     /**
      * Test index method
      *
