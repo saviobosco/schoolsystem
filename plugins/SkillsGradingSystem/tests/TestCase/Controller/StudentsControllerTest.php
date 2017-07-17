@@ -79,7 +79,7 @@ class StudentsControllerTest extends IntegrationTestCase
                 'score' => '4',
                 'affective_id' => '1',
                 'student_id' => 'SMS/2017/002',
-                'class_id' => '2',
+                'class_id' => '1',
                 'term_id' => '1',
                 'session_id' => '1'
             ],
@@ -87,7 +87,7 @@ class StudentsControllerTest extends IntegrationTestCase
                 'score' => '4',
                 'affective_id' => '2',
                 'student_id' => 'SMS/2017/002',
-                'class_id' => '2',
+                'class_id' => '1',
                 'term_id' => '1',
                 'session_id' => '1'
             ],
@@ -108,10 +108,22 @@ class StudentsControllerTest extends IntegrationTestCase
         $this->assertResponseContains('Hand Writing');
 
         $data = [
-            'id' => 1,
-            'name' => 'Painting',
-            'created' => '2016-09-12 15:34:16',
-            'modified' => '2016-09-12 15:34:16'
+            0 => [
+                'score' => '4',
+                'affective_id' => '1',
+                'student_id' => 'SMS/2017/001',
+                'class_id' => '1',
+                'term_id' => '1',
+                'session_id' => '1'
+            ],
+            1 => [
+                'score' => '4',
+                'affective_id' => '2',
+                'student_id' => 'SMS/2017/001',
+                'class_id' => '1',
+                'term_id' => '1',
+                'session_id' => '1'
+            ],
         ];
 
         $this->post('/skills-grading-system/edit-student-skill/SMS/2017/001',$data);

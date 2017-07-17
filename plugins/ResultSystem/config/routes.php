@@ -7,32 +7,34 @@ Router::plugin(
     ['path' => '/result-system'],
     function (RouteBuilder $routes) {
         $routes->fallbacks('DashedRoute');
+
+        $routes->connect('/view-student-result/**',
+            [
+                'controller'=>'Students',
+                'action'=>'view'
+            ]);
+
+        $routes->connect('/edit-student-result/**',
+            [
+                'controller'=>'Students',
+                'action'=>'edit'
+            ]);
+
+        $routes->connect('/check-student-result',
+            [
+                'controller'=>'Students',
+                'action'=>'check_result'
+            ]);
+
+        $routes->connect('/student-result/*',
+            [
+                'controller'=>'Students',
+                'action'=>'view_student_result'
+            ]);
     }
 );
 Router::connect('/student-results-upload',
     ['plugin'=> 'ResultSystem',
         'controller'=>'StudentTermlyResults',
         'action'=>'upload_result'
-    ]);
-
-Router::connect('/student-result/*',
-    ['plugin'=> 'ResultSystem',
-        'controller'=>'Students',
-        'action'=>'view_student_result'
-    ]);
-
-Router::connect('/check-student-result',
-    ['plugin'=> 'ResultSystem',
-        'controller'=>'Students',
-        'action'=>'check_result'
-    ]);
-Router::connect('/view-student-result/**',
-    ['plugin'=> 'ResultSystem',
-        'controller'=>'Students',
-        'action'=>'view'
-    ]);
-Router::connect('/edit-student-result/**',
-    ['plugin'=> 'ResultSystem',
-        'controller'=>'Students',
-        'action'=>'edit'
     ]);

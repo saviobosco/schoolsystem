@@ -228,6 +228,8 @@ class StudentsController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->data);
+
+            debug($this->request->data); exit;
             if ($this->Students->save($student)) {
                 $this->Flash->success(__('The student has been saved.'));
 
@@ -283,7 +285,7 @@ class StudentsController extends AppController
             $student = $this->Students->get($session->read('Student.id'), [
                 'contain' => ['Sessions',
                     'Classes',
-                    'ClassDemacations',
+                    'ClassDemarcations',
                     /*'StudentAnnualPositionOnClassDemacations',
                     'StudentAnnualPositions',*/
                     'StudentAnnualResults' => [
