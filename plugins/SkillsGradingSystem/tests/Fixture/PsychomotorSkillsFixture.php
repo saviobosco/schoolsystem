@@ -39,7 +39,13 @@ class PsychomotorSkillsFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'name' => 'Lorem ipsum dolor sit amet',
+            'name' => 'Hand Writing',
+            'created' => '2016-09-12 15:34:16',
+            'modified' => '2016-09-12 15:34:16'
+        ],
+        [
+            'id' => 2,
+            'name' => 'Handling of Tools',
             'created' => '2016-09-12 15:34:16',
             'modified' => '2016-09-12 15:34:16'
         ],

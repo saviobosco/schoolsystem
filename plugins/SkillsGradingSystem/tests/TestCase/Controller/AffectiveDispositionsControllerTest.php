@@ -16,8 +16,26 @@ class AffectiveDispositionsControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.skills_grading_system.affective_dispositions'
+        'plugin.skills_grading_system.affective_dispositions',
     ];
+
+    public function setUp()
+    {
+        parent::setUp();
+        // Set session data
+        $this->session([
+            'Auth' => [
+                'User' => [
+                    'id' => 1,
+                    'username' => 'testing',
+                    'role' => 'admin',
+                    'super_user' => 1
+                    // other keys.
+                ]
+            ]
+        ]);
+    }
+
 
     /**
      * Test index method
@@ -26,7 +44,9 @@ class AffectiveDispositionsControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/skills-grading-system/affective-dispositions');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Affective Dispositions');
     }
 
     /**
@@ -36,7 +56,9 @@ class AffectiveDispositionsControllerTest extends IntegrationTestCase
      */
     public function testView()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/skills-grading-system/affective-dispositions/view/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Edit Affective Disposition');
     }
 
     /**
@@ -46,7 +68,14 @@ class AffectiveDispositionsControllerTest extends IntegrationTestCase
      */
     public function testAdd()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $data = [
+            'id' => 3,
+            'name' => 'Punctuality',
+            'created' => '2016-09-12 15:33:41',
+            'modified' => '2016-09-12 15:33:41'
+        ];
+        $this->post('/skills-grading-system/affective-dispositions/add',$data);
+        $this->assertResponseSuccess();
     }
 
     /**
@@ -56,7 +85,19 @@ class AffectiveDispositionsControllerTest extends IntegrationTestCase
      */
     public function testEdit()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/skills-grading-system/affective-dispositions/edit/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Punctuality');
+
+        $data = [
+            'id' => 1,
+            'name' => 'Attentiveness',
+            'created' => '2016-09-12 15:33:41',
+            'modified' => '2016-09-12 15:33:41'
+        ];
+
+        $this->post('/skills-grading-system/affective-dispositions/edit/1',$data);
+        $this->assertResponseSuccess();
     }
 
     /**
@@ -66,6 +107,8 @@ class AffectiveDispositionsControllerTest extends IntegrationTestCase
      */
     public function testDelete()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->delete('/skills-grading-system/affective-dispositions/delete/1');
+        $this->assertResponseSuccess();
+        $this->assertRedirect();
     }
 }

@@ -44,9 +44,20 @@ class StudentsPsychomotorSkillScoresFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'student_id' => 'Lorem ipsum dolor sit amet',
+            'student_id' => 'SMS/2017/001',
             'psychomotor_id' => 1,
-            'score' => 1,
+            'score' => 5,
+            'class_id' => 1,
+            'term_id' => 1,
+            'session_id' => 1,
+            'created' => '2016-09-12 16:19:36',
+            'modified' => '2016-09-12 16:19:36'
+        ],
+        [
+            'id' => 2,
+            'student_id' => 'SMS/2017/002',
+            'psychomotor_id' => 1,
+            'score' => 5,
             'class_id' => 1,
             'term_id' => 1,
             'session_id' => 1,

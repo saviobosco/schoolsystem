@@ -44,9 +44,20 @@ class StudentsAffectiveDispositionScoresFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'student_id' => 'Lorem ipsum dolor sit amet',
+            'student_id' => 'SMS/2017/001',
             'affective_id' => 1,
-            'score' => 1,
+            'score' => 5,
+            'class_id' => 1,
+            'term_id' => 1,
+            'session_id' => 1,
+            'created' => '2016-09-12 16:20:08',
+            'modified' => '2016-09-12 16:20:08'
+        ],
+        [
+            'id' => 2,
+            'student_id' => 'SMS/2017/002',
+            'affective_id' => 1,
+            'score' => 4,
             'class_id' => 1,
             'term_id' => 1,
             'session_id' => 1,

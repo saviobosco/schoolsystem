@@ -39,7 +39,13 @@ class AffectiveDispositionsFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'name' => 'Lorem ipsum dolor sit amet',
+            'name' => 'Punctuality',
+            'created' => '2016-09-12 15:33:41',
+            'modified' => '2016-09-12 15:33:41'
+        ],
+        [
+            'id' => 2,
+            'name' => 'Attendance to Class',
             'created' => '2016-09-12 15:33:41',
             'modified' => '2016-09-12 15:33:41'
         ],

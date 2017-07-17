@@ -66,7 +66,6 @@ class StudentsController extends AppController
             'contain' => [
                 'Sessions',
                 'Classes',
-                'ClassDemacations',
                 'StudentsAffectiveDispositionScores' => [
                     'conditions' => [
                         'StudentsAffectiveDispositionScores.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),

@@ -16,8 +16,25 @@ class PsychomotorSkillsControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.skills_grading_system.psychomotor_skills'
+        'plugin.skills_grading_system.psychomotor_skills',
     ];
+
+    public function setUp()
+    {
+        parent::setUp();
+        // Set session data
+        $this->session([
+            'Auth' => [
+                'User' => [
+                    'id' => 1,
+                    'username' => 'testing',
+                    'role' => 'admin',
+                    'super_user' => 1
+                    // other keys.
+                ]
+            ]
+        ]);
+    }
 
     /**
      * Test index method
@@ -26,7 +43,9 @@ class PsychomotorSkillsControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/skills-grading-system/psychomotor-skills');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Psychomotor Skills');
     }
 
     /**
@@ -36,7 +55,9 @@ class PsychomotorSkillsControllerTest extends IntegrationTestCase
      */
     public function testView()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/skills-grading-system/psychomotor-skills/view/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Hand Writing');
     }
 
     /**
@@ -46,7 +67,14 @@ class PsychomotorSkillsControllerTest extends IntegrationTestCase
      */
     public function testAdd()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $data = [
+            'id' => 3,
+            'name' => 'Hand Writing2',
+            'created' => '2016-09-12 15:34:16',
+            'modified' => '2016-09-12 15:34:16'
+        ];
+        $this->post('/skills-grading-system/psychomotor-skills/add',$data);
+        $this->assertResponseSuccess();
     }
 
     /**
@@ -56,7 +84,19 @@ class PsychomotorSkillsControllerTest extends IntegrationTestCase
      */
     public function testEdit()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/skills-grading-system/psychomotor-skills/edit/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Hand Writing');
+
+        $data = [
+            'id' => 1,
+            'name' => 'Painting',
+            'created' => '2016-09-12 15:34:16',
+            'modified' => '2016-09-12 15:34:16'
+        ];
+
+        $this->post('/skills-grading-system/psychomotor-skills/edit/1',$data);
+        $this->assertResponseSuccess();
     }
 
     /**
@@ -66,6 +106,8 @@ class PsychomotorSkillsControllerTest extends IntegrationTestCase
      */
     public function testDelete()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->delete('/skills-grading-system/psychomotor-skills/delete/1');
+        $this->assertResponseSuccess();
+        $this->assertRedirect();
     }
 }
