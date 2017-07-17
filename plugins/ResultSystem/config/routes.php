@@ -14,6 +14,12 @@ Router::plugin(
                 'action'=>'view'
             ]);
 
+        $routes->connect('/add-student-result/**',
+            [
+                'controller'=>'Students',
+                'action'=>'add'
+            ]);
+
         $routes->connect('/edit-student-result/**',
             [
                 'controller'=>'Students',

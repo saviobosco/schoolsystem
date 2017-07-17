@@ -203,7 +203,7 @@ class StudentsController extends AppController
         $terms = $this->Terms->find('list',['limit'=> 3])->toArray();
         $this->set(compact('student', 'sessions', 'classes','subjects','terms'));
         $this->set('_serialize', ['student']);
-        $this->render('edit_termly_result');
+        $this->render('add_termly_result');
     }
 
     /**

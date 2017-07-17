@@ -136,11 +136,10 @@ class StudentTermlyResultsTable extends Table
 
     public function beforeSave(Event $event , Entity $entity )
     {
-        //if($event->data['entity']['exam']){
             $entity->total = $entity->first_test + $entity->second_test + $entity->third_test + $entity->exam ;
 
             // loads the grade and remark table
-            $resultGradingTable = TableRegistry::get('ResultGradingSystems');
+            $resultGradingTable = TableRegistry::get('GradingSystem.ResultGradingSystems');
 
             // gets the grade from the table
             $grades = $resultGradingTable->find('all')->combine('score','grade')->toArray();
@@ -148,12 +147,11 @@ class StudentTermlyResultsTable extends Table
             // calculates the grade
             $entity->grade = $this->calculateGrade($entity->total,$grades);
 
-            // gets the remark from the table .
+            // gets the remark from the table.
             $remarks = $resultGradingTable->find('all')->combine('grade','remark')->toArray();
 
             // create the remark property
             $entity->remark = $remarks[$entity->grade];
-        //}
     }
 
     /**
