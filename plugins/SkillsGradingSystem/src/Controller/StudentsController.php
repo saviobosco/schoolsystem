@@ -91,9 +91,9 @@ class StudentsController extends AppController
         $this->loadModel('Terms');
         $affectiveSkills = $this->AffectiveDispositions->find('list')->toArray();
         $psychomotorSkills = $this->PsychomotorSkills->find('list')->toArray();
-        $sessions = $this->Students->Sessions->find('list', ['limit' => 200])->toArray();
-        $classes = $this->Students->Classes->find('list', ['limit' => 200])->toArray();
-        $terms = $this->Terms->find('list', ['limit' => 200])->toArray();
+        $sessions = $this->Students->Sessions->find('list')->toArray();
+        $classes = $this->Students->Classes->find('list')->toArray();
+        $terms = $this->Terms->find('list')->toArray();
         $this->set(compact('student', 'sessions', 'classes','affectiveSkills','psychomotorSkills','terms'));
         $this->set('_serialize', ['student']);
     }
@@ -105,23 +105,7 @@ class StudentsController extends AppController
      */
     public function add($id = null)
     {
-        $student = $this->Students->get($id, [
-            'contain' => [
-                'StudentsAffectiveDispositionScores' => [
-                    'conditions' => [
-                        'StudentsAffectiveDispositionScores.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
-                        'StudentsAffectiveDispositionScores.class_id' => @$this->_getDefaultValue($this->request->query['class_id'],1),
-                        'StudentsAffectiveDispositionScores.term_id' => @$this->_getDefaultValue($this->request->query['term_id'],1)
-                    ]
-                ],
-                'StudentsPsychomotorSkillScores' => [
-                    'conditions' => [
-                        'StudentsPsychomotorSkillScores.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
-                        'StudentsPsychomotorSkillScores.class_id' => @$this->_getDefaultValue($this->request->query['class_id'],1),
-                        'StudentsPsychomotorSkillScores.term_id' => @$this->_getDefaultValue($this->request->query['term_id'],1)
-                    ]
-                ]]
-        ]);
+        $student = $this->Students->get($id, []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->data);
 

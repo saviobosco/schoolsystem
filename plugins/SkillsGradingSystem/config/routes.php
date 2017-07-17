@@ -14,6 +14,13 @@ Router::plugin(
             ]);
 
         /** edit student skills */
+        $routes->connect('/add-student-skill/**',
+            [
+                'controller'=>'Students',
+                'action'=>'add'
+            ]);
+
+        /** edit student skills */
         $routes->connect('/edit-student-skill/**',
             [
                 'controller'=>'Students',

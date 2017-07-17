@@ -16,13 +16,14 @@ class StudentsControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.result_system.students',
+        'app.students',
         'app.sessions',
         'app.classes',
         'app.blocks',
         'app.class_demarcations',
         'plugin.result_system.student_annual_results',
-        'plugin.result_system.student_termly_results'
+        'plugin.result_system.student_termly_results',
+        'plugin.result_system.student_result_pins',
     ];
 
     public function setUp()
@@ -149,7 +150,7 @@ class StudentsControllerTest extends IntegrationTestCase
                 'term_id' => 1
             ]
         ]);
-        $this->get('/result/view-student-result');
+        $this->get('/result-system/view-student-result');
         $this->assertResponseOk();
         $this->assertResponseContains('SMS/2017/001');
     }
@@ -158,7 +159,7 @@ class StudentsControllerTest extends IntegrationTestCase
     {
         $data = [
             'reg_number' => 'SMS/2017/001',
-            'pin' => '123456',
+            'pin' => 123456,
             'session_id' => 1,
             'term_id' => 1
         ];

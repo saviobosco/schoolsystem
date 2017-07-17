@@ -11,6 +11,10 @@ use ResultSystem\Controller\AppController;
  * Students Controller
  *
  * @property \ResultSystem\Model\Table\StudentsTable $Students
+ * @property \ResultSystem\Model\Table\TermsTable $Terms
+ * @property \App\Model\Table\SessionsTable $Sessions
+ * @property \App\Model\Table\ClassesTable $Classes
+ * @property \App\Model\Table\SubjectsTable $Subjects
  */
 class StudentsController extends AppController
 {
@@ -175,27 +179,31 @@ class StudentsController extends AppController
 
     /**
      * Add method
-     *
+     * @param string|null $id Student id.
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add( $id = null)
     {
-        $student = $this->Students->newEntity();
-        if ($this->request->is('post')) {
+        $student = $this->Students->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->data);
+
             if ($this->Students->save($student)) {
                 $this->Flash->success(__('The student has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The student could not be saved. Please, try again.'));
             }
         }
-        $sessions = $this->Students->Sessions->find('list', ['limit' => 200]);
-        $classes = $this->Students->Classes->find('list', ['limit' => 200]);
-        $classDemacations = $this->Students->ClassDemacations->find('list', ['limit' => 200]);
-        $this->set(compact('student', 'sessions', 'classes', 'classDemacations'));
+        $sessions = $this->Students->Sessions->find('list', ['limit' => 200])->toArray();
+        $classes = $this->Students->Classes->find('list', ['limit' => 200])->toArray();
+        $this->loadModel('App.Subjects');
+        $subjects = $this->Subjects->find('list',['limit'=> 200])->toArray();
+        $this->loadModel('Terms');
+        $terms = $this->Terms->find('list',['limit'=> 3])->toArray();
+        $this->set(compact('student', 'sessions', 'classes','subjects','terms'));
         $this->set('_serialize', ['student']);
+        $this->render('edit_termly_result');
     }
 
     /**
@@ -229,7 +237,6 @@ class StudentsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->data);
 
-            debug($this->request->data); exit;
             if ($this->Students->save($student)) {
                 $this->Flash->success(__('The student has been saved.'));
 

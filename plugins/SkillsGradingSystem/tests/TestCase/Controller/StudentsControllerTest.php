@@ -92,7 +92,7 @@ class StudentsControllerTest extends IntegrationTestCase
                 'session_id' => '1'
             ],
         ];
-        $this->post('/skills-grading-system/students/add',$data);
+        $this->post('/skills-grading-system/add-student-skill/SMS/2017/002',$data);
         $this->assertResponseSuccess();
     }
 
