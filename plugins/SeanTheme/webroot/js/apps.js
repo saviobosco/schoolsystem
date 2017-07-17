@@ -1095,7 +1095,7 @@ var handleResultUpload = function() {
         event.preventDefault();
         $.ajax({
             type: "POST",
-            url: 'http://localhost:8765/result-system/student-termly-results/upload-result',
+            url: 'http://localhost/SchoolSystem2/result-system/student-termly-results/upload-result',
             contentType:false,
             cache:false,
             processData:false,

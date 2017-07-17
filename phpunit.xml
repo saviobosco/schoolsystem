@@ -27,6 +27,10 @@
         <testsuite name="Grading System Plugin">
             <directory>./plugins/GradingSystem/tests/TestCase</directory>
         </testsuite>
+        <testsuite name="Skill Grading System Plugin">
+            <directory>./plugins/SkillsGradingSystem/tests/TestCase</directory>
+            <exclude>./plugins/SkillsGradingSystem/tests/TestCase/Model</exclude>
+        </testsuite>
         <!-- Add plugin test suites here. -->
     </testsuites>
 
