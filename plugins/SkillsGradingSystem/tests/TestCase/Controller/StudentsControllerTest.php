@@ -16,7 +16,7 @@ class StudentsControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.students',
+        'plugin.skills_grading_system.students',
         'app.sessions',
         'plugin.result_system.terms',
         'app.classes',

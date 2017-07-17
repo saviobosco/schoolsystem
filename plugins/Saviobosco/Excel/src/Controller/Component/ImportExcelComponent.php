@@ -46,7 +46,7 @@ class ImportExcelComponent extends ImportComponent
     {
         $result = [];
         $excelResults = parent::prepareEntityData($file,$options);
-        $result[0][] = $excelResults;
+        $result[0] = $excelResults;
         $result[1] = count($excelResults);
 
         return $result;
