@@ -44,7 +44,7 @@ class StudentTermlyResultsControllerTest extends IntegrationTestCase
     public function testUploadResult()
     {
         $data = [
-            'type' => 'in_House_Assessment',
+            'type' => 'first_test',
             'class_id' => '1',
             'term_id' => '1',
             'session_id' => '1',
