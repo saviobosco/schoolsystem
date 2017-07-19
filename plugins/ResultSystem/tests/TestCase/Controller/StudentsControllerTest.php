@@ -19,11 +19,26 @@ class StudentsControllerTest extends IntegrationTestCase
         'app.students',
         'app.sessions',
         'app.classes',
+        'app.subjects',
         'app.blocks',
         'app.class_demarcations',
         'plugin.result_system.student_annual_results',
         'plugin.result_system.student_termly_results',
         'plugin.result_system.student_result_pins',
+        'plugin.result_system.student_termly_positions',
+        'plugin.result_system.student_termly_subject_positions',
+        'plugin.result_system.student_termly_subject_position_on_class_demarcations',
+        'plugin.skills_grading_system.affective_dispositions',
+        'plugin.skills_grading_system.psychomotor_skills',
+        'plugin.skills_grading_system.students_affective_disposition_scores',
+        'plugin.skills_grading_system.students_psychomotor_skill_scores',
+        'plugin.result_system.student_annual_position_on_class_demarcations',
+        'plugin.result_system.student_annual_positions',
+        'plugin.result_system.student_annual_subject_position_on_class_demarcations',
+        'plugin.result_system.student_annual_subject_positions',
+        'plugin.result_system.student_class_counts',
+        'plugin.result_system.subject_class_averages',
+        'plugin.result_system.student_general_remarks',
     ];
 
     public function setUp()
@@ -158,7 +173,7 @@ class StudentsControllerTest extends IntegrationTestCase
     public function testCheckResult()
     {
         $data = [
-            'reg_number' => 'SMS/2017/001',
+            'id' => 'SMS/2017/001',
             'pin' => 123456,
             'session_id' => 1,
             'term_id' => 1

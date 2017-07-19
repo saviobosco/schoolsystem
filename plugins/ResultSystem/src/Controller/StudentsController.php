@@ -294,7 +294,7 @@ class StudentsController extends AppController
                 'contain' => ['Sessions',
                     'Classes',
                     'ClassDemarcations',
-                    /*'StudentAnnualPositionOnClassDemacations',
+                    /*'StudentAnnualPositionOnClassDemarcations',
                     'StudentAnnualPositions',*/
                     'StudentAnnualResults' => [
                         'conditions' => [
@@ -352,8 +352,8 @@ class StudentsController extends AppController
                 'contain' => [
                     'Sessions',
                     'Classes',
-                    'ClassDemacations',
-                    /*'StudentTermlyPositionOnClassDemacations',*/
+                    //'ClassDemarcations',
+                    /*'StudentTermlyPositionOnClassDemarcations',*/
                     'StudentTermlyResults' => [
                         'conditions' => [
                             'StudentTermlyResults.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
@@ -376,10 +376,10 @@ class StudentsController extends AppController
                     'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id'))
                 ])->combine('subject_id','position')->toArray();
 
-            // get the student subjects positions on class demacation
-            $studentSubjectPositionsOnClassDemacation =  $this->Students->StudentTermlySubjectPositionOnClassDemacations->find('all')
+            // get the student subjects positions on class demarcation
+            $studentSubjectPositionsOnClassDemarcation =  $this->Students->StudentTermlySubjectPositionOnClassDemarcations->find('all')
                 ->where(['student_id' => $student->id,
-                    'class_demacation_id' => $student->class_demacation_id,
+                    'class_demarcation_id' => $student->class_demacation_id,
                     'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
                     'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id') )
                 ])->combine('subject_id','position')->toArray();
@@ -411,7 +411,17 @@ class StudentsController extends AppController
             $subjects = $this->Subjects->find('list',['limit'=> 200])->toArray();
             $terms = $this->Terms->find('list',['limit'=> 4])->toArray();
             $searchTerms = $this->Terms->find('list',['limit'=> 2])->where(['id >= '=> 3 ])->toArray();
-            $this->set(compact('student','sessions','classes','subjects','terms','searchTerms','studentSubjectPositions','studentSubjectPositionsOnClassDemacation','studentPosition','studentAffectiveDispositions','studentPsychomotorSkills'));
+            $this->set(compact('student',
+                'sessions',
+                'classes',
+                'subjects',
+                'terms',
+                'searchTerms',
+                'studentSubjectPositions',
+                'studentSubjectPositionsOnClassDemarcation',
+                'studentPosition',
+                'studentAffectiveDispositions',
+                'studentPsychomotorSkills'));
             $this->set('_serialize', ['student']);
 
             $this->render('view_student_termly_result');
