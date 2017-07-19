@@ -98,7 +98,7 @@ class StudentsControllerTest extends IntegrationTestCase
                 'session_id' => '1'
             ],
         ];
-        $this->post('/result-system/students/add',$data);
+        $this->post('/result-system/add-student-result/SMS/2017/003',$data);
         $this->assertResponseSuccess();
     }
 
