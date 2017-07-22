@@ -17,6 +17,7 @@ class StudentTermlyResultsControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'plugin.result_system.student_termly_results',
+        'plugin.grading_system.result_grading_systems',
         'app.students',
         'app.sessions',
         'app.classes',
