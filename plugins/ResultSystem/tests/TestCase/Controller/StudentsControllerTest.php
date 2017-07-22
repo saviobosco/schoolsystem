@@ -158,13 +158,13 @@ class StudentsControllerTest extends IntegrationTestCase
 
     public function testViewStudentResult()
     {
-        /*$this->session([
+        $this->session([
             'Student' => [
                 'id' => 'SMS/2017/001',
                 'session_id' => 1,
                 'term_id' => 1
             ]
-        ]); */
+        ]);
         $this->get('/result-system/student-result');
         $this->assertResponseOk();
         $this->assertResponseContains('SMS/2017/001');

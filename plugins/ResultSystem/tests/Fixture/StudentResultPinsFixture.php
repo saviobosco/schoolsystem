@@ -43,16 +43,16 @@ class StudentResultPinsFixture extends TestFixture
         [
             'serial_number' => 1,
             'pin' => 123456,
-            'student_id' => '',
-            'term_id' => 1,
-            'session_id' => 1,
+            'student_id' => null,
+            'term_id' => null,
+            'session_id' => null,
             'created' => '2017-07-17 13:52:39',
             'modified' => '2017-07-17 13:52:39'
         ],
         [
             'serial_number' => 2,
             'pin' => 123457,
-            'student_id' => '',
+            'student_id' => 'SMS/2017/001',
             'term_id' => 1,
             'session_id' => 1,
             'created' => '2017-07-17 13:52:39',
