@@ -165,7 +165,7 @@ class StudentsControllerTest extends IntegrationTestCase
                 'term_id' => 1
             ]
         ]); */
-        $this->get('/result-system/view-student-result');
+        $this->get('/result-system/student-result');
         $this->assertResponseOk();
         $this->assertResponseContains('SMS/2017/001');
     }
