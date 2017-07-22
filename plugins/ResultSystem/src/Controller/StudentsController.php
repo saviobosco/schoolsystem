@@ -291,9 +291,10 @@ class StudentsController extends AppController
         if (  isset($this->request->query['term_id']) && $this->request->query['term_id'] == 4 ) {
 
             $student = $this->Students->get($session->read('Student.id'), [
-                'contain' => ['Sessions',
+                'contain' => [
+                    'Sessions',
                     'Classes',
-                    'ClassDemarcations',
+                    //'ClassDemarcations',
                     /*'StudentAnnualPositionOnClassDemarcations',
                     'StudentAnnualPositions',*/
                     'StudentAnnualResults' => [

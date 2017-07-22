@@ -153,7 +153,6 @@ class StudentTermlyResultsTable extends Table
             $remarks = $resultGradingTableQuery->combine('grade','remark')->toArray();
 
             // create the remark property
-            debug($grades);
             $entity->remark = $remarks[$entity->grade];
 
     }
