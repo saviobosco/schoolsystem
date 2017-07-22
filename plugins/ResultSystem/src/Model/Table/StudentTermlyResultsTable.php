@@ -142,15 +142,18 @@ class StudentTermlyResultsTable extends Table
             $resultGradingTable = TableRegistry::get('GradingSystem.ResultGradingSystems');
 
             // gets the grade from the table
-            $grades = $resultGradingTable->find('all')->combine('score','grade')->toArray();
+            $resultGradingTableQuery = $resultGradingTable->find('all');
+
+            $grades = $resultGradingTableQuery->combine('score','grade')->toArray();
 
             // calculates the grade
             $entity->grade = $this->calculateGrade($entity->total,$grades);
 
             // gets the remark from the table.
-            $remarks = $resultGradingTable->find('all')->combine('grade','remark')->toArray();
+            $remarks = $resultGradingTableQuery->combine('grade','remark')->toArray();
 
             // create the remark property
+            debug($grades);
             $entity->remark = $remarks[$entity->grade];
 
     }
