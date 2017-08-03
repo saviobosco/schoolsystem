@@ -442,6 +442,7 @@ class StudentsController extends AppController
         if ($this->request->is(['patch', 'post', 'put']) ) {
             $pin = $this->Students->StudentResultPins->checkPin($this->request->data('pin'));
             /* checks if the variable contains a value */
+            debug($pin);
             if($pin != null){
                 if($this->_checkStudentResultAuthenticationKeys($pin->student_id,$pin->session_id,$pin->class_id,$pin->term_id,$pin->pin)){
                     // if everything is ok redirect to result page
@@ -462,6 +463,7 @@ class StudentsController extends AppController
     {
         $session = $this->request->session();
         if(!empty($student_id)){
+            debug('executing the if statement');
             // the submitted number against the stored number
             if ($student_id != $this->request->data('reg_number')) {
                 $this->Flash->error(__('Incorrect registration number or Invalid pin'));
@@ -492,6 +494,7 @@ class StudentsController extends AppController
             return true;
 
         }else{
+            debug('executing else statement');
             $student = $this->Students->find()->where(['id'=>$this->request->data('reg_number')])->first();
             if (empty($student)){
                 $this->Flash->error(__('Incorrect registration number or Invalid pin'));
