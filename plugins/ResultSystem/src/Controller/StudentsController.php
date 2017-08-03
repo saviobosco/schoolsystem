@@ -459,6 +459,59 @@ class StudentsController extends AppController
         $this->set(compact('sessions','terms'));
     }
 
+    /**
+     * @param StudentResultPin $pin
+     * @return bool
+     * This function is the used to authenticate the students without terms
+     */
+    protected function _checkStudentResultAuthenticationKeysWithOutTerm(StudentResultPin $pin)
+    {
+        $session = $this->request->session();
+        if(!empty($pin->student_id)){
+            // the submitted number against the stored number
+            if ($pin->student_id != $this->request->data('reg_number')) {
+                $this->Flash->error(__('Incorrect registration number or Invalid pin'));
+                return false;
+            }
+            // check if the session is Ok
+            if ($pin->session_id !==  (int) $this->request->data('session_id')) {
+                $this->Flash->error(__('This pin belongs to you but the session is incorrect. Check and try again'));
+                return false;
+            }
+            // Check if the class is ok
+            if ( $pin->class_id !== (int) $this->request->data('class_id') ) {
+                $this->Flash->error(__('This pin belongs to you but the class is incorrect. Check and try again'));
+                return false;
+            }
+
+            // If all checks are true(OK) set the user sessions .
+            $session->write([
+                'Student.id' => $pin->student_id,
+                'Student.session_id' => $pin->session_id,
+                'Student.class_id' => $pin->class_id,
+                'Student.term_id' => $pin->term_id,
+            ]); // write to session and return true
+            return true;
+
+        }else{
+            $student = $this->Students->find()->where(['id'=>$this->request->data('reg_number')])->first();
+            if (empty($student)){
+                $this->Flash->error(__('Incorrect registration number or Invalid pin'));
+                return false;
+            }
+            //update student in resultPins table
+            if ($this->Students->StudentResultPins->updateStudentPin($pin,$student->id,$this->request->data('session_id'),$this->request->data('class_id'),$this->request->data('term_id'))) {
+                $session->write(['Student.id'=> $student->id,
+                    'Student.session_id' => $this->request->data('session_id'),
+                    'Student.class_id' => $this->request->data('class_id'),
+                    'Student.term_id' => $this->request->data('term_id'),
+                ]);
+                return true;
+            }
+            return false;
+        }
+    }
+
     protected function _checkStudentResultAuthenticationKeys(StudentResultPin $pin)
     {
         $session = $this->request->session();
