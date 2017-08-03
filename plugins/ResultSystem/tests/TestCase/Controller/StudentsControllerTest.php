@@ -174,7 +174,7 @@ class StudentsControllerTest extends IntegrationTestCase
     public function testCheckResult()
     {
         $data = [
-            'id' => 'SMS/2017/001',
+            'id' => 'SMS/2017/002',
             'pin' => 123456,
             'session_id' => 1,
             'class_id' => 1,
