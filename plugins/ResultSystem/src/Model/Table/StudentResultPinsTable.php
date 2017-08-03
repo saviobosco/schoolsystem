@@ -90,10 +90,10 @@ class StudentResultPinsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['student_id'], 'Students'));
+        /*$rules->add($rules->existsIn(['student_id'], 'Students'));
         $rules->add($rules->existsIn(['term_id'], 'Terms'));
         $rules->add($rules->existsIn(['session_id'], 'Sessions'));
-        $rules->add($rules->existsIn(['class_id'], 'Classes'));
+        $rules->add($rules->existsIn(['class_id'], 'Classes')); */
 
         return $rules;
     }
@@ -122,7 +122,6 @@ class StudentResultPinsTable extends Table
             'term_id' => $term_id
         ];
         $result = $this->patchEntity($pin,$newData);
-        debug($result);
         if($this->save($result)){
             debug('Saved the pin');
             return true;
