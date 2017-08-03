@@ -62,9 +62,9 @@ class StudentsControllerTest extends IntegrationTestCase
      */
     public function testView()
     {
-        $this->get('/skills-grading-system/view-student-skill/SMS/2017/001');
+        $this->get('/skills-grading-system/view-student-skill/SMS/2017/003');
         $this->assertResponseOk();
-        $this->assertResponseContains('SMS/2017/001');
+        $this->assertResponseContains('SMS/2017/003');
     }
 
     /**

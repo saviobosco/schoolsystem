@@ -166,6 +166,7 @@ class StudentsControllerTest extends IntegrationTestCase
                 'term_id' => 1
             ]
         ]);
+        $this->assertSession('SMS/2017/002', 'Student.id');
         $this->get('/result-system/student-result');
         $this->assertResponseOk();
         $this->assertResponseContains('SMS/2017/001');
@@ -182,6 +183,13 @@ class StudentsControllerTest extends IntegrationTestCase
         ];
         $this->post('/result-system/check-student-result',$data);
         $this->assertRedirect(['action' => 'viewStudentResult']);
+        $sessions = [
+            'id' => 'SMS/2017/002',
+            'session_id' => 1,
+            'class_id' => 1,
+            'term_id' => 1
+        ];
+        $this->assertSession($sessions, 'Student');
         //$this->assertResponseContains('Incorrect registration number or Invalid pin');
     }
 
