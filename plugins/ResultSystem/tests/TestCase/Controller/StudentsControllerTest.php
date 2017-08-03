@@ -177,6 +177,7 @@ class StudentsControllerTest extends IntegrationTestCase
             'id' => 'SMS/2017/001',
             'pin' => 123456,
             'session_id' => 1,
+            'class_id' => 1,
             'term_id' => 1
         ];
         $this->post('/result-system/check-student-result',$data);

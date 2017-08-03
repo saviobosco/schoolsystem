@@ -22,6 +22,7 @@ use Cake\Validation\Validator;
  * @property \Cake\ORM\Association\HasMany $StudentTermlyResults
  * @property \Cake\ORM\Association\HasMany $StudentTermlySubjectPositionOnClassDemarcations
  * @property \Cake\ORM\Association\HasMany $StudentTermlySubjectPositions
+ * @property \Cake\ORM\Association\HasMany $StudentResultPins
  *
  * @method \ResultSystem\Model\Entity\Student get($primaryKey, $options = [])
  * @method \ResultSystem\Model\Entity\Student newEntity($data = null, array $options = [])

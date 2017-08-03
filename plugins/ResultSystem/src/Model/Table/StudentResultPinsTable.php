@@ -105,13 +105,15 @@ class StudentResultPinsTable extends Table
         return $this->find()->where(['pin'=>$pin])->first();
     }
 
-    public function updateStudentPin($pin,$student_id,$session_id,$term_id)
+
+    public function updateStudentPin($pin,$student_id,$session_id,$class_id,$term_id)
     {
-        $pinresult = $this->get($pin);
+        $pinResult = $this->get($pin);
         $newData = ['student_id'=>$student_id,
             'session_id' => $session_id,
+            'class_id' => $class_id,
             'term_id' => $term_id];
-        $result = $this->patchEntity($pinresult,$newData);
+        $result = $this->patchEntity($pinResult,$newData);
         if($this->save($result)){
             return true;
         }

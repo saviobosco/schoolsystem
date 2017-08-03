@@ -11,6 +11,7 @@ use ResultSystem\Controller\AppController;
  * Students Controller
  *
  * @property \ResultSystem\Model\Table\StudentsTable $Students
+ * @property \ResultSystem\Model\Table\StudentResultPinsTable $StudentResultPins
  * @property \ResultSystem\Model\Table\TermsTable $Terms
  * @property \App\Model\Table\SessionsTable $Sessions
  * @property \App\Model\Table\ClassesTable $Classes
@@ -442,7 +443,7 @@ class StudentsController extends AppController
             $pin = $this->Students->StudentResultPins->checkPin($this->request->data('pin'));
             /* checks if the variable contains a value */
             if($pin != null){
-                if($this->_checkStudentResultAuthenticationKeys($pin->student_id,$pin->session_id,$pin->term_id,$pin->pin)){
+                if($this->_checkStudentResultAuthenticationKeys($pin->student_id,$pin->session_id,$pin->class_id,$pin->term_id,$pin->pin)){
                     // if everything is ok redirect to result page
                     return $this->redirect(['action' => 'viewStudentResult']);
                     //$this->Flash->success(__('Good'));
@@ -457,48 +458,53 @@ class StudentsController extends AppController
         $this->set(compact('sessions','terms'));
     }
 
-    protected function _checkStudentResultAuthenticationKeys($student_id,$session_id,$term_id,$pin)
+    protected function _checkStudentResultAuthenticationKeys($student_id,$session_id,$class_id,$term_id,$pin)
     {
         $session = $this->request->session();
         if(!empty($student_id)){
             // the submitted number against the stored number
-            if ($student_id === $this->request->data('reg_number')) {
-                // check the session id
-                if ($session_id ===  (int) $this->request->data('session_id')) {
-
-                    if ($term_id == (int) $this->request->data('term_id')) {
-                        $session->write([
-                            'Student.id' => $student_id,
-                            'Student.session_id' => $session_id,
-                            'Student.term_id' => $term_id,
-                        ]); // write to session and return true
-                        return true;
-                    } else {
-                        $this->Flash->error(__('This pin belongs to you but the term is incorrect. Check and try again'));
-                        return false;
-                    }
-                } else {
-                    $this->Flash->error(__('This pin belongs to you but the session is incorrect. Check and try again'));
-                    return false;
-                }
-            }else{
+            if ($student_id != $this->request->data('reg_number')) {
                 $this->Flash->error(__('Incorrect registration number or Invalid pin'));
                 return false;
             }
+            // check if the session is Ok
+            if ($session_id !==  (int) $this->request->data('session_id')) {
+                $this->Flash->error(__('This pin belongs to you but the session is incorrect. Check and try again'));
+                return false;
+            }
+            // Check if the class is ok
+            if ( $class_id !== (int) $this->request->data('class_id') ) {
+                $this->Flash->error(__('This pin belongs to you but the class is incorrect. Check and try again'));
+                return false;
+            }
+
+            // Check if the term is Ok
+            if ($term_id !== (int) $this->request->data('term_id')) {
+                $this->Flash->error(__('This pin belongs to you but the term is incorrect. Check and try again'));
+                return false;
+            }
+            // If all checks are true(OK) set the user sessions .
+            $session->write([
+                'Student.id' => $student_id,
+                'Student.session_id' => $session_id,
+                'Student.term_id' => $term_id,
+            ]); // write to session and return true
+            return true;
+
         }else{
             $student = $this->Students->find()->where(['id'=>$this->request->data('reg_number')])->first();
-            if (!empty($student)){
-                //update student in resultPins table
-                if ($this->Students->StudentResultPins->updateStudentPin($pin,$student->id,$this->request->data('session_id'),$this->request->data('term_id'))) {
-                    $session->write(['Student.id'=> $student->id,
-                        'Student.session_id' => $this->request->data('session_id'),
-                        'Student.term_id' => $this->request->data('term_id'),
-                    ]);
-                    return true;
-                }
-            }
-            else {
+            if (empty($student)){
                 $this->Flash->error(__('Incorrect registration number or Invalid pin'));
+                return false;
+            }
+            //update student in resultPins table
+            if ($this->Students->StudentResultPins->updateStudentPin($pin,$student->id,$this->request->data('session_id'),$this->request->data('class_id'),$this->request->data('term_id'))) {
+                $session->write(['Student.id'=> $student->id,
+                    'Student.session_id' => $this->request->data('session_id'),
+                    'Student.class_id' => $this->request->data('class_id'),
+                    'Student.term_id' => $this->request->data('term_id'),
+                ]);
+                return true;
             }
             return false;
         }
