@@ -166,8 +166,8 @@ class StudentsControllerTest extends IntegrationTestCase
                 'term_id' => 1
             ]
         ]);
-        $this->assertSession('SMS/2017/002', 'Student.id');
         $this->get('/result-system/student-result');
+        $this->assertSession('SMS/2017/002', 'Student.id');
         $this->assertResponseOk();
         $this->assertResponseContains('SMS/2017/001');
     }
