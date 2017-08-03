@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use ResultSystem\Model\Entity\StudentResultPin;
 
 /**
  * StudentResultPins Model
@@ -106,14 +107,15 @@ class StudentResultPinsTable extends Table
     }
 
 
-    public function updateStudentPin($pin,$student_id,$session_id,$class_id,$term_id)
+    public function updateStudentPin( StudentResultPin $pin,$student_id,$session_id,$class_id,$term_id)
     {
-        $pinResult = $this->get($pin);
-        $newData = ['student_id'=>$student_id,
+        $newData = [
+            'student_id'=>$student_id,
             'session_id' => $session_id,
             'class_id' => $class_id,
-            'term_id' => $term_id];
-        $result = $this->patchEntity($pinResult,$newData);
+            'term_id' => $term_id
+        ];
+        $result = $this->patchEntity($pin,$newData);
         if($this->save($result)){
             return true;
         }

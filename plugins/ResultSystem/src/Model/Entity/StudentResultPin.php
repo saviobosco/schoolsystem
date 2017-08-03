@@ -12,10 +12,12 @@ use Cake\ORM\Entity;
  * @property string $student_id
  * @property int $term_id
  * @property int $session_id
+ * @property int $class_id
  *
  * @property \App\Model\Entity\Student $student
  * @property \ResultSystem\Model\Entity\Term $term
  * @property \App\Model\Entity\Session $session
+ * @property \App\Model\Entity\Session $classe
  */
 class StudentResultPin extends Entity
 {

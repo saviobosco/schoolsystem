@@ -6,6 +6,7 @@ use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\ORM\TableRegistry;
 use ResultSystem\Controller\Traits\SearchParameterTrait;
 use ResultSystem\Controller\AppController;
+use ResultSystem\Model\Entity\StudentResultPin;
 
 /**
  * Students Controller
@@ -442,9 +443,8 @@ class StudentsController extends AppController
         if ($this->request->is(['patch', 'post', 'put']) ) {
             $pin = $this->Students->StudentResultPins->checkPin($this->request->data('pin'));
             /* checks if the variable contains a value */
-            debug($pin);
             if($pin != null){
-                if($this->_checkStudentResultAuthenticationKeys($pin->student_id,$pin->session_id,$pin->class_id,$pin->term_id,$pin->pin)){
+                if($this->_checkStudentResultAuthenticationKeys($pin)){
                     // if everything is ok redirect to result page
                     return $this->redirect(['action' => 'viewStudentResult']);
                     //$this->Flash->success(__('Good'));
@@ -459,44 +459,44 @@ class StudentsController extends AppController
         $this->set(compact('sessions','terms'));
     }
 
-    protected function _checkStudentResultAuthenticationKeys($student_id,$session_id,$class_id,$term_id,$pin)
+    protected function _checkStudentResultAuthenticationKeys(StudentResultPin $pin)
     {
         $session = $this->request->session();
-        if(!empty($student_id)){
+        if(!empty($pin->student_id)){
             debug('executing the if statement');
             // the submitted number against the stored number
-            if ($student_id != $this->request->data('reg_number')) {
+            if ($pin->student_id != $this->request->data('reg_number')) {
                 $this->Flash->error(__('Incorrect registration number or Invalid pin'));
                 return false;
             }
             // check if the session is Ok
-            if ($session_id !==  (int) $this->request->data('session_id')) {
+            if ($pin->session_id !==  (int) $this->request->data('session_id')) {
                 $this->Flash->error(__('This pin belongs to you but the session is incorrect. Check and try again'));
                 return false;
             }
             // Check if the class is ok
-            if ( $class_id !== (int) $this->request->data('class_id') ) {
+            if ( $pin->class_id !== (int) $this->request->data('class_id') ) {
                 $this->Flash->error(__('This pin belongs to you but the class is incorrect. Check and try again'));
                 return false;
             }
 
             // Check if the term is Ok
-            if ($term_id !== (int) $this->request->data('term_id')) {
+            if ($pin->term_id !== (int) $this->request->data('term_id')) {
                 $this->Flash->error(__('This pin belongs to you but the term is incorrect. Check and try again'));
                 return false;
             }
             // If all checks are true(OK) set the user sessions .
             $session->write([
-                'Student.id' => $student_id,
-                'Student.session_id' => $session_id,
-                'Student.term_id' => $term_id,
+                'Student.id' => $pin->student_id,
+                'Student.session_id' => $pin->session_id,
+                'Student.class_id' => $pin->class_id,
+                'Student.term_id' => $pin->term_id,
             ]); // write to session and return true
             return true;
 
         }else{
             debug('executing else statement');
             $student = $this->Students->find()->where(['id'=>$this->request->data('reg_number')])->first();
-            debug($student);
             if (empty($student)){
                 $this->Flash->error(__('Incorrect registration number or Invalid pin'));
                 return false;
