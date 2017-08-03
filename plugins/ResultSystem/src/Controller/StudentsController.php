@@ -358,6 +358,7 @@ class StudentsController extends AppController
                     'StudentTermlyResults' => [
                         'conditions' => [
                             'StudentTermlyResults.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
+                            'StudentTermlyResults.class_id' => @$this->_getDefaultValue($this->request->query['class_id'],$session->read('Student.class_id')),
                             'StudentTermlyResults.term_id' => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id'))
                         ]
                     ],
@@ -367,6 +368,7 @@ class StudentsController extends AppController
             $studentPosition = $this->Students->StudentTermlyPositions->find('all')
                 ->where(['student_id' => $student->id,
                     'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
+                    'class_id' => @$this->_getDefaultValue($this->request->query['class_id'],$session->read('Student.class_id')),
                     'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id'))
                 ])->first();
 
@@ -374,16 +376,19 @@ class StudentsController extends AppController
             $studentSubjectPositions = $this->Students->StudentTermlySubjectPositions->find('all')
                 ->where(['student_id' => $student->id,
                     'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
+                    'class_id' => @$this->_getDefaultValue($this->request->query['class_id'],$session->read('Student.class_id')),
                     'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id'))
                 ])->combine('subject_id','position')->toArray();
 
             // get the student subjects positions on class demarcation
-            $studentSubjectPositionsOnClassDemarcation =  $this->Students->StudentTermlySubjectPositionOnClassDemarcations->find('all')
+            /*$studentSubjectPositionsOnClassDemarcation =  $this->Students->StudentTermlySubjectPositionOnClassDemarcations->find('all')
                 ->where(['student_id' => $student->id,
                     'class_demarcation_id' => $student->class_demacation_id,
                     'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
                     'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id') )
                 ])->combine('subject_id','position')->toArray();
+
+            */
 
 
 
@@ -393,12 +398,14 @@ class StudentsController extends AppController
             $studentAffectiveDispositions = $affectiveDispositionTable->find('all')
                 ->where(['student_id' => $student->id,
                     'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
+                    'class_id' => @$this->_getDefaultValue($this->request->query['class_id'],$session->read('Student.class_id')),
                     'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id'))
                 ])->contain(['Affectives']);
 
             $studentPsychomotorSkills = $psychomotorSkillsTable->find('all')
                     ->where(['student_id' => $student->id,
                         'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],$session->read('Student.session_id')),
+                        'class_id' => @$this->_getDefaultValue($this->request->query['class_id'],$session->read('Student.class_id')),
                         'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],$session->read('Student.term_id'))
                     ])->contain(['Psychomotors']);
 
