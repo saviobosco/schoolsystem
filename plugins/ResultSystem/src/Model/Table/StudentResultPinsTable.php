@@ -123,10 +123,8 @@ class StudentResultPinsTable extends Table
         ];
         $result = $this->patchEntity($pin,$newData);
         if($this->save($result)){
-            debug('Saved the pin');
             return true;
         }
-        debug('Could not save the pin');
         return false;
     }
 }

@@ -32,7 +32,7 @@ Router::plugin(
                 'action'=>'check_result'
             ]);
 
-        $routes->connect('/student-result/*',
+        $routes->connect('/student-result',
             [
                 'controller'=>'Students',
                 'action'=>'view_student_result'

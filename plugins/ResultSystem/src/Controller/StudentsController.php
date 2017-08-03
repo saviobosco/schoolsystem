@@ -463,7 +463,6 @@ class StudentsController extends AppController
     {
         $session = $this->request->session();
         if(!empty($pin->student_id)){
-            debug('executing the if statement');
             // the submitted number against the stored number
             if ($pin->student_id != $this->request->data('reg_number')) {
                 $this->Flash->error(__('Incorrect registration number or Invalid pin'));
@@ -495,7 +494,6 @@ class StudentsController extends AppController
             return true;
 
         }else{
-            debug('executing else statement');
             $student = $this->Students->find()->where(['id'=>$this->request->data('reg_number')])->first();
             if (empty($student)){
                 $this->Flash->error(__('Incorrect registration number or Invalid pin'));
