@@ -13,6 +13,7 @@ use ResultSystem\Model\Entity\StudentResultPin;
  * @property \Cake\ORM\Association\BelongsTo $Students
  * @property \Cake\ORM\Association\BelongsTo $Terms
  * @property \Cake\ORM\Association\BelongsTo $Sessions
+ * @property \Cake\ORM\Association\BelongsTo $Classes
  *
  * @method \ResultSystem\Model\Entity\StudentResultPin get($primaryKey, $options = [])
  * @method \ResultSystem\Model\Entity\StudentResultPin newEntity($data = null, array $options = [])
@@ -53,6 +54,10 @@ class StudentResultPinsTable extends Table
             'className' => 'App.Sessions',
             'foreignKey' => 'session_id'
         ]);
+        $this->belongsTo('Classes', [
+            'className' => 'App.Classes',
+            'foreignKey' => 'class_id'
+        ]);
     }
 
     /**
@@ -88,6 +93,7 @@ class StudentResultPinsTable extends Table
         $rules->add($rules->existsIn(['student_id'], 'Students'));
         $rules->add($rules->existsIn(['term_id'], 'Terms'));
         $rules->add($rules->existsIn(['session_id'], 'Sessions'));
+        $rules->add($rules->existsIn(['class_id'], 'Classes'));
 
         return $rules;
     }
@@ -116,6 +122,7 @@ class StudentResultPinsTable extends Table
             'term_id' => $term_id
         ];
         $result = $this->patchEntity($pin,$newData);
+        debug($result);
         if($this->save($result)){
             debug('Saved the pin');
             return true;

@@ -160,7 +160,7 @@ class StudentsControllerTest extends IntegrationTestCase
     {
         $this->session([
             'Student' => [
-                'id' => 'SMS/2017/001',
+                'id' => 'SMS/2017/002',
                 'session_id' => 1,
                 'class_id' => 1,
                 'term_id' => 1
