@@ -350,6 +350,11 @@ class StudentsController extends AppController
             $this->render('view_student_annual_result');
 
         } else {
+            try {
+
+            } catch ( \Exception $e ) {
+
+            }
 
             $student = $this->Students->get($session->read('Student.id'), [
                 'contain' => [

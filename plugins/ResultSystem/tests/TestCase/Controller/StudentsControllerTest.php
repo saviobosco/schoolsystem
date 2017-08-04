@@ -16,7 +16,7 @@ class StudentsControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.students',
+        'plugin.result_system.students',
         'app.sessions',
         'app.classes',
         'app.subjects',
@@ -210,6 +210,71 @@ class StudentsControllerTest extends IntegrationTestCase
             'term_id' => 1
         ];
         $this->assertSession($sessions, 'Student');
+    }
+
+    public function testCheckResultFailedTermWithExistingData()
+    {
+        $data = [
+            'reg_number' => 'SMS/2017/001',
+            'pin' => 123457,
+            'session_id' => 1,
+            'class_id' => 1,
+            'term_id' => 2
+        ];
+        $this->post('/result-system/check-student-result',$data);
+        $this->assertResponseContains('This pin belongs to you but the term is incorrect. Check and try again');
+    }
+
+    public function testCheckResultFailedClassWithExistingData()
+    {
+        $data = [
+            'reg_number' => 'SMS/2017/001',
+            'pin' => 123457,
+            'session_id' => 1,
+            'class_id' => 2,
+            'term_id' => 1
+        ];
+        $this->post('/result-system/check-student-result',$data);
+        $this->assertResponseContains('This pin belongs to you but the class is incorrect. Check and try again');
+    }
+
+    public function testCheckResultFailedSessionWithExistingData()
+    {
+        $data = [
+            'reg_number' => 'SMS/2017/001',
+            'pin' => 123457,
+            'session_id' => 2,
+            'class_id' => 1,
+            'term_id' => 1
+        ];
+        $this->post('/result-system/check-student-result',$data);
+        $this->assertResponseContains('This pin belongs to you but the session is incorrect. Check and try again');
+    }
+
+    public function testCheckResultFailedRegistrationNumberWithExistingData()
+    {
+        $data = [
+            'reg_number' => 'SMS/2017/002',
+            'pin' => 123457,
+            'session_id' => 2,
+            'class_id' => 1,
+            'term_id' => 1
+        ];
+        $this->post('/result-system/check-student-result',$data);
+        $this->assertResponseContains('Incorrect registration number or Invalid pin');
+    }
+
+    public function testCheckResultFailedRegistrationNumberWithPostData()
+    {
+        $data = [
+            'reg_number' => 'SMS/2017/015',
+            'pin' => 123456,
+            'session_id' => 1,
+            'class_id' => 1,
+            'term_id' => 1
+        ];
+        $this->post('/result-system/check-student-result',$data);
+        $this->assertResponseContains('Incorrect registration number or Invalid pin');
     }
 
 }
