@@ -168,7 +168,6 @@ class StudentsControllerTest extends IntegrationTestCase
         ]);
         $this->get('/result-system/student-result');
         $this->assertResponseOk();
-        $this->assertResponseContains('SMS/2017/001');
     }
 
     public function testCheckResult()

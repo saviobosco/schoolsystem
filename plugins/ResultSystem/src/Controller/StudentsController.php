@@ -441,7 +441,6 @@ class StudentsController extends AppController
 
         } catch ( \Exception $e ) {
             $this->render('/Element/Error/recordnotfound');
-            debug($this->request->session());
             //debug('Exception Message '.$e->getTraceAsString());
         }
     }
