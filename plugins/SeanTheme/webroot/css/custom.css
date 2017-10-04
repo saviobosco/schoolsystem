@@ -2,6 +2,10 @@ body {
     font: 400 12px Lato, sans-serif;
     line-height: 1.8;
     color: #000000;
+    background-color: #feefd9;
+}
+a,a:hover,a:focus,a:active {
+    color: #F06E30;
 }
 h2 {
     font-size: 24px;
@@ -107,7 +111,7 @@ footer .glyphicon {
 @media screen and (max-width: 768px) {
     .col-sm-4 {
         text-align: center;
-        margin: 25px 0;
+        /*margin: 25px 0; */
     }
     .btn-lg {
         width: 100%;
@@ -314,6 +318,7 @@ footer .glyphicon {
 .m-b-30 { margin-bottom: 30px !important; }
 .m-b-35 { margin-bottom: 35px !important; }
 .m-b-40 { margin-bottom: 40px !important; }
+.m-b-90 { margin-bottom: 90px !important; }
 
 .m-l-0 { margin-left: 0px !important; }
 .m-l-1 { margin-left: 1px !important; }
@@ -426,18 +431,21 @@ footer .glyphicon {
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
-    -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.3);
-    box-shadow: 0 0 2px rgba(0,0,0,0.3);
+    /*-webkit-box-shadow: 0 0 2px rgba(0,0,0,0.3);
+    box-shadow: 0 0 2px rgba(0,0,0,0.3);*/
 }
-.navbar.navbar-default {
-    background: #33758c; /* #4BBADB formal color */
+.navbar-default {
+    background: #ffffff; /* #4BBADB formal color */
+    box-shadow: 0;
 }
-.navbar.navbar-inverse {
-    background: #2d353c;
+.navbar-inverse {
+    border-top:1px solid #ECECEC;
+    border-bottom:1px solid #ECECEC;
+    background: #ffffff;
 }
 .navbar.navbar-inverse .navbar-brand,
 .navbar.navbar-inverse .navbar-nav > li > a {
-    color: #a8acb1;
+    color: #004466;
 }
 .navbar.navbar-inverse .navbar-form .form-control {
     background: url(../img/transparent/black-0.2.png);
@@ -450,18 +458,20 @@ footer .glyphicon {
     margin-right: 10px;
     padding: 12px 20px;
     height: 54px;
-    width: 450px;
     font-weight: 100;
-    font-size: 18px;
     line-height: 30px;
 }
 .navbar-default .navbar-brand {
-    color: #ffffff;
+    color: #E77817;
+    font-size: 40px;
+    font-weight: 500;
+    font-family: 'Open Sans', sans-serif;
 }
+
 .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
-    color: #dfdfdf;
-    background-color: transparent;
+    color: #E77817;
 }
+
 .navbar-toggle {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -485,13 +495,14 @@ footer .glyphicon {
     line-height: 20px;
     padding: 17px 15px;
 }
-.navbar-default .navbar-nav > li > a {
-    color: #ffffff;
+.navbar-inverse .navbar-nav > li > a {
+    color: #E77817;
 }
-.navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:hover,
 .navbar-nav > li > a:focus {
-    opacity: 0.6;
-    filter: alpha(opacity=60);
+    /*opacity: 0.6;
+    filter: alpha(opacity=60);*/
+    color: #E77817;
 }
 .navbar-nav > .open > a,
 .navbar-nav > .open > a:hover,
@@ -1193,7 +1204,13 @@ footer .glyphicon {
 ------------------------------- */
 
 /* 3.1 General Content Setting */
-
+.body {
+    margin-top: 10px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    box-shadow: 1px 1px 11px 1px #ccb8b8;
+}
 .content {
     padding: 60px 15px 75px;
 }
@@ -1302,9 +1319,9 @@ footer .glyphicon {
 /* 8.1 Footer Element Setting */
 
 .footer {
-    background: #33758c;
-    -webkit-box-shadow: inset 0 100px 80px -80px rgba(0,0,0,.7);
-    box-shadow: inset 0 100px 80px -80px rgba(0,0,0,.7);
+    background: #ffffff;
+    /*-webkit-box-shadow: inset 0 100px 80px -80px rgba(0,0,0,.7);
+    box-shadow: inset 0 100px 80px -80px rgba(0,0,0,.7);*/
     padding: 60px 0 0;
 }
 .footer-section {
@@ -1315,7 +1332,7 @@ footer .glyphicon {
     font-size: 14px;
     font-weight: bold;
     letter-spacing: 0.5px;
-    color: #ffffff;
+    color: #004466;
     margin-bottom: 20px;
     margin-top: 0;
 }
@@ -1360,10 +1377,10 @@ footer .glyphicon {
 /* 8.2 Footer Copyright Setting */
 
 .footer-copyright {
-    background: #224354;
     padding: 20px 0;
-    font-size: 13px;
-    color: #919497;
+    font-size: 12px;
+    color: #E65C23;
+    border-top:1px dotted #C2BDBD;
 }
 .footer-copyright:before,
 .footer-copyright:after {

@@ -29,24 +29,41 @@ class StudentTermlyResultsController extends AppController
      */
     public function index()
     {
-        $this->loadModel('StudentTermlyPositions');
-        $studentPositions = $this->StudentTermlyPositions->find('all')
-            ->contain([ ])
-            ->where(['session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
-                    'class_id'  => @$this->_getDefaultValue($this->request->query['class_id'],1),
-                    'term_id'  => @$this->_getDefaultValue($this->request->query['term_id'],1),
-            ])
-            ->orderDesc('total');
-        // loads the session , class, term tables
+        try {
 
-        $this->loadModel('App.Sessions');
-        $this->loadModel('App.Classes');
-        $this->loadModel('Terms');
-        $sessions = $this->Sessions->find('list',['limit' => 200])->toArray();
-        $classes  = $this->Classes->find('list',['limit' => 200])->toArray();
-        $terms = $this->Terms->find('list',['limit' => 4])->toArray();
-        $this->set(compact('studentTermlyResults','studentPositions','sessions','classes','terms'));
-        $this->set('_serialize', ['studentTermlyResults']);
+            if (  isset($this->request->query['term_id']) && $this->request->query['term_id'] == 4 ) {
+
+                $this->loadModel('ResultSystem.StudentAnnualPositions');
+                $studentPositions = $this->StudentAnnualPositions->find('all')
+                    ->where(['StudentAnnualPositions.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                        'StudentAnnualPositions.class_id'  => @$this->_getDefaultValue($this->request->query['class_id'],1),
+                    ])
+                    ->contain(['Students'])
+                    ->orderDesc('total');
+            } else {
+                $this->loadModel('ResultSystem.StudentTermlyPositions');
+                $studentPositions = $this->StudentTermlyPositions->find('all')
+                    ->where(['StudentTermlyPositions.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
+                        'StudentTermlyPositions.class_id'  => @$this->_getDefaultValue($this->request->query['class_id'],1),
+                        'StudentTermlyPositions.term_id'  => @$this->_getDefaultValue($this->request->query['term_id'],1),
+                    ])
+                    ->contain(['Students'])
+                    ->orderDesc('total');
+
+            }
+            // loads the session , class, term tables
+            $this->loadModel('App.Sessions');
+            $this->loadModel('App.Classes');
+            $this->loadModel('Terms');
+            $sessions = $this->Sessions->find('list',['limit' => 200])->toArray();
+            $classes  = $this->Classes->find('list',['limit' => 200])->toArray();
+            $terms = $this->Terms->find('list',['limit' => 4])->toArray();
+            $this->set(compact('studentPositions','sessions','classes','terms'));
+            $this->set('_serialize', ['studentTermlyResults']);
+
+        } catch ( \Exception $e ) {
+
+        }
     }
 
     /**

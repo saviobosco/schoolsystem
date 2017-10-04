@@ -119,6 +119,12 @@ class StudentsTable extends Table
             'foreignKey' => 'student_id',
             'joinType'  => 'INNER'
         ]);
+
+        $this->hasMany('StudentPublishResults',[
+            'className' => 'ResultSystem.StudentPublishResults',
+            'foreignKey' => 'student_id',
+            'joinType'  => 'INNER'
+        ]);
     }
 
     /**

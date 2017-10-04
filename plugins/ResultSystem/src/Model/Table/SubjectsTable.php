@@ -71,6 +71,10 @@ class SubjectsTable extends Table
             'foreignKey' => 'subject_id',
             'className' => 'ResultSystem.StudentTermlySubjectPositions'
         ]);
+        $this->hasMany('SubjectClassAverages', [
+            'foreignKey' => 'subject_id',
+            'className' => 'ResultSystem.SubjectClassAverages'
+        ]);
     }
 
     /**

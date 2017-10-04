@@ -76,14 +76,14 @@ class ResultProcessingController extends AppController
             if ($termlyResultProcessing->getStatus()) {
                 $this->Flash->success('Successfully Calculated the students termly results ');
             }
-            if ( isset($term_id ) && $term_id == 3  ) {
+            /*if ( isset($term_id ) && $term_id == 3  ) {
 
                 $annualResultProcessing = new AnnualResultProcessing($class_id,$session_id);
                 if ($annualResultProcessing->getStatus()) {
                     $this->Flash->success('Successfully Calculated the students annual results');
                 }
             }
-            $classCount->getStudentNumberInClasses($class_id,$session_id,$term_id);
+            $classCount->getStudentNumberInClasses($class_id,$session_id,$term_id);*/
 
     }
 

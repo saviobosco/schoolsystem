@@ -34,7 +34,7 @@ class ResultSystemComponent extends Component
             // checks if the first array key is student_id .
             // else return the $result['format_error']
             if (!array_key_exists('student_id',$arrayData[0])) {
-                $result['format_error'] = 'The Excel file is not arranged in the proper format. The first column head is student_id and not '.$arrayDataKeys[0] .'. Please correct it.';
+                $result['format_error'] = 'The Excel file is not arranged in the proper format. The first column head is student_id and not <strong>'.$arrayDataKeys[0] .'</strong>. Please correct it.';
                 return $result;
             }
 

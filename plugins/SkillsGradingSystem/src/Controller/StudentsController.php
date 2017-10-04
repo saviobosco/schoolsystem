@@ -40,7 +40,7 @@ class StudentsController extends AppController
         else {
             $this->paginate = [
                 'limit' => 50,
-                'contain' => ['Sessions', 'Classes', 'ClassDemarcations'],
+                'contain' => ['Sessions', 'Classes'],
                 'conditions' => [
                     'Students.status'   => 1,
                     'Students.graduated'   => 0,
