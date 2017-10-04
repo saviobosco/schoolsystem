@@ -34,8 +34,6 @@ $cakeDescription = 'School System';
 
     <?php
     echo $this->AlaxosHtml->includeBootstrapCSS(['block' => false]);
-    echo $this->AlaxosHtml->includeBootstrapThemeCSS(['block' => false]);
-    echo $this->AlaxosHtml->includeAlaxosCSS(['block' => false]);
     echo $this->Site->css('font-awesome/css/font-awesome.css');
     echo $this->Site->css('select2/dist/css/select2.min.css');
     echo $this->Html->css('custom.css');
@@ -45,7 +43,6 @@ $cakeDescription = 'School System';
 
     echo $this->AlaxosHtml->includeAlaxosJQuery(['block' => false]);
     echo $this->AlaxosHtml->includeAlaxosBootstrapJS(['block' => false]);
-    echo $this->Site->script('bootstrap-wizard/js/bwizard.js');
     ?>
 
     <?= $this->fetch('meta') ?>
@@ -53,42 +50,25 @@ $cakeDescription = 'School System';
     <?= $this->fetch('script') ?>
 </head>
 <body>
-<div>
 
+<div class="container body">
 
+    <div >
+        <?= $this->Flash->render() ?>
+        <?= $this->fetch('content') ?>
+    </div>
+
+    <?php //$this->Element('footerLinks');
+    ?>
 </div>
-
-<div class="">
-    <?= $this->Flash->render() ?>
-    <?= $this->fetch('content') ?>
-</div>
-
-<?= $this->Element('footerLinks'); ?>
 <?= $this->Element('footer'); ?>
 
-<?= $this->Site->script('bootstrap-wizard/js/bwizard.js') ?>
-<?= $this->Site->script('custom/js/fileinput.min.js') ?>
 <?= $this->Site->script('select2/dist/js/select2.full.min.js') ?>
 <?= $this->Html->script('app.js') ?>
 
 <script>
     $(document).ready(function() {
-        $("#wizard").bwizard();
-        App.init();
         $('select').select2();
-
-       /* $("#preview-application").click(function(){
-            $.ajax({
-                type: "GET",
-                url: "applicants/view",
-                dataType: 'html',
-                success: function(data,status){
-                    console.log(status);
-                    $("#app-preview").html(data).show();
-                    $("#myModal").modal()
-                }
-            });
-        })*/
     });
 </script>
 </body>

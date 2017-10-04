@@ -78,7 +78,10 @@
                     <li><?= $this->Html->link(__('Settings'),['plugin'=>'ResultSystem','controller'=>'Dashboard','action'=>'settings'],['escape'=>false]) ?></li>
                     <li><?= $this->Html->link(__('Students'),['plugin'=>'ResultSystem','controller'=>'Students','action'=>'index'],['escape'=>false]) ?></li>
                     <li><?= $this->Html->link(__('Subjects'),['plugin'=>'ResultSystem','controller'=>'Subjects','action'=>'index'],['escape'=>false]) ?></li>
+                    <li><?= $this->Html->link(__('View Positions'),['plugin'=>'ResultSystem','controller'=>'StudentTermlyResults','action'=>'index']) ?></li>
+                    <li><?= $this->Html->link(__('Publish Results'),['plugin'=>'ResultSystem','controller'=>'Students','action'=>'publishResults']) ?></li>
                     <li><?= $this->Html->link(__('Upload Result'),['plugin'=>'ResultSystem','controller'=>'StudentTermlyResults','action'=>'uploadResult']) ?></li>
+                    <li><?= $this->Html->link(__('Grading System'),['plugin'=>'ResultSystem','controller'=>'ResultGradingSystems','action'=>'index']) ?></li>
                     <li><?= $this->Html->link(__('Result Processing'),['plugin'=>'ResultSystem','controller'=>'ResultProcessing','action'=>'index']) ?></li>
                 </ul>
             </li>

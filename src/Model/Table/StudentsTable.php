@@ -199,4 +199,9 @@ class StudentsTable extends Table
             $data['date_of_birth'] = new Date($data['date_of_birth']); // Converts the birth date Date properly
         }
     }
+
+    public function schemaTesting()
+    {
+
+    }
 }
