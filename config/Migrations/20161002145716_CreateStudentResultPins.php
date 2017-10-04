@@ -1,11 +1,8 @@
 <?php
 use Migrations\AbstractMigration;
 
-class CreateClasses extends AbstractMigration
+class CreateStudentResultPins extends AbstractMigration
 {
-
-    public $autoId = false;
-
     /**
      * Change Method.
      *
@@ -15,40 +12,37 @@ class CreateClasses extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('classes');
-        $table->addColumn('id', 'integer', [
-            'autoIncrement' => true,
+        $table = $this->table('student_result_pins');
+        $table->addColumn('serial_key', 'integer', [
             'default' => null,
             'limit' => 11,
             'null' => false,
         ]);
-        $table->addColumn('class', 'string', [
+        $table->addColumn('pin', 'integer', [
+            'default' => null,
+            'limit' => 11,
+            'null' => false,
+        ]);
+        $table->addColumn('student_id', 'string', [
             'default' => null,
             'limit' => 30,
-            'null' => false,
+            'null' => true,
         ]);
-        $table->addColumn('block_id', 'integer', [
+        $table->addColumn('term_id', 'integer', [
             'default' => null,
-            'limit' => 4,
-            'null' => false,
+            'limit' => 3,
+            'null' => true,
         ]);
-        $table->addColumn('created', 'datetime', [
+        $table->addColumn('session_id', 'integer', [
             'default' => null,
-            'null' => false,
-        ]);
-        $table->addColumn('modified', 'datetime', [
-            'default' => null,
-            'null' => false,
-        ]);
-        $table->addPrimaryKey([
-            'id',
+            'limit' => 3,
+            'null' => true,
         ]);
         $table->create();
     }
 
-
     public function down()
     {
-        $this->table('classes')->drop();
+        $this->table('student_result_pins')->drop();
     }
 }
