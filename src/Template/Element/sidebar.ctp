@@ -20,13 +20,7 @@
     </ul>
 </li>
 <?= $this->element('ClassManager.Links/sidebar') ?>
-<li class="has-sub">
-    <?= $this->Html->link('<b class="caret pull-right"></b>'.__('Students'),'javascript:;',['escape'=>false]) ?>
-    <ul class="sub-menu">
-        <li><?= $this->Html->link(__('All Students'),['plugin'=>null,'controller'=>'Students','action'=>'index'],['escape'=>false]) ?></li>
-        <li><?= $this->Html->link(__('Add Student'),['plugin'=>null,'controller'=>'Students','action'=>'add'],['escape'=>false]) ?></li>
-    </ul>
-</li>
+<?= $this->element('SubjectsManager.Links/sidebar') ?>
 <li class="has-sub">
     <?= $this->Html->link('<b class="caret pull-right"></b>'.__('Grading System'),'javascript:;',['escape'=>false]) ?>
     <ul class="sub-menu">
