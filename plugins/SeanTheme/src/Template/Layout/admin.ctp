@@ -81,10 +81,13 @@ $cakeDescription = Setting::read('Application.school_name')
     <?php if(!empty($this->request->session()->read('Auth.User.id'))): ?>
         <?= $this->element('loggedInHeader'); ?>
     <?php endif; ?>
+
+
     <?= $this->element('sidebar') ?>
 
     <!-- begin #content -->
     <div id="content" class="content">
+
         <!-- begin breadcrumb -->
         <?php
         /*$this->Html->addCrumb($this->request->params['controller'],Inflector::underscore('/'.$this->request->params['controller'] ));
