@@ -1,4 +1,5 @@
 <?php
+
 use Cake\Utility\Inflector ;
 // including the search parameter element
 ?>
@@ -7,7 +8,7 @@ use Cake\Utility\Inflector ;
     <div class="col-sm-12">
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title"> Students  </h4>
+                <h4 class="panel-title"> <?= __('UnActive Students') ?>  </h4>
             </div>
             <div class="panel-body">
                 <div class="m-b-20">
@@ -28,18 +29,18 @@ use Cake\Utility\Inflector ;
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($students as $student): ?>
+                    <?php foreach ($unActiveStudents as $student): ?>
                         <tr>
                             <td><?= h($student->id) ?></td>
                             <td><?= h($student->full_name) ?></td>
                             <td><?= h($student->gender) ?></td>
                             <td><?= $student->session->session ?></td>
                             <td><?= $student->class->class ?></td>
-                            <td class="actions-link">
-                                <?= $this->Html->link('<i class="fa fa-eye"></i>'.__('View profile'), ['action' => 'view', $student->id],['class'=>'text-primary','escape'=>false]) ?>
-                                <?= $this->Html->link('<i class="fa fa-edit"></i>'.__('Edit profile'), ['action' => 'edit', $student->id],['class'=>'text-primary','escape'=>false]) ?>
-                                <?= $this->Html->link(''.__('Deactivate'), ['action' => 'deactivate', $student->id],['class'=>'text-primary','escape'=>false]) ?>
-                                <?= $this->Form->postLink('<i class="fa fa-close"></i>'.__('Delete'), ['action' => 'delete', $student->id], ['confirm' => __('Are you sure you want to delete # {0}? . This action can not be reversed', $student->id),'class'=>'text-danger','escape' => false]) ?>
+                            <td class="actions">
+                                <?= $this->Html->link(''.__('Activate'), ['action' => 'activate', $student->id],['class'=>'text-primary','escape'=>false]) ?>
+                                <?= $this->Html->link(__('View'), ['action' => 'view', $student->id]) ?>
+                                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $student->id]) ?>
+                                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $student->id], ['confirm' => __('Are you sure you want to delete # {0}?', $student->id)]) ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

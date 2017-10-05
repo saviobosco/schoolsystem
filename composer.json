@@ -43,7 +43,8 @@
             "GradingSystem\\": "./plugins/GradingSystem/src",
             "Saviobosco\\Excel\\": "./plugins/Saviobosco/Excel/src",
             "StudentsManager\\": "./plugins/StudentsManager/src",
-            "SubjectsManager\\": "./plugins/SubjectsManager/src"
+            "SubjectsManager\\": "./plugins/SubjectsManager/src",
+            "ClassManager\\": "./plugins/ClassManager/src"
         }
     },
     "autoload-dev": {
@@ -60,7 +61,8 @@
             "GradingSystem\\Test\\": "./plugins/GradingSystem/tests",
             "Saviobosco\\Excel\\Test\\": "./plugins/Saviobosco/Excel/tests",
             "StudentsManager\\Test\\": "./plugins/StudentsManager/tests",
-            "SubjectsManager\\Test\\": "./plugins/SubjectsManager/tests"
+            "SubjectsManager\\Test\\": "./plugins/SubjectsManager/tests",
+            "ClassManager\\Test\\": "./plugins/ClassManager/tests"
         }
     },
     "scripts": {

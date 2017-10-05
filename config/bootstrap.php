@@ -239,7 +239,6 @@ Plugin::load('SkillsGradingSystem', ['bootstrap' => false, 'routes' => true]);
 
 Plugin::load('ResultSystem', ['bootstrap' => false, 'routes' => true]);
 
-Plugin::load('Queue');
 
 Plugin::load('Proffer');
 
@@ -266,4 +265,8 @@ Plugin::load('GradingSystem', ['bootstrap' => false, 'routes' => true]);
 
 Plugin::load('Saviobosco/Excel', ['bootstrap' => false, 'routes' => true]);
 
+Plugin::load('StudentsManager', ['bootstrap' => false, 'routes' => true]);
+
 Plugin::load('SubjectsManager', ['bootstrap' => false, 'routes' => true]);
+
+Plugin::load('ClassManager', ['bootstrap' => false, 'routes' => true]);

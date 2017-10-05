@@ -1,81 +1,97 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $student->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $student->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Students'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Sessions'), ['controller' => 'Sessions', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Session'), ['controller' => 'Sessions', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Classes'), ['controller' => 'Classes', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Class'), ['controller' => 'Classes', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Class Demarcations'), ['controller' => 'ClassDemarcations', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Class Demarcation'), ['controller' => 'ClassDemarcations', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List States'), ['controller' => 'States', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New State'), ['controller' => 'States', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student Annual Position On Class Demarcations'), ['controller' => 'StudentAnnualPositionOnClassDemarcations', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student Annual Position On Class Demarcation'), ['controller' => 'StudentAnnualPositionOnClassDemarcations', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student Annual Positions'), ['controller' => 'StudentAnnualPositions', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student Annual Position'), ['controller' => 'StudentAnnualPositions', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student Annual Results'), ['controller' => 'StudentAnnualResults', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student Annual Result'), ['controller' => 'StudentAnnualResults', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student Annual Subject Position On Class Demarcations'), ['controller' => 'StudentAnnualSubjectPositionOnClassDemarcations', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student Annual Subject Position On Class Demarcation'), ['controller' => 'StudentAnnualSubjectPositionOnClassDemarcations', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student Annual Subject Positions'), ['controller' => 'StudentAnnualSubjectPositions', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student Annual Subject Position'), ['controller' => 'StudentAnnualSubjectPositions', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student General Remarks'), ['controller' => 'StudentGeneralRemarks', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student General Remark'), ['controller' => 'StudentGeneralRemarks', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student Publish Results'), ['controller' => 'StudentPublishResults', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student Publish Result'), ['controller' => 'StudentPublishResults', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student Result Pins'), ['controller' => 'StudentResultPins', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student Result Pin'), ['controller' => 'StudentResultPins', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student Termly Position On Class Demarcations'), ['controller' => 'StudentTermlyPositionOnClassDemarcations', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student Termly Position On Class Demarcation'), ['controller' => 'StudentTermlyPositionOnClassDemarcations', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student Termly Positions'), ['controller' => 'StudentTermlyPositions', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student Termly Position'), ['controller' => 'StudentTermlyPositions', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student Termly Results'), ['controller' => 'StudentTermlyResults', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student Termly Result'), ['controller' => 'StudentTermlyResults', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student Termly Subject Position On Class Demarcations'), ['controller' => 'StudentTermlySubjectPositionOnClassDemarcations', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student Termly Subject Position On Class Demarcation'), ['controller' => 'StudentTermlySubjectPositionOnClassDemarcations', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Student Termly Subject Positions'), ['controller' => 'StudentTermlySubjectPositions', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Student Termly Subject Position'), ['controller' => 'StudentTermlySubjectPositions', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Students Affective Disposition Scores'), ['controller' => 'StudentsAffectiveDispositionScores', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Students Affective Disposition Score'), ['controller' => 'StudentsAffectiveDispositionScores', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Students Psychomotor Skill Scores'), ['controller' => 'StudentsPsychomotorSkillScores', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Students Psychomotor Skill Score'), ['controller' => 'StudentsPsychomotorSkillScores', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="students form large-9 medium-8 columns content">
-    <?= $this->Form->create($student) ?>
-    <fieldset>
-        <legend><?= __('Edit Student') ?></legend>
-        <?php
-            echo $this->Form->input('first_name');
-            echo $this->Form->input('last_name');
-            echo $this->Form->input('date_of_birth');
-            echo $this->Form->input('gender');
-            echo $this->Form->input('state_of_origin');
-            echo $this->Form->input('religion');
-            echo $this->Form->input('home_residence');
-            echo $this->Form->input('guardian');
-            echo $this->Form->input('relationship_to_guardian');
-            echo $this->Form->input('occupation_of_guardian');
-            echo $this->Form->input('guardian_phone_number');
-            echo $this->Form->input('session_id', ['options' => $sessions]);
-            echo $this->Form->input('class_id', ['options' => $classes]);
-            echo $this->Form->input('class_demarcation_id', ['options' => $classDemarcations, 'empty' => true]);
-            echo $this->Form->input('photo');
-            echo $this->Form->input('photo_dir');
-            echo $this->Form->input('status');
-            echo $this->Form->input('session_admitted_id');
-            echo $this->Form->input('graduated');
-            echo $this->Form->input('graduated_session_id');
-            echo $this->Form->input('state_id', ['options' => $states, 'empty' => true]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+<?= $this->Site->css('switchery/switchery.min.css',['block' => true]) ?>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <h4 class="panel-title"> Edit  Student : <?= h($student->id) ?>  </h4>
+            </div>
+            <div class="panel-body">
+
+                <?= $this->element('Links/header_links') ?>
+
+
+                <?= $this->Form->create($student,[
+                    'enctype' => 'multipart/form-data','novalidate'
+                ]) ?>
+                <fieldset>
+                    <legend><?= __('Edit Student Profile') ?></legend>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="fileinput fileinput-new" data-provides="fileinput"><input type="hidden" value="" name="...">
+                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; line-height: 150px;"> <?= ( $student->photo ) ? $this->Html->image('student-pictures/students/photo/'.$student->photo_dir.'/'.$student->photo,[
+                                            'alt' => $student->full_name
+                                        ]) : 'No Image' ?> </div>
+                                    <div>
+                                        <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><?= $this->Form->file('photo',['type' => 'file']) ?></span>
+                                        <a href="file:///D:/html%20templates/html%20templates/dashboard_templates/themeforest-5961888-avant-clean-and-responsive-bootstrap-31-admin/HTML/form-components.htm#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+                            <?= $this->Form->input('id',['type' => 'text','data-toggle' =>'tooltip','trigger' =>'focus','title' =>'Please if you edit this column this student will lost all his previous results', 'label'=>['text'=>'Reg Number'],'disabled'=>true]);  ?>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <?= $this->Form->input('first_name');  ?>
+                                </div>
+                                <div class="col-sm-6">
+                                    <?= $this->Form->input('last_name'); ?>
+                                </div>
+                            </div>
+                            <?php
+                            echo $this->Form->radio('gender',[
+                                ['value' => 'male', 'text' => 'Male',],
+                                ['value' => 'female', 'text' => 'Female',]
+                            ],['hiddenField'=>false,'label'=>true,'templates'=>['input' => '<input type="{{type}}" name="{{name}}"{{attrs}}/>',]]);
+
+                            echo $this->Form->input('date_of_birth',[
+                                /*'minYear' => 1990,
+                                'maxYear' => date('Y'),*/
+                                'id' => 'datepicker-autoClose',
+                                'type' => 'text',
+                                'templates'=>[
+                                    'inputContainer' => '<div class="form-group">{{content}}</div>'
+                                    ,'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'
+                                ]
+                            ]);
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                    //echo $this->Form->input('state_of_origin');
+                    echo $this->Form->input('state_id',['options'=>$states]);
+                    echo $this->Form->input('religion');
+                    echo $this->Form->input('home_residence');
+                    echo $this->Form->input('session_id', ['options' => $sessions]);
+                    echo $this->Form->input('class_id', ['options' => $classes]);
+                    echo $this->Form->input('class_demarcation_id', ['options' => $classDemarcations]);
+
+                    echo '<h2>Guardian Information </h2>';
+
+                    echo $this->Form->input('guardian');
+                    echo $this->Form->input('relationship_to_guardian');
+                    echo $this->Form->input('occupation_of_guardian');
+                    echo $this->Form->input('guardian_phone_number');
+                    ?>
+
+                    <?php
+                    echo '<label> Student Status </label>';
+                    echo $this->Form->input('status',['type' => 'checkbox','data-render'=>'switchery','data-theme' => 'default']);
+                    ?>
+
+                </fieldset>
+                <?= $this->Form->button(__('Submit'),['class' => 'btn btn-primary']) ?>
+                <?= $this->Form->end() ?>
+
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<?= $this->Plugins->script('bootstrap-datepicker/js/bootstrap-datepicker.js',['block' => true]) ?>
+<?= $this->Plugins->script('custom/js/fileinput.min.js',['block' => true]) ?>
+<?= $this->Site->script('switchery/switchery.min.js',['block' => true]) ?>
+<?= $this->Html->script('form-slider-switcher.demo.min.js',['block' => true]) ?>

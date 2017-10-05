@@ -38,10 +38,10 @@ class ClassesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('classes');
-        $this->entityClass('App\Model\Entity\Classe');
-        $this->displayField('class');
-        $this->primaryKey('id');
+        $this->setTable('classes');
+        $this->setEntityClass('App\Model\Entity\Classe');
+        $this->setDisplayField('class');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 

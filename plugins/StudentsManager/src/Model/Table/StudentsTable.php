@@ -8,6 +8,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use StudentsManager\Model\Entity\Student;
 
 /**
  * Students Model
@@ -57,9 +58,9 @@ class StudentsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('students');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('students');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
@@ -78,6 +79,17 @@ class StudentsTable extends Table
             'className' => 'StudentsManager.ClassDemarcations'
         ]);
 
+        $this->belongsTo('SessionAdmitted', [
+            'className' => 'App.Sessions',
+            'foreignKey' => 'session_admitted_id',
+            'joinType' => 'INNER'
+        ]);
+
+        $this->belongsTo('SessionGraduated',[
+            'className' => 'App.Sessions',
+            'foreignKey' => 'graduated_session_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
@@ -162,8 +174,8 @@ class StudentsTable extends Table
         $rules->add($rules->isUnique(['id']));
         $rules->add($rules->existsIn(['session_id'], 'Sessions'));
         $rules->add($rules->existsIn(['class_id'], 'Classes'));
-        $rules->add($rules->existsIn(['class_demarcation_id'], 'ClassDemarcations'));
-        $rules->add($rules->existsIn(['state_id'], 'States'));
+        //$rules->add($rules->existsIn(['class_demarcation_id'], 'ClassDemarcations'));
+        //$rules->add($rules->existsIn(['state_id'], 'States'));
 
         return $rules;
     }
@@ -203,5 +215,23 @@ class StudentsTable extends Table
         if ( !empty($data['date_of_birth'] )) {
             $data['date_of_birth'] = new Date($data['date_of_birth']); // Converts the birth date Date properly
         }
+    }
+
+    public function deactivateStudent(Student $student )
+    {
+        $student->status = 0;
+        if ($this->save($student)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function activateStudent(Student $student)
+    {
+        $student->status = 1;
+        if ($this->save($student)) {
+            return true;
+        }
+        return false;
     }
 }

@@ -53,4 +53,8 @@ class Student extends Entity
         '*' => true,
         'id' => false
     ];
+
+    protected function _getFullName() {
+        return $this->_properties['first_name'].' '.$this->_properties['last_name'];
+    }
 }
