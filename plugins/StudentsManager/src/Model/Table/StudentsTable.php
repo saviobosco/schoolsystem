@@ -1,5 +1,5 @@
 <?php
-namespace App\Model\Table;
+namespace StudentsManager\Model\Table;
 
 use Cake\Event\Event;
 use Cake\I18n\Date;
@@ -15,14 +15,32 @@ use Cake\Validation\Validator;
  * @property \Cake\ORM\Association\BelongsTo $Sessions
  * @property \Cake\ORM\Association\BelongsTo $Classes
  * @property \Cake\ORM\Association\BelongsTo $ClassDemarcations
+ * @property \Cake\ORM\Association\BelongsTo $SessionAdmitteds
+ * @property \Cake\ORM\Association\BelongsTo $GraduatedSessions
+ * @property \Cake\ORM\Association\BelongsTo $States
+ * @property \Cake\ORM\Association\HasMany $StudentAnnualPositionOnClassDemarcations
+ * @property \Cake\ORM\Association\HasMany $StudentAnnualPositions
+ * @property \Cake\ORM\Association\HasMany $StudentAnnualResults
+ * @property \Cake\ORM\Association\HasMany $StudentAnnualSubjectPositionOnClassDemarcations
+ * @property \Cake\ORM\Association\HasMany $StudentAnnualSubjectPositions
+ * @property \Cake\ORM\Association\HasMany $StudentGeneralRemarks
+ * @property \Cake\ORM\Association\HasMany $StudentPublishResults
+ * @property \Cake\ORM\Association\HasMany $StudentResultPins
+ * @property \Cake\ORM\Association\HasMany $StudentTermlyPositionOnClassDemarcations
+ * @property \Cake\ORM\Association\HasMany $StudentTermlyPositions
+ * @property \Cake\ORM\Association\HasMany $StudentTermlyResults
+ * @property \Cake\ORM\Association\HasMany $StudentTermlySubjectPositionOnClassDemarcations
+ * @property \Cake\ORM\Association\HasMany $StudentTermlySubjectPositions
+ * @property \Cake\ORM\Association\HasMany $StudentsAffectiveDispositionScores
+ * @property \Cake\ORM\Association\HasMany $StudentsPsychomotorSkillScores
  *
- * @method \App\Model\Entity\Student get($primaryKey, $options = [])
- * @method \App\Model\Entity\Student newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Student[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Student|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Student patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Student[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Student findOrCreate($search, callable $callback = null)
+ * @method \StudentsManager\Model\Entity\Student get($primaryKey, $options = [])
+ * @method \StudentsManager\Model\Entity\Student newEntity($data = null, array $options = [])
+ * @method \StudentsManager\Model\Entity\Student[] newEntities(array $data, array $options = [])
+ * @method \StudentsManager\Model\Entity\Student|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \StudentsManager\Model\Entity\Student patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \StudentsManager\Model\Entity\Student[] patchEntities($entities, array $data, array $options = [])
+ * @method \StudentsManager\Model\Entity\Student findOrCreate($search, callable $callback = null)
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
@@ -45,37 +63,21 @@ class StudentsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        // loads the Proffer behaviour for picture upload .
-        $this->addBehavior('Proffer.Proffer', [
-            'photo' => [    // The name of your upload field
-                'root' => WWW_ROOT .'img/student-pictures', // Customise the root upload folder here, or omit to use the default
-                'dir' => 'photo_dir',   // The name of the field to store the folder
-            ]
-        ]);
-
         $this->belongsTo('Sessions', [
             'foreignKey' => 'session_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('SessionAdmitted', [
-            'className' => 'App.Sessions',
-            'foreignKey' => 'session_admitted_id',
-            'joinType' => 'INNER'
+            'joinType' => 'INNER',
+            'className' => 'StudentsManager.Sessions'
         ]);
         $this->belongsTo('Classes', [
             'foreignKey' => 'class_id',
-            'joinType' => 'INNER'
+            'joinType' => 'INNER',
+            'className' => 'StudentsManager.Classes'
         ]);
         $this->belongsTo('ClassDemarcations', [
             'foreignKey' => 'class_demarcation_id',
-            'joinType' => 'INNER'
+            'className' => 'StudentsManager.ClassDemarcations'
         ]);
 
-        $this->belongsTo('SessionGraduated',[
-            'className' => 'App.Sessions',
-            'foreignKey' => 'graduated_session_id',
-            'joinType' => 'INNER'
-        ]);
     }
 
     /**
@@ -87,12 +89,8 @@ class StudentsTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->notEmpty('id', 'create')
-            ->add('id', 'unique', [
-                'rule' => 'validateUnique',
-                'last'=>true,
-                'message' => __( 'Registration Number already exists'),
-                'provider' => 'table']);
+            ->allowEmpty('id', 'create')
+            ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->requirePresence('first_name', 'create')
@@ -103,16 +101,9 @@ class StudentsTable extends Table
             ->notEmpty('last_name');
 
         $validator
-            ->requirePresence('session_id', 'create')
-            ->notEmpty('session_id');
-
-        $validator
-            ->requirePresence('class_id', 'create')
-            ->notEmpty('class_id');
-
-        $validator
             ->date('date_of_birth')
-            ->allowEmpty('date_of_birth');
+            ->requirePresence('date_of_birth', 'create')
+            ->notEmpty('date_of_birth');
 
         $validator
             ->requirePresence('gender', 'create')
@@ -122,10 +113,12 @@ class StudentsTable extends Table
             ->allowEmpty('state_of_origin');
 
         $validator
-            ->allowEmpty('religion');
+            ->requirePresence('religion', 'create')
+            ->notEmpty('religion');
 
         $validator
-            ->allowEmpty('home_residence');
+            ->requirePresence('home_residence', 'create')
+            ->notEmpty('home_residence');
 
         $validator
             ->allowEmpty('guardian');
@@ -142,7 +135,17 @@ class StudentsTable extends Table
         $validator
             ->allowEmpty('photo');
 
+        $validator
+            ->allowEmpty('photo_dir');
 
+        $validator
+            ->integer('status')
+            ->requirePresence('status', 'create')
+            ->notEmpty('status');
+
+        $validator
+            ->integer('graduated')
+            ->allowEmpty('graduated');
 
         return $validator;
     }
@@ -156,9 +159,11 @@ class StudentsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
+        $rules->add($rules->isUnique(['id']));
         $rules->add($rules->existsIn(['session_id'], 'Sessions'));
         $rules->add($rules->existsIn(['class_id'], 'Classes'));
         $rules->add($rules->existsIn(['class_demarcation_id'], 'ClassDemarcations'));
+        $rules->add($rules->existsIn(['state_id'], 'States'));
 
         return $rules;
     }
@@ -166,7 +171,7 @@ class StudentsTable extends Table
     public function beforeSave(Event $event, Entity $entity ) {
         if ($entity->isNew()) {
             if ( empty($entity->session_admitted_id ))
-            $entity->session_admitted_id = $entity->session_id ;
+                $entity->session_admitted_id = $entity->session_id ;
         }
         return true;
     }
@@ -184,7 +189,7 @@ class StudentsTable extends Table
         return $this->find('all')
             ->where(['status' => 0])
             ->contain(['Sessions','ClassDemarcations']);
-            //->orderAsc('class_id');
+        //->orderAsc('class_id');
     }
 
     /***

@@ -18,12 +18,7 @@
         "Cewi/Excel": "dev-master",
         "davidyell/proffer": "~0.6",
         "cakemanager/cakephp-utils": "dev-master",
-        "cakemanager/cakephp-notifier": "dev-master",
         "cakemanager/cakephp-settings": "dev-master",
-        "holt59/cakephp3-bootstrap-helpers": "dev-master",
-        "cakemanager/cakeadmin-lightstrap": "dev-master",
-        "cakemanager/cakephp-cakeadmin": "dev-master",
-        "dereuromark/cakephp-queue": "^3.3",
         "CakeDC/Users": "^3.2"
     },
     "require-dev": {
@@ -46,7 +41,9 @@
             "SeanTheme\\": "./plugins/SeanTheme/src",
             "FrontEnd\\": "./plugins/FrontEnd/src",
             "GradingSystem\\": "./plugins/GradingSystem/src",
-            "Saviobosco\\Excel\\": "./plugins/Saviobosco/Excel/src"
+            "Saviobosco\\Excel\\": "./plugins/Saviobosco/Excel/src",
+            "StudentsManager\\": "./plugins/StudentsManager/src",
+            "SubjectsManager\\": "./plugins/SubjectsManager/src"
         }
     },
     "autoload-dev": {
@@ -61,7 +58,9 @@
             "SeanTheme\\Test\\": "./plugins/SeanTheme/tests",
             "FrontEnd\\Test\\": "./plugins/FrontEnd/tests",
             "GradingSystem\\Test\\": "./plugins/GradingSystem/tests",
-            "Saviobosco\\Excel\\Test\\": "./plugins/Saviobosco/Excel/tests"
+            "Saviobosco\\Excel\\Test\\": "./plugins/Saviobosco/Excel/tests",
+            "StudentsManager\\Test\\": "./plugins/StudentsManager/tests",
+            "SubjectsManager\\Test\\": "./plugins/SubjectsManager/tests"
         }
     },
     "scripts": {
