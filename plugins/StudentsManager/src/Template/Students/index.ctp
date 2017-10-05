@@ -1,6 +1,7 @@
 <?php
 use Cake\Utility\Inflector ;
 // including the search parameter element
+$this->append('sidebar',$this->element('Links/sidebar'));
 ?>
 
 <div class="row">
