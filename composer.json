@@ -44,7 +44,8 @@
             "Saviobosco\\Excel\\": "./plugins/Saviobosco/Excel/src",
             "StudentsManager\\": "./plugins/StudentsManager/src",
             "SubjectsManager\\": "./plugins/SubjectsManager/src",
-            "ClassManager\\": "./plugins/ClassManager/src"
+            "ClassManager\\": "./plugins/ClassManager/src",
+            "UsersManager\\": "./plugins/UsersManager/src"
         }
     },
     "autoload-dev": {
@@ -62,7 +63,8 @@
             "Saviobosco\\Excel\\Test\\": "./plugins/Saviobosco/Excel/tests",
             "StudentsManager\\Test\\": "./plugins/StudentsManager/tests",
             "SubjectsManager\\Test\\": "./plugins/SubjectsManager/tests",
-            "ClassManager\\Test\\": "./plugins/ClassManager/tests"
+            "ClassManager\\Test\\": "./plugins/ClassManager/tests",
+            "UsersManager\\Test\\": "./plugins/UsersManager/tests"
         }
     },
     "scripts": {

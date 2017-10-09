@@ -1,7 +1,7 @@
 <?php
 use Cake\I18n\Time;
+$this->assign('title','All Users');
 ?>
-<?= $this->assign('title','All Users'); ?>
 <div class="col-sm-12">
     <?= $this->Html->link(' <i class="fa fa-plus-square-o"></i> '.__('Add New User'), ['action' => 'add'],['escape'=>false,'class'=>'btn btn-primary pull-right','title'=>'Add New User']) ?>
         <h3><?= __('Users') ?></h3>

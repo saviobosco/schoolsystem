@@ -270,3 +270,5 @@ Plugin::load('StudentsManager', ['bootstrap' => false, 'routes' => true]);
 Plugin::load('SubjectsManager', ['bootstrap' => false, 'routes' => true]);
 
 Plugin::load('ClassManager', ['bootstrap' => false, 'routes' => true]);
+
+Plugin::load('UsersManager', ['bootstrap' => false, 'routes' => true]);

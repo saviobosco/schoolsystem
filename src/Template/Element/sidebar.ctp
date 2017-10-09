@@ -68,13 +68,7 @@
                     <li><?= $this->Html->link(__('Parents'),['plugin'=>null,'controller'=>'MyUsers','action'=>'index'],['escape'=>false]) ?></li>
                 </ul>
             </li> -->
-<li class="has-sub">
-    <?= $this->Html->link('<b class="caret pull-right"></b>'.__('Admins'),'javascript:;',['escape'=>false]) ?>
-    <ul class="sub-menu">
-        <li><?= $this->Html->link(__('All Admins'),['plugin'=>null,'controller'=>'MyUsers','action'=>'index'],['escape'=>false]) ?></li>
-        <li><?= $this->Html->link(__('New Admin'),['plugin'=>null,'controller'=>'MyUsers','action'=>'add'],['escape'=>false]) ?></li>
-    </ul>
-</li>
+<?= $this->element('UsersManager.Links/sidebar') ?>
 <?php if($this->request->session()->read('Auth.User.is_superuser')): ?>
     <li class="has-sub">
         <?= $this->Html->link('<b class="caret pull-right"></b>'.__('Pins'),'javascript:;',['escape'=>false]) ?>
