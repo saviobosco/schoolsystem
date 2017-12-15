@@ -8,6 +8,8 @@
 
 namespace ResultSystem\Controller;
 
+use Cake\Collection\Collection;
+use Cake\Utility\Text;
 use ResultSystem\Controller\AppController;
 use ResultSystem\ResultProcessing\AnnualResultProcessing;
 use ResultSystem\ResultProcessing\TermlyResultProcessing;
@@ -29,16 +31,13 @@ class ResultProcessingController extends AppController
         $this->loadModel('Queue.QueuedTasks');
     }
 
-    // Todo : Complete this result processing algorithm (manually use no of subjects for average calculation)
     public function index()
     {
-
         if ( $this->request->is(['patch', 'post', 'put']) ) {
             //debug($this->request->data); exit;
-
-            $this->processResult($this->request->data['class_id'],$this->request->data['term_id'],$this->request->data['session_id'],$this->request->data['no_of_subjects']);
+            $postData = $this->request->getData();
+            $this->processResult($postData);
         }
-
         $this->loadModel('App.Sessions');
         $this->loadModel('App.Classes');
         $this->loadModel('Terms');
@@ -50,40 +49,53 @@ class ResultProcessingController extends AppController
     }
 
 
-    protected function processResult($class_id,$term_id,$session_id,$no_of_subjects)
+    protected function processResult($postData)
     {
         // initialize the ClassCount Class .
         $classCount = new ClassCount();
 
-
             // process the result with the supplied parameters
             $termlyResultProcessing  = new TermlyResultProcessing();
 
-            $termlyResultProcessing->calculateTermlyTotalAndAverage($class_id,$term_id,$session_id,$no_of_subjects);
+            $returnData = $termlyResultProcessing->calculateTermlyTotalAndAverage($postData['class_id'],$postData['term_id'],$postData['session_id'],$postData['no_of_subjects']);
+
+            if ( !empty($returnData['subjectCountIssues'])) {
+                $response = (new Collection($returnData['subjectCountIssues']))->unfold()->toList();
+                $this->Flash->set('<p><i class="fa fa-warning"></i><b>The following issues occurred while processing your request :</b></p>'.
+                    __(Text::toList($response)).'<p> Please review them and try again</p>',[
+                    'element'=>'unescaped_error',
+                    'escape'=>false]);
+                return;
+            }
         // check is the cal_student_position is checked and calculate student positions
-        if (isset($this->request->data['cal_student_position'])) {
-            $termlyResultProcessing->calculateTermlyPosition($class_id,$term_id,$session_id);
+        if (isset($postData['cal_student_position'])) {
+            if ($termlyResultProcessing->calculateTermlyPosition($postData['class_id'],$postData['term_id'],$postData['session_id'])){
+                $this->Flash->success(__('Successfully calculated the students positions'));
+            }
         }
 
-        if (isset($this->request->data['cal_subject_position'])) {
-            $termlyResultProcessing->calculateStudentTermlySubjectPosition($class_id,$term_id,$session_id);
+        if (isset($postData['cal_subject_position'])) {
+            if($termlyResultProcessing->calculateStudentTermlySubjectPosition($postData['class_id'],$postData['term_id'],$postData['session_id'])) {
+                $this->Flash->success(__('Successfully calculated the students subject positions'));
+            }
         }
 
-        if (isset($this->request->data['cal_class_average'])) {
-            $termlyResultProcessing->calculateSubjectClassAverage($class_id,$term_id,$session_id);
+        if (isset($postData['cal_class_average'])) {
+            if($termlyResultProcessing->calculateSubjectClassAverage($postData['class_id'],$postData['term_id'],$postData['session_id'])) {
+                $this->Flash->success(__('Successfully calculated the students positions'));
+            }
         }
-
             if ($termlyResultProcessing->getStatus()) {
                 $this->Flash->success('Successfully Calculated the students termly results ');
             }
-            if ( isset($term_id ) && $term_id == 3  ) {
+            if ( isset($postData['term_id'] ) && $postData['term_id'] == 3  ) {
 
-                $annualResultProcessing = new AnnualResultProcessing($class_id,$session_id);
+                $annualResultProcessing = new AnnualResultProcessing($postData['class_id'],$postData['session_id']);
                 if ($annualResultProcessing->getStatus()) {
                     $this->Flash->success('Successfully Calculated the students annual results');
                 }
             }
-            $classCount->getStudentNumberInClasses($class_id,$session_id,$term_id);
+            $classCount->getStudentNumberInClasses($postData['class_id'],$postData['session_id'],$postData['term_id']);
 
     }
 

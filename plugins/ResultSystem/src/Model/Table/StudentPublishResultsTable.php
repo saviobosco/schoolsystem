@@ -35,9 +35,9 @@ class StudentPublishResultsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('student_publish_results');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('student_publish_results');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey(['student_id','session_id','class_id','term_id']);
 
         $this->belongsTo('Students', [
             'foreignKey' => 'student_id',
@@ -91,5 +91,16 @@ class StudentPublishResultsTable extends Table
         $rules->add($rules->existsIn(['session_id'], 'Sessions'));
 
         return $rules;
+    }
+
+    public function getStudentResultPublishStatus($student_id,$session,$class,$term)
+    {
+        return $this->find('all')
+            ->where([
+                'student_id' => $student_id ,
+                'session_id' => @$session,
+                'class_id' => @$class,
+                'term_id' => @$term
+            ])->first();
     }
 }

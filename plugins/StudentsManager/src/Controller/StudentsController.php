@@ -2,17 +2,15 @@
 namespace StudentsManager\Controller;
 
 use StudentsManager\Controller\AppController;
-use App\Controller\Traits\SearchParameterTrait;
 use Cake\Datasource\Exception\RecordNotFoundException;
 /**
  * Students Controller
  *
  * @property \StudentsManager\Model\Table\StudentsTable $Students
+ * @property \StudentsManager\Model\Table\StatesTable $States
  */
 class StudentsController extends AppController
 {
-
-    use SearchParameterTrait;
 
     public function initialize()
     {
@@ -47,7 +45,7 @@ class StudentsController extends AppController
                 'contain' => ['Sessions', 'Classes'],
                 'conditions' => [
                     'Students.status'   => 1,
-                    'Students.class_id' => $this->_getDefaultValue($this->request->getQuery('class_id'),1)
+                    'Students.class_id' => $this->request->getQuery('class_id')
                 ]
             ];
         }

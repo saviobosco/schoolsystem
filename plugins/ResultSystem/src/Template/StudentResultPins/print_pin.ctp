@@ -1,7 +1,6 @@
-<?= $this->Plugins->css('bootstrap-datepicker/css/bootstrap-datepicker.css') ?>
-<?= $this->Plugins->css('bootstrap-datepicker/css/bootstrap-datepicker3.css') ?>
-
-<?= $this->assign('title',$title); ?>
+<?= $this->Plugins->css('bootstrap-datepicker/css/bootstrap-datepicker.css',['block'=>true]) ?>
+<?= $this->Plugins->css('bootstrap-datepicker/css/bootstrap-datepicker3.css',['block'=>true]) ?>
+<?php $this->assign('title',$title); ?>
 
 <div class="row m-t-20">
     <div class="col-sm-12">
@@ -22,7 +21,10 @@
                         <tr>
                             <th> Serial Number</th>
                             <th> Pin</th>
-                            <th> Student Id</th>
+                            <th> Student</th>
+                            <th> Session</th>
+                            <th> Class</th>
+                            <th> Term</th>
                             <th> Created</th>
                             <th> Modified</th>
                         </tr>
@@ -33,6 +35,9 @@
                                 <td><?= $pin->serial_number ?></td>
                                 <td><?= $pin->pin ?></td>
                                 <td><?= $pin->student_id ?></td>
+                                <td><?= @$pin->session->session ?></td>
+                                <td><?= @$pin->class->class ?></td>
+                                <td><?= @$pin->term->name ?></td>
                                 <td><?= $pin->created ?></td>
                                 <td><?= $pin->modified ?></td>
                             </tr>

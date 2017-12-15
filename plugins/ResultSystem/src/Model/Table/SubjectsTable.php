@@ -16,6 +16,7 @@ use Cake\Validation\Validator;
  * @property \Cake\ORM\Association\HasMany $StudentTermlyResults
  * @property \Cake\ORM\Association\HasMany $StudentTermlySubjectPositionOnClassDemacations
  * @property \Cake\ORM\Association\HasMany $StudentTermlySubjectPositions
+ * @property \Cake\ORM\Association\HasMany $SubjectClassAverages
  *
  * @method \ResultSystem\Model\Entity\Subject get($primaryKey, $options = [])
  * @method \ResultSystem\Model\Entity\Subject newEntity($data = null, array $options = [])
@@ -51,9 +52,9 @@ class SubjectsTable extends Table
             'foreignKey' => 'subject_id',
             'className' => 'ResultSystem.StudentAnnualResults'
         ]);
-        $this->hasMany('StudentAnnualSubjectPositionOnClassDemacations', [
+        $this->hasMany('StudentAnnualSubjectPositionOnClassDemarcations', [
             'foreignKey' => 'subject_id',
-            'className' => 'ResultSystem.StudentAnnualSubjectPositionOnClassDemacations'
+            'className' => 'ResultSystem.StudentAnnualSubjectPositionOnClassDemarcations'
         ]);
         $this->hasMany('StudentAnnualSubjectPositions', [
             'foreignKey' => 'subject_id',
@@ -63,13 +64,17 @@ class SubjectsTable extends Table
             'foreignKey' => 'subject_id',
             'className' => 'ResultSystem.StudentTermlyResults'
         ]);
-        $this->hasMany('StudentTermlySubjectPositionOnClassDemacations', [
+        $this->hasMany('StudentTermlySubjectPositionOnClassDemarcations', [
             'foreignKey' => 'subject_id',
-            'className' => 'ResultSystem.StudentTermlySubjectPositionOnClassDemacations'
+            'className' => 'ResultSystem.StudentTermlySubjectPositionOnClassDemarcations'
         ]);
         $this->hasMany('StudentTermlySubjectPositions', [
             'foreignKey' => 'subject_id',
             'className' => 'ResultSystem.StudentTermlySubjectPositions'
+        ]);
+        $this->hasMany('SubjectClassAverages', [
+            'foreignKey' => 'subject_id',
+            'className' => 'ResultSystem.SubjectClassAverages'
         ]);
     }
 
@@ -104,5 +109,15 @@ class SubjectsTable extends Table
         $rules->add($rules->existsIn(['block_id'], 'Blocks'));
 
         return $rules;
+    }
+
+    public function getSubjectClassAverages($session,$class,$term)
+    {
+        return $this->SubjectClassAverages->find('all')
+            ->where([
+                'session_id' => @$session,
+                'class_id'    => @$class,
+                'term_id'    => @$term
+            ])->combine('subject_id','class_average')->toArray();
     }
 }

@@ -90,4 +90,14 @@ class StudentClassCountsTable extends Table
 
         return $rules;
     }
+
+    public function getStudentsClassCount($session,$class,$term)
+    {
+        return $this->find('all')
+               ->where([
+                'session_id' => $session,
+                'class_id' => $class,
+                'term_id' => $term
+                ])->first();
+    }
 }

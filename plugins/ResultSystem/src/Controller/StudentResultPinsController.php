@@ -42,7 +42,6 @@ class StudentResultPinsController extends AppController
             $number = $this->request->data('number_to_generate');
             for ($num = 0; $num < $number ; $num++ ){
                 $pin =  $generator->generateInt(1000000000,2000000000);
-                //$serial_number = $generator->generateInt(12345, 56743);
                 if($this->request->data['save_to_database']){
                     $this->StudentResultPins->savePin($pin); }
             }
@@ -55,7 +54,7 @@ class StudentResultPinsController extends AppController
 
     public function printPin()
     {
-        $pins = $this->StudentResultPins->find('all')->where(['student_id IS NULL']);
+        $pins = $this->StudentResultPins->find('all')->contain(['Terms','Sessions','Classes']);//->where(['student_id IS NULL']);
 
         $title = 'Result Checking Pins';
         $this->set(compact('pins','title'));

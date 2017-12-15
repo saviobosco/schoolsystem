@@ -94,15 +94,16 @@ echo $this->element('searchParametersSessionClassTerm');
                         <?= $this->Form->hidden('student_general_remarks.0.class_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['class_id'],1)]) ?>
                         <?= $this->Form->hidden('student_general_remarks.0.term_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['term_id'],1)]) ?>
                         <?= $this->Form->hidden('student_general_remarks.0.session_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['session_id'],1)]) ?>
-                        <label for="student remark"> Form Master's Remark </label>
-                        <?= $this->Form->input('student_general_remarks.0.form_master_remark',['class' => 'form-control','label'=>['text'=> 'Result Remark']])  ?>
-                        <label for="student remark"> Guidance Counsellor's Remark </label>
-                        <?= $this->Form->input('student_general_remarks.0.guidance_counsellor_remark',['class' => 'form-control','label'=>['text'=> 'Result Remark']])  ?>
-                        <label for="student remark"> Rector's Remark </label>
-                        <?= $this->Form->input('student_general_remarks.0.rector_remark',['class' => 'form-control','label'=>['text'=> 'Result Remark']])  ?>
+                        <?php foreach($remarkInputs as $remarkInputKey => $remarkInputValue ) : ?>
+                            <label for="<?= $remarkInputKey ?>"> <?= h($remarkInputValue) ?> </label>
+                            <?= $this->Form->input("student_general_remarks.0.$remarkInputKey",['class' => 'form-control','label'=>['text'=> 'Result Remark']])  ?>
+                        <?php endforeach; ?>
 
                         <label for="result status"> Publish Status </label>
-                        <?= $this->Form->input('student_publish_results.0.status',['type' => 'checkbox']) ?>
+                        <?php $publishResultConfig = ['type'=>'checkbox']; if (empty($student->student_publish_results)) {
+                            $publishResultConfig['checked'] = false;
+                        } ?>
+                        <?= $this->Form->input('student_publish_results.0.status',$publishResultConfig) ?>
                         <?= $this->Form->hidden('student_publish_results.0.student_id',['value' => $student->id ]) ?>
                         <?= $this->Form->hidden('student_publish_results.0.class_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['class_id'],1)]) ?>
                         <?= $this->Form->hidden('student_publish_results.0.term_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['term_id'],1)]) ?>

@@ -1,9 +1,15 @@
 @media print {
+    a[href]:after {
+        content: none !important;
+    }
     header,nav,footer,.footer,.footer-copyright,.sidebar,form{
         display: none;
     }
     @page {
         margin: 0.5cm;
+    }
+    .btn {
+        display: none;
     }
     .col-xs-11 {
         width: 80%;
@@ -16,6 +22,25 @@
 
     .profile-picture img {
         width: 100px;
-        height: 100px;
+        height: 80px;
+    }
+    table, tbody,thead, tr ,td {
+        border: 1px solid #000 !important;
+    }
+
+    .table-bordered {
+        border: 1px solid #000 !important;
+    }
+
+    .table-bordered > tbody > tr > td,
+    .table-bordered > tbody > tr > th,
+    .table-bordered > tfoot > tr > td,
+    .table-bordered > tfoot > tr > th,
+    .table-bordered > thead > tr > td,
+    .table-bordered > thead > tr > th {
+        border: 1px solid #000 !important;
+    }
+    .content {
+        margin: 0;
     }
 }

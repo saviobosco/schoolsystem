@@ -8,46 +8,71 @@
 
 namespace ResultSystem\Controller;
 
-use Settings\Core\Setting;
+use Cake\Datasource\ConnectionManager;
 use ResultSystem\Controller\AppController;
 use Cake\Core\Configure;
-use Cake\Utility\Hash;
+use Cake\Database\Schema\TableSchema;
 
+/**
+ * Class DashboardController
+ * @package ResultSystem\Controller
+ * @property \ResultSystem\Model\Table\ResultGradeInputsTable $ResultGradeInputs
+ * @property \ResultSystem\Model\Table\ResultRemarkInputsTable $ResultRemarkInputs
+ */
 class DashboardController extends AppController
 {
     public function settings()
     {
-         //Setting::write('ResultSystem.banner_image', '');
+//        //$schema = new TableSchema('student_termly_results');
+//        //debug($schema->getColumn('student_id')); exit;
+//        $db = ConnectionManager::get('default');
+//        // Create a schema collection.
+//        $collection = $db->schemaCollection();
+//        // Get the table names
+//        $tables = $collection->listTables();
+//        $tables = $collection->describe('student_termly_results')->columns();
+//        debug($tables); exit;
 
-
-        $this->loadModel('Settings.Configurations');
-        $this->prefixes = Configure::read('Settings.Prefixes');
-
-        $key = 'ResultSystem';
-
-        $prefix = Hash::get($this->prefixes, ucfirst($key));
-        $settings = $this->Configurations->find('all')->where([
-            'name LIKE' => $key . '%',
-            'editable' => 1,
-        ])->order(['weight', 'id']);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $settings = $this->Configurations->patchEntities($settings, $this->request->data);
-            foreach ($settings as $setting) {
-                //$this->Flash->success('The settings has been saved.');
-                if (!$this->Configurations->save($setting)) {
-                    $this->Flash->error('The settings could not be saved. Please, try again.');
-                }
-            }
-            $this->Flash->greatSuccess('The settings has been saved.');
-            Setting::clear(true);
-            Setting::autoLoad();
-            return $this->redirect([]);
-        }
-        $this->set(compact('prefix', 'settings'));
 
     }
 
-    public function uploadBannerImage()
+    public function gradeInputs()
+    {
+        $this->loadModel('ResultGradeInputs');
+        $resultGradeInputs = $this->ResultGradeInputs->find()->toArray();
+        if ( $this->request->is(['put','patch','post'])) {
+            $resultGradeInputs = $this->ResultGradeInputs->patchEntities($resultGradeInputs,$this->request->getData());
+            //debug($this->request->getData());
+            //debug($resultGradeInputs)
+            if ($this->ResultGradeInputs->saveMany($resultGradeInputs)){
+                $this->Flash->success(__('The records were successfully updated!'));
+            }else {
+                $this->Flash->error(__('The record could not be saved!'));
+            }
+        }
+        $this->set(compact('resultGradeInputs'));
+    }
+
+    public function remarkInputs()
+    {
+        $this->loadModel('ResultRemarkInputs');
+        $resultRemarkInputs = $this->ResultRemarkInputs->find()->toArray();
+        if ( $this->request->is(['put','patch','post'])) {
+            $resultRemarkInputs = $this->ResultRemarkInputs->patchEntities($resultRemarkInputs,$this->request->getData());
+            //debug($this->request->getData());
+            //debug($resultGradeInputs)
+            if ($this->ResultRemarkInputs->saveMany($resultRemarkInputs)){
+                $this->Flash->success(__('The records were successfully updated!'));
+            }else {
+                $this->Flash->error(__('The record could not be saved!'));
+            }
+        }
+        $this->set(compact('resultRemarkInputs'));
+    }
+
+
+
+    /*public function uploadBannerImage()
     {
         $this->loadModel('ResultBannerImages');
 
@@ -63,6 +88,6 @@ class DashboardController extends AppController
 
             return $this->redirect(['action' => 'settings']);
         }
-    }
+    }*/
 
 }

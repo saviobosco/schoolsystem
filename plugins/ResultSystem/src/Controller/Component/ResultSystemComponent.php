@@ -54,7 +54,7 @@ class ResultSystemComponent extends Component
                             if ( $data[$key] !== '' and $data[$key] !== null ) {
                                 $result['students_data'][] = [
                                     'student_id'    =>$data['student_id'],
-                                    'subject_id'     => $subjectList[$key] /*$this->_findSubjectIdUsingSubmittedKey($key,$subjectList,$result) */,
+                                    'subject_id'     => $subjectList[$key] ,
                                     $type        => $data[$key],
                                     'class_id'  => $class_id,
                                     'term_id'   => $term_id,
@@ -103,5 +103,30 @@ class ResultSystemComponent extends Component
             return $subjectArray[$key];
         }
         $resultArray['error'][] = $key;
+    }
+
+
+    /**
+     * @param array $results
+     * @param array $inputGrades
+     * @return array
+     * processSubmittedResults filters through a result and removes the students
+     * with an empty result set
+     */
+    public function processSubmittedResults(array $results ,array $inputGrades)
+    {
+        // processing the resultTotal
+        $modifiedResult = (new Collection($results))->filter(function($result,$key) use ($inputGrades){
+            $containsAnyResult = false;
+           foreach($inputGrades as $gradeKey => $gradeValue)
+           {
+               if (is_numeric($result[$gradeKey])) {
+                   $containsAnyResult = true;
+                   break;
+               }
+           }
+            return $containsAnyResult === true;
+        });
+        return $modifiedResult->toArray();
     }
 }

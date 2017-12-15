@@ -4,7 +4,7 @@ $edittemplates = [
     'submitContainer' => '{{content}}'
 ];
 $this->Form->templates($edittemplates);
-
+$queryData = $this->request->getQuery();
 ?>
 
 
@@ -19,7 +19,7 @@ echo $this->element('searchParametersSessionClassTerm');
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title"> <?= $student->id ?> - Edit  Result </h4>
+                <h4 class="panel-title"> <?= $student->id ?> - Add Result </h4>
             </div>
             <div class="panel-body">
 
@@ -31,58 +31,89 @@ echo $this->element('searchParametersSessionClassTerm');
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <h5>Student Admission No : <?= $student->id ?>  </h5>
-                        <h5>Student Name : <?= $student->full_name ?>  </h5>
-                        <h5>Class : <?= @$student->class->class ?>  </h5>
+                        <table class="table table-responsive table-bordered">
+                            <tr>
+                                <th>Student Admission No :</th>
+                                <td><?= $student->id ?></td>
+                            </tr>
+                            <tr>
+                                <th>Student Name :</th>
+                                <td> <?= $student->full_name ?></td>
+                            </tr>
+                            <tr>
+                                <th>Class :</th>
+                                <td><?= $student->class->class ?> </td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="col-sm-4">
-                        <p> Column for adding new subjects </p>
-                        <?= $this->Form->create()  ?>
-                            <?= $this->Form->input('subject_id',['options'=>$subjects]) ?>
-                            <?= $this->Form->submit(__('add Subject'),['class'=>'btn btn-success btn-sm']) ?>
-                        <?= $this->Form->end() ?>
+                        <p> Adding results for </p>
+                        <?php if (!empty($queryData)) :?>
+                        <table class="table table-bordered table-responsive ">
+                            <tr>
+                                <th> Session : </th>
+                                <td> <?= $sessions[$queryData['session_id']] ?></td>
+                            </tr>
+                            <tr>
+                                <th> Class :</th>
+                                <td>  <?= $classes[$queryData['class_id']] ?> </td>
+                            </tr>
+                            <tr>
+                                <th> Term : </th>
+                                <td> <?= $terms[$queryData['term_id']] ?> </td>
+                            </tr>
+                        </table>
+                        <?php endif; ?>
                     </div>
                 </div>
 
+                <?php if ( isset($selectParameter) AND $selectParameter === true) : ?>
+                    <div class="alert alert-danger">
+                        <p> Please select the session , class and term  </p>
+                    </div>
+                <?php endif; ?>
+
+                <?php if ( isset($studentResultExists) AND $studentResultExists === true) : ?>
+                    <div class="alert alert-danger">
+                        <p> <i class="fa fa-exclamation"></i> This student has some results for the selected parameters. Adding a new input to the existing values with replace the existing values. </p>
+                    </div>
+                <?php endif; ?>
                 <?= $this->Form->create($student) ?>
                 <fieldset>
                     <legend><?= __('Add Student Termly Result') ?></legend>
                     <?php if (!empty($subjects)): ?>
-                        <table id="data-table" class="table table-bordered table-responsive " data-toggle='tooltip' title=''>
+                        <table  class="table table-bordered table-responsive ">
                             <tr>
                                 <th><?= __('Subject') ?></th>
-                                <th><?= __('First Test') ?></th>
-                                <th><?= __('Second Test') ?></th>
-                                <th><?= __('Third Test') ?></th>
-                                <th><?= __('Exam') ?></th>
-                                <th data-toggle='tooltip' title='The values in this column are auto Generated' ><?= __('Total') ?></th>
-                                <th><?= __('Action') ?></th>
+                                <?php foreach( $gradeInputs as $gradeInput ): ?>
+                                    <th> <?= __($gradeInput) ?> </th>
+                                <?php endforeach; ?>
                             </tr>
-                            <?php foreach ($subjects as $key => $value ): ?>
+                            <?php $subjectCount = count($subjects);
+                            for($num = 0; $num < $subjectCount; $num++ ): ?>
                                 <tr>
-                                    <td><?= h($subjects[$key]) ?></td>
-                                    <td><?= $this->Form->input('student_termly_results.'.$key.'.first_test') ?></td>
-                                    <td><?= $this->Form->input('student_termly_results.'.$key.'.second_test') ?></td>
-                                    <td><?= $this->Form->input('student_termly_results.'.$key.'.third_test') ?></td>
-                                    <td><?= $this->Form->input('student_termly_results.'.$key.'.exam') ?></td>
-                                    <td><?= $this->Form->input('student_termly_results.'.$key.'.total',['disabled'=>true]) ?></td>
-                                    <td> This will contain a delete button </td>
-                                    <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$key.'.student_id',['value'=>$student->id]) ?></td>
-                                    <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$key.'.subject_id',['value'=>$key]) ?></td>
-                                    <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$key.'.class_id',['value'=>@$this->SearchParameter->getDefaultValue($this->request->query['class_id'],1)]) ?></td>
-                                    <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$key.'.term_id',['value'=>@$this->SearchParameter->getDefaultValue($this->request->query['term_id'],1)]) ?></td>
-                                    <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$key.'.session_id',['value'=>@$this->SearchParameter->getDefaultValue($this->request->query['session_id'],1)]) ?></td>
+                                    <td><?= h($subjects[$num]['name']) ?></td>
+                                    <?php foreach( $gradeInputs as $key => $value ) : ?>
+                                        <td><?= $this->Form->input('student_termly_results.'.$num.'.'.$key) ?></td>
+                                    <?php endforeach; ?>
+                                    <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$num.'.student_id',['value'=>$student->id]) ?></td>
+                                    <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$num.'.subject_id',['value'=>$subjects[$num]['id']]) ?></td>
+                                    <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$num.'.class_id',['value'=>$queryData['class_id']]) ?></td>
+                                    <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$num.'.term_id',['value'=>$queryData['term_id']]) ?></td>
+                                    <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$num.'.session_id',['value'=>$queryData['session_id']]) ?></td>
                                 </tr>
-                            <?php endforeach; ?>
+                            <?php endfor; ?>
                         </table>
 
                         <!-- This is for the student remark -->
                         <?= $this->Form->hidden('student_general_remarks.0.student_id',['value' => $student->id ]) ?>
-                        <?= $this->Form->hidden('student_general_remarks.0.class_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['class_id'],1)]) ?>
-                        <?= $this->Form->hidden('student_general_remarks.0.term_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['term_id'],1)]) ?>
-                        <?= $this->Form->hidden('student_general_remarks.0.session_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['session_id'],1)]) ?>
-                        <label for="student remark"> Student Remark </label>
-                        <?= $this->Form->input('student_general_remarks.0.remark',['class' => 'form-control','label'=>['text'=> 'Result Remark']])  ?>
+                        <?= $this->Form->hidden('student_general_remarks.0.class_id',['value' => @$queryData['class_id']]) ?>
+                        <?= $this->Form->hidden('student_general_remarks.0.term_id',['value' => @$queryData['term_id']]) ?>
+                        <?= $this->Form->hidden('student_general_remarks.0.session_id',['value' => @$queryData['session_id']]) ?>
+                        <?php foreach($remarkInputs as $remarkInputKey => $remarkInputValue ) : ?>
+                            <label for="<?= $remarkInputKey ?>"> <?= h($remarkInputValue) ?> </label>
+                            <?= $this->Form->input("student_general_remarks.0.$remarkInputKey",['class' => 'form-control','label'=>['text'=> 'Result Remark']])  ?>
+                        <?php endforeach; ?>
                     <?php endif; ?>
                 </fieldset>
                 <?= $this->Form->button(__('Submit'),['class' => 'btn btn-primary']) ?>

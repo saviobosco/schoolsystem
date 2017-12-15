@@ -106,4 +106,14 @@ class StudentsAffectiveDispositionScoresTable extends Table
 
         return $rules;
     }
+
+    public function getStudentAffectiveDepositions($student_id,$session,$class,$term)
+    {
+        return $this->find('all')
+            ->where(['student_id' => $student_id,
+                'session_id' => @$session,
+                'class_id' => @$class,
+                'term_id'    => @$term
+            ])->contain(['Affectives']);
+    }
 }

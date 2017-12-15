@@ -8,12 +8,23 @@ use ResultSystem\Controller\Traits\SearchParameterTrait;
 /**
  * Subjects Controller
  *
+ * @property \ResultSystem\Controller\Component\ResultSystemComponent $ResultSystem
  * @property \ResultSystem\Model\Table\SubjectsTable $Subjects
+ * @property \App\Model\Table\SessionsTable $Sessions
+ * @property \ResultSystem\Model\Table\TermsTable $Terms
+ * @property \ClassManager\Model\Table\ClassesTable $Classes
+ * @property \ResultSystem\Model\Table\ResultGradeInputsTable $ResultGradeInputs
+ * @property \ResultSystem\Model\Table\StudentsTable $Students
  */
 class SubjectsController extends AppController
 {
     use SearchParameterTrait;
 
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadModel('ResultSystem.ResultGradeInputs');
+    }
     /**
      * Index method
      *
@@ -22,8 +33,10 @@ class SubjectsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'limit' => 50,
-            'contain' => ['Blocks']
+            'contain' => ['Blocks'],
+            'order' => [
+                'Blocks.id' => 'ASC'
+            ]
         ];
         $subjects = $this->paginate($this->Subjects);
 
@@ -41,7 +54,9 @@ class SubjectsController extends AppController
     public function view($id = null)
     {
         try {
-            if( isset($this->request->query['term_id']) && $this->request->query['term_id'] == 4 ) {
+            $gradeInputs = $this->ResultGradeInputs->getValidGradeInputs();
+            $queryData = $this->request->getQuery();
+            if( isset($queryData['term_id']) && $queryData['term_id'] == 4 ) {
                 $subject = $this->Subjects->get($id, [
                     'contain' => ['Blocks']
                 ]);
@@ -91,56 +106,75 @@ class SubjectsController extends AppController
                         'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],1)
                     ])->combine('student_id','position')->toArray();
 
-                // get the student subjects positions on class demarcation
-                /*
-                $studentSubjectPositionsOnClassDemacation =  $this->Subjects->StudentTermlySubjectPositionOnClassDemacations->find('all')
-                    ->where(['student_id' => $subject->id,
-
-                        // Todo : Remember to add the class_demarcation_id to the get form ..
-
-                        'class_demacation_id' => @$this->_getDefaultValue($this->request->query['class_demarcation_id'],1), // remember to add it to the get form
-                        'session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
-                        'class_id'   => @$this->_getDefaultValue($this->request->query['class_id'],1),
-                        'term_id'    => @$this->_getDefaultValue($this->request->query['term_id'],1)
-                    ])->combine('student_id','position')->toArray(); */
-
                 $this->loadModel('App.Sessions');
                 $this->loadModel('App.Classes');
                 $this->loadModel('Terms');
                 $sessions = $this->Sessions->find('list',['limit' => 200])->toArray();
                 $classes = $this->Classes->find('list',['limit' => 3 ])->where(['block_id' => $subject->block_id]);
                 $terms = $this->Terms->find('list',['limit' => 4])->toArray();
-                $this->set(compact('subject','sessions','classes','terms','subjectStudentPositions'));
+                $this->set(compact('gradeInputs','subject','sessions','classes','terms','subjectStudentPositions'));
                 $this->set('_serialize', ['subject']);
 
                 $this->render('view_termly_subject_result');
             }
-        }catch ( RecordNotFoundException $e) {
+        } catch ( RecordNotFoundException $e) {
             $this->render('/Element/Error/recordnotfound');
         }
     }
 
     /**
-     * Add method
-     *
+     * Add methodResult
+     * @param string|null $id Subject id.
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function addResult($id = null)
     {
-        $subject = $this->Subjects->newEntity();
-        if ($this->request->is('post')) {
-            $subject = $this->Subjects->patchEntity($subject, $this->request->data);
-            if ($this->Subjects->save($subject)) {
-                $this->Flash->success(__('The subject has been saved.'));
+        $subject = $this->Subjects->get($id,['contain'=>'Blocks']);
+        $gradeInputs = $this->ResultGradeInputs->getValidGradeInputs();
 
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The subject could not be saved. Please, try again.'));
+        $queryData = $this->request->getQuery();
+        if ( !empty($queryData)){
+            // check if subject has existing value for the records
+            $studentResultExists = $this->Subjects->get($id, [
+                'contain' => [
+                    'StudentTermlyResults' => [
+                        'conditions' => [
+                            'StudentTermlyResults.session_id' => $queryData['session_id'],
+                            'StudentTermlyResults.term_id' => @$queryData['term_id'],
+                            'StudentTermlyResults.class_id' => @$queryData['class_id']
+                        ]
+                    ]
+                ]
+            ]);
+            if ( !empty($studentResultExists->student_termly_results)){
+                $this->set('subjectContainsResult',true);
+            }
+            // get student with $queryData['class_id']
+            $this->loadModel('ResultSystem.Students');
+            $students = $this->Students->getStudentsWithIdAndNameByClassId($queryData['class_id']);
+            $this->set(compact('students','gradeInputs'));
+        } else {
+            $this->set('selectParameter',true); // set the value selectParameter to true
+        }
+        $this->loadModel('App.Sessions');
+        $this->loadModel('App.Classes');
+        $this->loadModel('Terms');
+        $sessions = $this->Sessions->find('list',['limit' => 200])->toArray();
+        $classes = $this->Classes->find('list',['limit' => 3 ])->where(['block_id' => $subject->block_id]);
+        $terms = $this->Terms->find('list',['limit' => 4])->toArray();
+        $this->set(compact('subject', 'sessions','classes','terms'));
+        $this->set('_serialize', ['subject','sessions','classes','terms']);
+        // process post result
+        if ( $this->request->is(['put','patch','post'])) {
+            //debug($this->request->getData());
+            $processedResults = $this->ResultSystem->processSubmittedResults($this->request->getData('student_termly_results'),$gradeInputs);
+            $subjectResults = $this->Subjects->StudentTermlyResults->newEntities($processedResults);
+            if ($this->Subjects->StudentTermlyResults->saveMany($subjectResults)) {
+                $this->Flash->success('The results were successfully added!');
+            }else {
+                $this->Flash->error(__('The results could not be added. Please try again'));
             }
         }
-        $blocks = $this->Subjects->Blocks->find('list', ['limit' => 200]);
-        $this->set(compact('subject', 'blocks'));
-        $this->set('_serialize', ['subject']);
     }
 
     /**
@@ -153,60 +187,96 @@ class SubjectsController extends AppController
     public function editResult($id = null)
     {
         try {
-            $subject = $this->Subjects->get($id, [
-                'contain' => [
-                    'StudentTermlyResults' => ['conditions' => [
-                        'StudentTermlyResults.session_id' => @$this->_getDefaultValue($this->request->query['session_id'],1),
-                        'StudentTermlyResults.term_id' => @$this->_getDefaultValue($this->request->query['term_id'],1),
-                        'StudentTermlyResults.class_id' => @$this->_getDefaultValue($this->request->query['class_id'],1)
-
-                    ]
-                    ],
-                ]
-            ]);
-            if ($this->request->is(['patch', 'post', 'put'])) {
-                $subject = $this->Subjects->patchEntity($subject, $this->request->data);
-                if ($this->Subjects->save($subject)) {
-                    $this->Flash->greatSuccess(__('The subject result was successfully updated.'));
-
-                } else {
-                    $this->Flash->error(__('The subject could not be saved. Please, try again.'));
-                }
-            }
+            $gradeInputs = $this->ResultGradeInputs->getValidGradeInputs();
+            $queryData = $this->request->getQuery();
             $this->loadModel('Classes');
             $this->loadModel('Sessions');
             $this->loadModel('Terms');
-            $sessions = $this->Sessions->find('list',['limit' => 200 ]);
-            $classes = $this->Classes->find('list',['limit' => 3 ])->where(['block_id' => $subject->block_id]);
-            $terms  = $this->Terms->find('list',['limit' => 3 ]);
-            $blocks = $this->Subjects->Blocks->find('list', ['limit' => 200]);
-            $this->set(compact('subject', 'blocks','sessions','classes','terms'));
-            $this->set('_serialize', ['subject']);
+            $sessions = $this->Sessions->find('list');
+            $terms  = $this->Terms->find('list');
+            $this->set(compact('sessions','terms'));
 
-        } catch (RecordNotFoundException $e ) {
+            if ( empty($queryData)) {
+                $subject = $this->Subjects->get($id);
+                $classes = $this->Classes->find('list')->where(['block_id' => $subject->block_id]);
+                $this->set(compact('subject','classes'));
+                $this->set('_serialize', ['subjects','classes','terms','sessions']);
+            }else {
+
+                if ( isset($queryData['term_id']) && $queryData['term_id'] == 4  ) {
+
+                    $subject = $this->Subjects->get($id, [
+                        'contain' => [
+                            'StudentAnnualResults' => ['conditions' => [
+                                'StudentAnnualResults.session_id' => $queryData['session_id'],
+                                'StudentAnnualResults.class_id' => $queryData['class_id']
+                            ]
+                            ]
+                        ]
+                    ]);
+                    if ($this->request->is(['patch', 'post', 'put'])) {
+                        $subject = $this->Subjects->patchEntity($subject, $this->request->getData());
+                        if ($this->Subjects->save($subject)) {
+                            $this->Flash->success(__('The subject result was successfully updated.'));
+                            return $this->redirect(['action'=>'editResult',$id,'?'=>$queryData]);
+                        } else {
+                            $this->Flash->error(__('The subject could not be saved. Please, try again.'));
+                        }
+                    }
+                    $classes = $this->Classes->find('list')->where(['block_id' => $subject->block_id]);
+                    $this->set(compact('subject','classes'));
+                    $this->set('_serialize', ['subject']);
+                    $this->render('edit_annual_subject_result');
+
+                } else {
+                    $subject = $this->Subjects->get($id, [
+                        'contain' => [
+                            'StudentTermlyResults' => [
+                                'conditions' => [
+                                    'StudentTermlyResults.session_id' => $queryData['session_id'],
+                                    'StudentTermlyResults.term_id' => $queryData['term_id'],
+                                    'StudentTermlyResults.class_id' => $queryData['class_id']
+
+                                ]
+                            ]
+                        ]
+                    ]);
+                    if ($this->request->is(['patch', 'post', 'put'])) {
+                        $subject = $this->Subjects->patchEntity($subject, $this->request->getData());
+                        if ($this->Subjects->save($subject)) {
+                            $this->Flash->success(__('The subject result was successfully updated.'));
+                            return $this->redirect(['action'=>'editResult',$id,'?'=>$queryData]);
+                        } else {
+                            $this->Flash->error(__('The subject could not be saved. Please, try again.'));
+                        }
+                    }
+                    $classes = $this->Classes->find('list')->where(['block_id' => $subject->block_id]);
+                    $this->set(compact('gradeInputs','subject','classes'));
+                    $this->set('_serialize', ['subject']);
+                    $this->render('edit_termly_subject_result');
+                }
+            }
+        } catch ( \Exception $e ) {
             $this->render('/Element/Error/recordnotfound');
         }
-
     }
 
     /**
      * Delete method
      *
-     * @param string|null $id Subject id.
+     * @param string|null $id Student id.
      * @return \Cake\Network\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function deleteSubjectResultRow($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $subject = $this->Subjects->get($id);
-        if ($this->Subjects->delete($subject)) {
-            $this->Flash->success(__('The subject has been deleted.'));
+        $subject = $this->Subjects->StudentTermlyResults->find('all')->where(['id'=>$id])->first();
+        if ($this->Subjects->StudentTermlyResults->delete($subject)) {
+            $this->Flash->success(__('The record has been deleted.'));
         } else {
-            $this->Flash->error(__('The subject could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The record could not be deleted. Please, try again.'));
         }
-
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect($this->referer());
     }
 
 }

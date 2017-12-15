@@ -11,6 +11,7 @@ use ResultSystem\Form\ResultUploadForm;
  * StudentTermlyResults Controller
  * @property \ResultSystem\Controller\Component\ResultSystemComponent $ResultSystem
  * @property \ResultSystem\Model\Table\StudentTermlyResultsTable $StudentTermlyResults
+ * @property \ResultSystem\Model\Table\ResultGradeInputsTable $ResultGradeInputs
  */
 class StudentTermlyResultsController extends AppController
 {
@@ -155,7 +156,9 @@ class StudentTermlyResultsController extends AppController
         $classes = $this->StudentTermlyResults->Classes->find('list', ['limit' => 6]);
         $terms = $this->StudentTermlyResults->Terms->find('list', ['limit' => 3]);
         $sessions = $this->StudentTermlyResults->Sessions->find('list', ['limit' => 200]);
-        $this->set(compact('classes', 'terms', 'sessions'));
+        $this->loadModel('ResultSystem.ResultGradeInputs');
+        $gradeInputs = $this->ResultGradeInputs->getValidGradeInputs();
+        $this->set(compact('classes', 'terms', 'sessions','gradeInputs'));
         $this->set('_serialize', ['studentTermlyResult']);
     }
 

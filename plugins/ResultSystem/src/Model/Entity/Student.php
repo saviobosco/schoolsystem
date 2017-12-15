@@ -28,7 +28,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Session $session
  * @property \App\Model\Entity\Classe $class
- * @property \App\Model\Entity\ClassDemacation $class_demacation
+ * @property \App\Model\Entity\ClassDemarcation $class_demarcation
  */
 class Student extends Entity
 {

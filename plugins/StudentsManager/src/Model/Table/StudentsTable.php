@@ -90,6 +90,12 @@ class StudentsTable extends Table
             'foreignKey' => 'graduated_session_id',
             'joinType' => 'INNER'
         ]);
+
+        $this->belongsTo('States',[
+            'className' => 'States',
+            'foreignKey' => 'state_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**

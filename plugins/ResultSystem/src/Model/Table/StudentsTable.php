@@ -23,6 +23,7 @@ use Cake\Validation\Validator;
  * @property \Cake\ORM\Association\HasMany $StudentTermlySubjectPositionOnClassDemarcations
  * @property \Cake\ORM\Association\HasMany $StudentTermlySubjectPositions
  * @property \Cake\ORM\Association\HasMany $StudentResultPins
+ * @property \Cake\ORM\Association\HasMany $StudentGeneralRemarks
  *
  * @method \ResultSystem\Model\Entity\Student get($primaryKey, $options = [])
  * @method \ResultSystem\Model\Entity\Student newEntity($data = null, array $options = [])
@@ -119,6 +120,12 @@ class StudentsTable extends Table
             'foreignKey' => 'student_id',
             'joinType'  => 'INNER'
         ]);
+
+        $this->hasMany('StudentPublishResults',[
+            'className' => 'ResultSystem.StudentPublishResults',
+            'foreignKey' => 'student_id',
+            'joinType'  => 'INNER'
+        ]);
     }
 
     /**
@@ -146,5 +153,50 @@ class StudentsTable extends Table
         $rules->add($rules->existsIn(['class_demarcation_id'], 'ClassDemarcations'));
 
         return $rules;
+    }
+
+    public function getStudentAnnualSubjectPositions($student_id,$session,$class)
+    {
+        return $this->StudentAnnualSubjectPositions->find()
+            ->where(['student_id' => $student_id,
+                'session_id' => @$session,
+                'class_id' => @$class,
+            ])->combine('subject_id','position')->toArray();
+    }
+
+    public function getStudentGeneralRemark($student_id,$session,$class,$term)
+    {
+        return $this->StudentGeneralRemarks->find('all')
+            ->where([
+                'student_id' => $student_id,
+                'session_id' => @$session,
+                'class_id'    => @$class,
+                'term_id'    => @$term,
+            ])->enableHydration(false)->first();
+    }
+
+    public function getStudentTermlyPosition($student_id,$session,$class,$term)
+    {
+        return $this->StudentTermlyPositions->find('all')
+            ->where(['student_id' => $student_id,
+                'session_id' => @$session,
+                'class_id' => @$class,
+                'term_id'    => @$term
+            ])->first();
+    }
+
+    public function getStudentTermlySubjectPositions($student_id,$session,$class,$term)
+    {
+        return $this->StudentTermlySubjectPositions->find('all')
+            ->where(['student_id' => $student_id,
+                'session_id' => @$session,
+                'class_id' => @$class,
+                'term_id'    => @$term
+            ])->combine('subject_id','position')->toArray();
+    }
+
+    public function getStudentsWithIdAndNameByClassId($class_id)
+    {
+        return $this->find('all')->select(['id','first_name','last_name'])->where(['class_id'=>$class_id])->toArray();
     }
 }

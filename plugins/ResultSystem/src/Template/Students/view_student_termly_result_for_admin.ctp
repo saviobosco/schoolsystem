@@ -5,7 +5,7 @@ $edittemplates = [
     'submitContainer' => '{{content}}'
 ];
 $this->Form->templates($edittemplates);
-$this->assign('title',$sessions[$this->request->query['session_id']].' '.$terms[1].' Result');
+$this->assign('title',$sessions[$this->request->query['session_id']].' > '.$classes[$this->request->query['class_id']].' > '.$terms[$this->request->query['term_id']].' Result');
 ?>
 <div class="container-fluid m-t-20">
 
@@ -102,10 +102,9 @@ $this->assign('title',$sessions[$this->request->query['session_id']].' '.$terms[
                             <thead>
                             <tr class="bigger-height">
                                 <th><?= __('Subject') ?></th>
-                                <th><div><p><?= __('first Test') ?></p><p>(10%)</p></div></th>
-                                <th><div><p><?= __('Second Test') ?></p><p>(10%)</p></div></th>
-                                <th><div><p><?= __('Third Test') ?></p><p>(10%)</p></div></th>
-                                <th><div><p><?= __('Exam') ?></p><p>(70%)</p></div></th>
+                                <?php foreach( $gradeInputsForTableHead as $gradeInputForTableHead ): ?>
+                                    <th><div><p><?= h($gradeInputForTableHead['replacement']) ?></p><p>(<?= h($gradeInputForTableHead['percentage']) ?>)</p></div></th>
+                                <?php endforeach; ?>
                                 <th><div><p><?= __('Total') ?></p></div></th>
                                 <th><div><p><?= __('Grade') ?></p></div></th>
                                 <th><div><p><?= __('Remark') ?></p></div></th>
@@ -118,10 +117,9 @@ $this->assign('title',$sessions[$this->request->query['session_id']].' '.$terms[
                             <?php for ($num = 0 ; $num < count($student->student_termly_results) ; $num++ ): ?>
                                 <tr>
                                     <td><?= h($subjects[$student->student_termly_results[$num]['subject_id']]) ?></td>
-                                    <td><?= h($student->student_termly_results[$num]['first_test']) ?></td>
-                                    <td><?= h($student->student_termly_results[$num]['second_test']) ?></td>
-                                    <td><?= h($student->student_termly_results[$num]['third_test']) ?></td>
-                                    <td><?= h($student->student_termly_results[$num]['exam']) ?></td>
+                                    <?php foreach( $gradeInputs as $key => $value ) : ?>
+                                        <td><?= h($student->student_termly_results[$num][$key]) ?></td>
+                                    <?php endforeach; ?>
                                     <td><?= h($student->student_termly_results[$num]['total']) ?></td>
                                     <td><?= h($student->student_termly_results[$num]['grade']) ?></td>
                                     <td><?= h($student->student_termly_results[$num]['remark']) ?></td>
@@ -141,116 +139,103 @@ $this->assign('title',$sessions[$this->request->query['session_id']].' '.$terms[
             <div class="row" style="margin: 0;">
                 <div class=" col-sm-12 col-xs-12" style="border: 1px solid #000000;">
                     <p class="text-center" style="margin: 10px"> REMARKS</p>
-                    <div class="remarks">
-                        <div class="actual-remark">
-                            <p> FORM MASTER:</p>
+                    <?php foreach($remarkInputs as $remarkKey => $remarkValue) : ?>
+                        <div class="remarks">
+                            <div class="actual-remark">
+                                <p> <?= strtoupper($remarkValue) ?>: <?= $studentRemark[$remarkKey] ?> </p>
+                            </div>
+                            <div class="comment-name">
+                                <p>NAME:<?= (isset($resultRemarkDetails[$remarkKey])) ? '&nbsp;'.strtoupper($resultRemarkDetails[$remarkKey]).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' : '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'  ?>
+                                </p> <p style="display: inline"> SIGNATURE </p>
+                            </div>
                         </div>
-                        <div class="comment-name">
-                            <p>NAME:  </p> <p style="display: inline"> SIGNATURE </p>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
 
-                    <div class="remarks">
-                        <div class="actual-remark">
-                            <p> GUIDANCE COUNSELLOR:</p>
-                        </div>
-                        <div class="comment-name">
-                            <p>NAME: REV. FR. MICHEAL IKEJI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p> <p> SIGNATURE </p>
-                        </div>
-                    </div>
-
-                    <div class="remarks">
-                        <div class="actual-remark"">
-                        <p> RECTOR:</p>
-                    </div>
                     <div class="comment-name">
-                        <p>NAME: REV. FR. DONATUS OFULUOZOR &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SIGNATURE/STAMP:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="">DATE: </span> </p>
+                        <p>SIGNATURE/STAMP:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="">DATE: </span> </p>
                     </div>
                 </div>
-
-                <?php /*$this->Result->studentRemark(@$studentRemark->remark)*/ ?>
             </div>
 
             <!-- <div class="col-sm-3 col-xs-3">
                     <?php $this->Result->displayFees($fees) ?>
                 </div> -->
         </div>
-    </div>
+        <div class="col-sm-3">
+            <div class="row">
 
-    <div class="col-sm-3">
-        <div class="row">
-
-            <!-- affective skills col -->
-            <div class="col-sm-12">
-                <?php if (!empty($studentAffectiveDispositions)): ?>
-                    <table class=" table-skill-score m-b-10 table-bordered table-responsive">
-                        <thead>
-                        <tr>
-                            <th colspan="2" class="p-5">
-                                <p class="text-center" style="text-decoration: underline"> Keys </p>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <p> 5 - excellent </p>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <p> 4 - very good </p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <p> 3 - good </p>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <p> 2 - pass </p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <p class="text-center"> 1 - fail </p>
-                                    </div>
-                                </div>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>Affective Disposition</th>
-                            <th>Score</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach($studentAffectiveDispositions as $studentAffectiveDisposition): ?>
+                <!-- affective skills col -->
+                <div class="col-sm-12">
+                    <?php if (!empty($studentAffectiveDispositions)): ?>
+                        <table class=" table-skill-score m-b-10 table-bordered table-responsive">
+                            <thead>
                             <tr>
-                                <td> <?= h($studentAffectiveDisposition->affective->name)?></td>
-                                <td> <?= h($studentAffectiveDisposition->score)?></td>
+                                <th colspan="2" class="p-5">
+                                    <p class="text-center" style="text-decoration: underline"> Keys </p>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <p> 5 - excellent </p>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p> 4 - very good </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <p> 3 - good </p>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p> 2 - pass </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <p class="text-center"> 1 - fail </p>
+                                        </div>
+                                    </div>
+                                </th>
                             </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
-
-                <?php endif; ?>
-
-                <?php if (!empty($studentPsychomotorSkills)): ?>
-                    <table class="table-skill-score m-b-10 table-bordered table-responsive table-result">
-                        <thead>
-                        <tr>
-                            <th>
-                                Psychomotor Skills</th>
-                            <th>Score</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach($studentPsychomotorSkills as $studentPsychomotorSkill): ?>
                             <tr>
-                                <td> <?= h($studentPsychomotorSkill->psychomotor->name)?></td>
-                                <td> <?= h($studentPsychomotorSkill->score)?></td>
+                                <th>Affective Disposition</th>
+                                <th>Score</th>
                             </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php endif; ?>
+                            </thead>
+                            <tbody>
+                            <?php foreach($studentAffectiveDispositions as $studentAffectiveDisposition): ?>
+                                <tr>
+                                    <td> <?= h($studentAffectiveDisposition->affective->name)?></td>
+                                    <td> <?= h($studentAffectiveDisposition->score)?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+
+                    <?php endif; ?>
+
+                    <?php if (!empty($studentPsychomotorSkills)): ?>
+                        <table class="table-skill-score m-b-10 table-bordered table-responsive table-result">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Psychomotor Skills</th>
+                                <th>Score</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach($studentPsychomotorSkills as $studentPsychomotorSkill): ?>
+                                <tr>
+                                    <td> <?= h($studentPsychomotorSkill->psychomotor->name)?></td>
+                                    <td> <?= h($studentPsychomotorSkill->score)?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
+                </div>
+                <!-- end of affective col -->
             </div>
-            <!-- end of affective col -->
         </div>
+
     </div>
-</div>
 
 </div>

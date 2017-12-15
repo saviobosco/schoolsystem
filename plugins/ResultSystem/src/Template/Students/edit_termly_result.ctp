@@ -47,6 +47,7 @@ echo $this->element('searchParametersSessionClassTerm');
                         </table>
                     </div>
                     <div class="col-sm-5">
+                        <?php if (!empty($student->student_termly_results)): ?>
                         <table class="table table-responsive table-bordered">
                             <?= $this->Form->hidden('student_termly_positions.0.student_id',['value' => $student->id ]) ?>
                             <?= $this->Form->hidden('student_termly_positions.0.class_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['class_id'],1)]) ?>
@@ -86,6 +87,7 @@ echo $this->element('searchParametersSessionClassTerm');
                             </tr>
 
                         </table>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -95,20 +97,18 @@ echo $this->element('searchParametersSessionClassTerm');
                         <table class="table table-bordered table-responsive " data-toggle='tooltip' title=''>
                             <tr>
                                 <th><?= __('Subject') ?></th>
-                                <th><?= __('First Test') ?></th>
-                                <th><?= __('Second Test') ?></th>
-                                <th><?= __('Third Test') ?></th>
-                                <th><?= __('Exam') ?></th>
-                                <th data-toggle='tooltip' title='The values in this column are auto Generated' ><?= __('Total') ?></th>
+                                <?php foreach( $gradeInputs as $gradeInput ): ?>
+                                    <th> <?= __($gradeInput) ?> </th>
+                                <?php endforeach; ?>
+                                <th><?= __('Total') ?></th>
                             </tr>
                             <?php for ($num = 0; $num < count($student->student_termly_results); $num++ ): ?>
                                 <tr>
                                     <td><?= h($subjects[$student['student_termly_results'][$num]['subject_id']]) ?></td>
-                                    <td><?= $this->Form->input('student_termly_results.'.$num.'.first_test') ?></td>
-                                    <td><?= $this->Form->input('student_termly_results.'.$num.'.second_test') ?></td>
-                                    <td><?= $this->Form->input('student_termly_results.'.$num.'.third_test') ?></td>
-                                    <td><?= $this->Form->input('student_termly_results.'.$num.'.exam') ?></td>
-                                    <td><?= $this->Form->input('student_termly_results.'.$num.'.total',['disabled'=>true]) ?></td>
+                                    <?php foreach( $gradeInputs as $key => $value ) : ?>
+                                        <td><?= $this->Form->input('student_termly_results.'.$num.'.'.$key) ?></td>
+                                    <?php endforeach; ?>
+                                    <td><?= $this->Form->input('student_termly_results.'.$num.'.total',[]) ?></td>
                                     <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$num.'.student_id') ?></td>
                                     <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$num.'.student_id') ?></td>
                                     <td class="hidden"><?= $this->Form->hidden('student_termly_results.'.$num.'.subject_id') ?></td>
@@ -124,10 +124,16 @@ echo $this->element('searchParametersSessionClassTerm');
                         <?= $this->Form->hidden('student_general_remarks.0.class_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['class_id'],1)]) ?>
                         <?= $this->Form->hidden('student_general_remarks.0.term_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['term_id'],1)]) ?>
                         <?= $this->Form->hidden('student_general_remarks.0.session_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['session_id'],1)]) ?>
-                        <label for="student remark"> Student Remark </label>
-                        <?= $this->Form->input('student_general_remarks.0.remark',['class' => 'form-control','label'=>['text'=> 'Result Remark']])  ?>
+                        <?php foreach($remarkInputs as $remarkInputKey => $remarkInputValue ) : ?>
+                        <label for="<?= $remarkInputKey ?>"> <?= h($remarkInputValue) ?> </label>
+                        <?= $this->Form->input("student_general_remarks.0.$remarkInputKey",['class' => 'form-control','label'=>['text'=> 'Result Remark']])  ?>
+                        <?php endforeach; ?>
+
                         <label for="result status">Result Publish Status </label>
-                        <?= $this->Form->input('student_publish_results.0.status',['type' => 'checkbox']) ?>
+                        <?php $publishResultConfig = ['type'=>'checkbox']; if (empty($student->student_publish_results)) {
+                            $publishResultConfig['checked'] = false;
+                        } ?>
+                        <?= $this->Form->input('student_publish_results.0.status',$publishResultConfig) ?>
                         <?= $this->Form->hidden('student_publish_results.0.student_id',['value' => $student->id ]) ?>
                         <?= $this->Form->hidden('student_publish_results.0.class_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['class_id'],1)]) ?>
                         <?= $this->Form->hidden('student_publish_results.0.term_id',['value' => @$this->SearchParameter->getDefaultValue($this->request->query['term_id'],1)]) ?>
@@ -136,36 +142,7 @@ echo $this->element('searchParametersSessionClassTerm');
                 </fieldset>
                 <?= $this->Form->button(__('Submit'),['class' => 'btn btn-primary']) ?>
                 <?= $this->Form->end() ?>
-                <!-- <button class="btn btn-block btn-primary btn-lg m-t-40" data-toggle="modal" data-target="#myModal"> Add Student Remark </button> -->
             </div>
         </div>
     </div>
 </div>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-center">Add a student Remark </h4>
-            </div>
-            <div class="modal-body">
-                <?php
-                debug($student);
-                ?>
-                <?= $this->Form->create(null,['url' => ['controller' => 'StudentGeneralRemarks','action'=>'edit']]) ?>
-
-                <?= $this->Form->end() ?>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-

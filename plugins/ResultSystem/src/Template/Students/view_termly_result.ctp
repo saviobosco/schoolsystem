@@ -78,30 +78,28 @@ echo $this->element('searchParametersSessionClassTerm');
                         <table class="table table-responsive table-bordered">
                             <tr>
                                 <th><?= __('Subject') ?></th>
-                                <th><?= __('First Test') ?></th>
-                                <th><?= __('Second Test') ?></th>
-                                <th><?= __('Third Test') ?></th>
-                                <th><?= __('Exam') ?></th>
+                                <?php foreach( $gradeInputs as $gradeInput ): ?>
+                                    <th> <?= __($gradeInput) ?> </th>
+                                <?php endforeach; ?>
                                 <th><?= __('Total') ?></th>
                                 <th><?= __('Grade') ?></th>
                                 <th><?= __('Remark') ?></th>
                                 <th><?= __('Position') ?></th>
+                                <th><?= __('Action') ?></th>
                                 <!-- <th><?= __('Position on class Demarcation') ?></th> -->
 
                             </tr>
                             <?php for ($num = 0 ; $num < count($student->student_termly_results) ; $num++ ): ?>
                                 <tr>
                                     <td><?= h($subjects[$student->student_termly_results[$num]['subject_id']]) ?></td>
-                                    <td><?= h($student->student_termly_results[$num]['first_test']) ?></td>
-                                    <td><?= h($student->student_termly_results[$num]['second_test']) ?></td>
-                                    <td><?= h($student->student_termly_results[$num]['third_test']) ?></td>
-                                    <td><?= h($student->student_termly_results[$num]['exam']) ?></td>
+                                    <?php foreach( $gradeInputs as $key => $value ) : ?>
+                                    <td><?= h($student->student_termly_results[$num][$key]) ?></td>
+                                    <?php endforeach; ?>
                                     <td><?= h($student->student_termly_results[$num]['total']) ?></td>
                                     <td><?= h($student->student_termly_results[$num]['grade']) ?></td>
                                     <td><?= h($student->student_termly_results[$num]['remark']) ?></td>
                                     <td><?= @$this->Position->formatPositionOutput($studentSubjectPositions[$student->student_termly_results[$num]['subject_id']])?></td>
-                                    <!-- <td><?= @$this->Position->formatPositionOutput($studentSubjectPositionsOnClassDemacation[$student->student_termly_results[$num]['subject_id']])?></td> -->
-
+                                    <td><?= $this->Form->postLink(__('Delete'), ['action' => 'deleteStudentResultRow', $student->student_termly_results[$num]['id'],'?'=>$this->request->getQuery()], ['confirm' => __('Are you sure you want to delete this subject score ?')]) ?> </td>
                                 </tr>
                             <?php endfor; ?>
                         </table>

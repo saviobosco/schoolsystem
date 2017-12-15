@@ -31,13 +31,6 @@ class TermlyResultProcessing
 
     public function __construct()
     {
-        //$this->calculateTermlyTotals($class_id,$term_id,$session_id);
-        //$this->calculateTermlyPosition($class_id,$term_id,$session_id);
-        //$this->calculateStudentTermlySubjectPosition($class_id,$term_id,$session_id);
-        //$this->calculateTermlyPositionBasedOnClassDemarcation($class_id,$term_id,$session_id);
-        //$this->calculateTermlySubjectPositionOnClassDemarcation($class_id,$term_id,$session_id);
-        //$this->calculateSubjectClassAverage($class_id,$term_id,$session_id);
-
         // sets the status of the processor as true
         $this->_setStatus();
     }
@@ -47,7 +40,6 @@ class TermlyResultProcessing
         if ( !is_float($value) ) {
             return (int)$value;
         }
-
         return Number::precision($value,2);
     }
 
@@ -56,7 +48,7 @@ class TermlyResultProcessing
      * @param $term_id
      * @param $session_id
      * @param $no_of_subjects
-     * @return bool
+     * @return mixed
      *  This function calculate the total result of a student for a particular
      * term. It collects the result data of each subject offered by a student
      * from the student_termly_results table , sums it and divides the sum by the
@@ -66,6 +58,7 @@ class TermlyResultProcessing
      */
     public function calculateTermlyTotalAndAverage($class_id,$term_id,$session_id,$no_of_subjects)
     {
+        $returnData = []; // this is the return value
         // Initializes the All required tables
         $studentTable = TableRegistry::get('App.Students')->find('all');
         $termlyResultTable = TableRegistry::get('StudentTermlyResults');
@@ -76,7 +69,6 @@ class TermlyResultProcessing
 
         // gets the grade from the Grade table
         $grades = $resultGradingTable->getGrades();
-
 
         // gets the remark from the table .
         $remarks = $resultGradingTable->find('all')->combine('grade','remark')->toArray();
@@ -100,6 +92,13 @@ class TermlyResultProcessing
 
             if ( $subjectCount <= 0 ) {
                 continue;
+            }
+
+            // check if the student subjects is greater that the supplied $no_of_students
+            if ( $subjectCount > $no_of_subjects) {
+                $studentId = $student['id'];
+                $returnData['subjectCountIssues'][] = ["Student with admission number $studentId has $subjectCount subjects. "];
+                unset($studentId);
             }
             // initializes the sum variable .
             $sum = 0 ;
@@ -140,11 +139,9 @@ class TermlyResultProcessing
 
             // save the record to database
             if ($termlyPositionTable->save($studentTotal) ) {
-                //$this->out('saved the total of student_id '.$student->id);
             }
-            //$this->out('The sum of the total is '.$sum);
         }
-        return true;
+        return $returnData;
     }
 
     /**
@@ -175,13 +172,11 @@ class TermlyResultProcessing
                 $student['position'] = $position ;
 
                 $termlyPositionTable->save($student);
-                //$this->out($student);
             }
 
             // Increment the position variable .
             $position++;
         }
-
         return true;
     }
 
@@ -254,9 +249,7 @@ class TermlyResultProcessing
                         $studentSubjectPosition = $termlySubjectPositionTable->patchEntity($studentSubjectPosition,$newData);
                     }
 
-                    if ($termlySubjectPositionTable->save($studentSubjectPosition)) {
-                        //$this->out($studentSubjectPosition);
-                    }
+                    $termlySubjectPositionTable->save($studentSubjectPosition);
                 }
                 // increment the position variable
                 $position++;
@@ -336,9 +329,7 @@ class TermlyResultProcessing
 
                     $studentDetailsInTermlyPositionOnClassDemarcationTable = $termlyPositionOnClassDemarcationTable->patchEntity($studentDetailsInTermlyPositionOnClassDemarcationTable,$newData);
                 }
-                if ( $termlyPositionOnClassDemarcationTable->save($studentDetailsInTermlyPositionOnClassDemarcationTable )) {
-                    //$this->out($studentDetailsInTermlyPositionOnClassDemarcationTable);
-                }
+                $termlyPositionOnClassDemarcationTable->save($studentDetailsInTermlyPositionOnClassDemarcationTable );
             }
 
         }
@@ -366,7 +357,6 @@ class TermlyResultProcessing
                 $position++;
             }
         }
-
         return true;
     }
 
@@ -455,12 +445,7 @@ class TermlyResultProcessing
                         $studentSubjectDetailInTermlySubjectPositionOnClassDemarcationTable = $termlySubjectPositionOnClassDemarcationTable->patchEntity($studentSubjectDetailInTermlySubjectPositionOnClassDemarcationTable,$newData);
 
                     }
-
-                    if ($termlySubjectPositionOnClassDemarcationTable->save($studentSubjectDetailInTermlySubjectPositionOnClassDemarcationTable) ) {
-
-                    }
-
-
+                    $termlySubjectPositionOnClassDemarcationTable->save($studentSubjectDetailInTermlySubjectPositionOnClassDemarcationTable);
                 }
             }
 
@@ -493,7 +478,6 @@ class TermlyResultProcessing
                     }
                     $position++;
                 }
-                //$this->out($studentsUnderTheSubjectInClassDemarcation);
             }
 
         }
@@ -505,6 +489,7 @@ class TermlyResultProcessing
      * @param $class_id
      * @param $term_id
      * @param $session_id
+     * @return bool
      */
     public function calculateSubjectClassAverage($class_id,$term_id,$session_id)
     {
@@ -552,7 +537,6 @@ class TermlyResultProcessing
                 continue;
             }
 
-
             $class_average = $this->_determineNumberPrecision($sum / $studentCount) ;
             //$this->out($class_average);
 
@@ -584,8 +568,10 @@ class TermlyResultProcessing
             }
             $subjectClassAverageTable->save($subjectClassAverage);
 
+            return true;
         }
 
+        return false;
     }
 
     protected function _setStatus()

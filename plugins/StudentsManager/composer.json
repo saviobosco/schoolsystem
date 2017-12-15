@@ -1,7 +1,15 @@
 {
-    "name": "your-name-here/StudentsManager",
-    "description": "StudentsManager plugin for CakePHP",
+    "name": "saviobosco/studentsmanager",
+    "description": "StudentsManager plugin for School Management System",
     "type": "cakephp-plugin",
+    "authors": [
+        {
+            "name": "Omebe Johnbosco",
+            "email": "Johnboscoomebe@yahoo.com",
+            "homepage": "http://www.upsitech.com/saviobosco",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": ">=5.4.16",
         "cakephp/cakephp": "~3.0"

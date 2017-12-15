@@ -74,18 +74,14 @@ class StudentTermlyPositionsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('total', 'create')
-            ->notEmpty('total');
+            ->allowEmpty('total');
 
         $validator
-            ->integer('average')
-            ->requirePresence('average', 'create')
-            ->notEmpty('average');
+            ->allowEmpty('average');
 
         $validator
             ->integer('position')
-            ->requirePresence('position', 'create')
-            ->notEmpty('position');
+            ->allowEmpty('position');
 
         return $validator;
     }

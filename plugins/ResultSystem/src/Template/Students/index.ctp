@@ -24,14 +24,15 @@
                     <tbody>
                     <?php foreach ($students as $student): ?>
                         <tr>
-                            <td><?= h($student->id) ?></td>
-                            <td><?= h($student->first_name) ?></td>
-                            <td><?= h($student->last_name) ?></td>
-                            <td><?= h($student->class->class) ?></td>
+                            <td><?= h($student['id']) ?></td>
+                            <td><?= h($student['first_name']) ?></td>
+                            <td><?= h($student['last_name']) ?></td>
+                            <td><?= h($student['class']['class']) ?></td>
                             <td class="actions">
-                                <?= $this->Html->link(__('ViewResult'), ['action' => 'view', $student->id,'?'=>['session_id'=>$student->session_id,'class_id'=>$student->class_id]]) ?>
-                                <?= $this->Html->link(__('EditResult'), ['action' => 'edit', $student->id, '?'=>['session_id'=>$student->session_id,'class_id'=>$student->class_id] ]) ?>
-                                <?= $this->Html->link(__('PrintResult'), ['action' => 'viewStudentResultForAdmin', $student->id,'?'=>['session_id'=>$student->session_id,'class_id'=>$student->class_id,'term_id'=>1]]) ?>
+                                <?= $this->Html->link('<i class="fa fa-plus"></i> '.__('Add Result'), ['action' => 'addResult', $student['id'],'?'=>['session_id'=>$student['session_id'],'class_id'=>$student['class_id'],'term_id'=>1]],['escape'=>false,'class'=>'btn btn-success btn-sm']) ?>
+                                <?= $this->Html->link('<i class="fa fa-book"></i> '.__('ViewResult'), ['action' => 'view', $student['id'],'?'=>['session_id'=>$student['session_id'],'class_id'=>$student['class_id'],'term_id'=>1]],['escape'=>false,'class'=>'btn btn-primary btn-sm']) ?>
+                                <?= $this->Html->link('<i class="fa fa-eye"></i> '.__('EditResult'), ['action' => 'edit', $student['id'], '?'=>['session_id'=>$student['session_id'],'class_id'=>$student['class_id'],'term_id'=>1]],['escape'=>false,'class'=>'btn btn-info btn-sm']) ?>
+                                <?= $this->Html->link('<i class="fa fa-print"></i> '.__('PrintResult'), ['action' => 'viewStudentResultForAdmin', $student['id'],'?'=>['session_id'=>$student['session_id'],'class_id'=>$student['class_id'],'term_id'=>1]],['escape'=>false,'class'=>'btn btn-inverse btn-sm']) ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

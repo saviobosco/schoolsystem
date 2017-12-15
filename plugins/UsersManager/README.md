@@ -1,4 +1,4 @@
-# UsersManager plugin for CakePHP
+# UsersManager plugin for School Management System
 
 ## Installation
 
@@ -7,5 +7,5 @@ You can install this plugin into your CakePHP application using [composer](http:
 The recommended way to install composer packages is:
 
 ```
-composer require your-name-here/UsersManager
+composer require saviobosco/UsersManager
 ```

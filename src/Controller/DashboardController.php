@@ -18,7 +18,7 @@ class DashboardController extends AppController
 {
     public function settings()
     {
-        //Setting::write('Application.reg_number', '');
+        //Setting::write('Application.proprietor', '');
 
 
         $this->loadModel('Settings.Configurations');

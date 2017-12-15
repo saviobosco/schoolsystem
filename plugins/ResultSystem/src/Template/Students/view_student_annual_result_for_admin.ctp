@@ -142,31 +142,20 @@ $this->assign('title',$sessions[$this->request->query['session_id']].' '.$terms[
                     <div class="row" style="margin-left: 0px;">
                         <div class="col-sm-9 m-b-20" style="border: 1px solid #000000;">
                             <p class="text-center" style="margin: 10px"> REMARKS</p>
-                            <div class="remarks">
-                                <div class="actual-remark">
-                                    <p> FORM MASTER:</p>
+                            <?php foreach($remarkInputs as $remarkKey => $remarkValue) : ?>
+                                <div class="remarks">
+                                    <div class="actual-remark">
+                                        <p> <?= strtoupper($remarkValue) ?>: <?= $studentRemark[$remarkKey] ?> </p>
+                                    </div>
+                                    <div class="comment-name">
+                                        <p>NAME:<?= (isset($resultRemarkDetails[$remarkKey])) ? '&nbsp;'.strtoupper($resultRemarkDetails[$remarkKey]).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' : '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'  ?>
+                                        </p> <p style="display: inline"> SIGNATURE </p>
+                                    </div>
                                 </div>
-                                <div class="comment-name">
-                                    <p>NAME:  </p> <p style="display: inline"> SIGNATURE </p>
-                                </div>
-                            </div>
+                            <?php endforeach; ?>
 
-                            <div class="remarks">
-                                <div class="actual-remark">
-                                    <p> GUIDANCE COUNSELLOR:</p>
-                                </div>
-                                <div class="comment-name">
-                                    <p>NAME: REV. FR. MICHEAL IKEJI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p> <p> SIGNATURE </p>
-                                </div>
-                            </div>
-
-                            <div class="remarks">
-                                <div class="actual-remark">
-                                    <p> RECTOR:</p>
-                                </div>
-                            </div>
                             <div class="comment-name">
-                                <p>NAME: REV. FR. DONATUS OFULUOZOR &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SIGNATURE/STAMP:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="">DATE: </span> </p>
+                                <p>SIGNATURE/STAMP:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="">DATE: </span> </p>
                             </div>
 
                         </div>

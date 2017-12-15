@@ -2,9 +2,7 @@
 namespace ResultSystem\Model\Table;
 
 use Cake\Event\Event;
-use Cake\Log\Log;
 use Cake\ORM\Entity;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -96,6 +94,12 @@ class StudentTermlyResultsTable extends Table
             ->allowEmpty('third_test');
 
         $validator
+            ->allowEmpty('fourth_test');
+
+        $validator
+            ->allowEmpty('fifth_test');
+
+        $validator
             ->allowEmpty('exam');
 
         $validator
@@ -136,25 +140,32 @@ class StudentTermlyResultsTable extends Table
 
     public function beforeSave(Event $event , Entity $entity )
     {
-            $entity->total = $entity->first_test + $entity->second_test + $entity->third_test + $entity->exam ;
+        // getting the gradeInput to process the total
+        $resultGradeInputsTable = TableRegistry::get('ResultSystem.ResultGradeInputs');
+        $gradeInputs = $resultGradeInputsTable->getValidGradeInputs();
 
-            // loads the grade and remark table
-            $resultGradingTable = TableRegistry::get('GradingSystem.ResultGradingSystems');
+        $total = 0;
+        foreach($gradeInputs as $gradeKey => $gradeValue){
+            $total += $entity->{$gradeKey};
+        }
+        $entity->total = $total ;
 
-            // gets the grade from the table
-            $resultGradingTableQuery = $resultGradingTable->find('all');
+        // loads the grade and remark table
+        $resultGradingTable = TableRegistry::get('GradingSystem.ResultGradingSystems');
 
-            $grades = $resultGradingTableQuery->combine('score','grade')->toArray();
+        // gets the grade from the table
+        $resultGradingTableQuery = $resultGradingTable->find('all');
 
-            // calculates the grade
-            $entity->grade = $this->calculateGrade($entity->total,$grades);
+        $grades = $resultGradingTableQuery->combine('score','grade')->toArray();
 
-            // gets the remark from the table.
-            $remarks = $resultGradingTableQuery->combine('grade','remark')->toArray();
+        // calculates the grade
+        $entity->grade = $this->calculateGrade($entity->total,$grades);
 
-            // create the remark property
-            $entity->remark = $remarks[$entity->grade];
+        // gets the remark from the table.
+        $remarks = $resultGradingTableQuery->combine('grade','remark')->toArray();
 
+        // create the remark property
+        $entity->remark = $remarks[$entity->grade];
     }
 
     /**
@@ -218,7 +229,6 @@ class StudentTermlyResultsTable extends Table
             }
 
             $studentAnnualResultTable->save($studentAnnualResult);
-            //Log::debug($studentAnnualResult);
     }
 
     /**

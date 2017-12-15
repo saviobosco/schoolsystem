@@ -1,6 +1,6 @@
 {
-    "name": "your-name-here/UsersManager",
-    "description": "UsersManager plugin for CakePHP",
+    "name": "saviobosco/UsersManager",
+    "description": "UsersManager plugin for School Management System",
     "type": "cakephp-plugin",
     "license": "MIT",
     "require": {
